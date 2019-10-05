@@ -5,7 +5,6 @@ import com.mobbile.paul.mttms.models.EntityModules
 import com.mobbile.paul.mttms.models.EntitySpiners
 
 
-
 @Dao
 interface AppDao {
 

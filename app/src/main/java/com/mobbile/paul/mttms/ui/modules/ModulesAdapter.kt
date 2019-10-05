@@ -1,6 +1,7 @@
 package com.mobbile.paul.mttms.ui.modules
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.EntityModules
+import com.mobbile.paul.mttms.ui.customers.Customers
+import com.mobbile.paul.mttms.ui.messages.Messages
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.module_adapter.view.*
 
@@ -45,23 +48,18 @@ class ModulesAdapter(private var mItems: List<EntityModules>, private var contex
 
             containerView.setOnClickListener {
 
-                /*var switcher:String = item.nav
+                var switcher:Int = item.nav
                 var intent: Intent? = null
 
                 when(switcher) {
-                    "1"->{
-                        intent = Intent(contexts, SalesViewpager::class.java)
+                    4->{
+                        intent = Intent(contexts, Customers::class.java)
                     }
-                    "2"->{
-                        intent = Intent(contexts, CustomerPageViwer::class.java)
+                    3->{
+                        intent = Intent(contexts, Messages::class.java)
                     }
-                    "3"->{
-                        intent = Intent(contexts, MessagePageViewer::class.java)
-                    }
-                    "4"->{
-                        intent = Intent(contexts, SupervisorPagerViwer::class.java)}
                 }
-                contexts.startActivity(intent)*/
+                contexts.startActivity(intent)
             }
         }
     }

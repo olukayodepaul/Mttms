@@ -13,6 +13,12 @@ data class UserAuth(
     @SerializedName("employee_id")
     @Expose
     var employee_id: Int,
+    @SerializedName("depots_id")
+    @Expose
+    var depots_id: Int,
+    @SerializedName("region_id")
+    @Expose
+    var region_id: Int,
     @SerializedName("modules")
     @Expose
     var modules: List<UserModules>? = null,

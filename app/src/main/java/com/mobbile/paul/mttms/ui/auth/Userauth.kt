@@ -124,6 +124,8 @@ class Userauth : BaseActivity() {
         editor.clear()
         editor.putString("today_date_preferences", todayDates)
         editor.putInt("employee_id_user_preferences",auths.employeeid)
+        editor.putInt("depot_id_user_preferences",auths.depots_id)
+        editor.putInt("region_id_user_preferences",auths.region_id)
         editor.apply()
         callModuleIntent()
     }
