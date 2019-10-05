@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TM Mobile Trader</string>
+    <string name="keys">"AIzaSyDsXEw4xpBJm_CFvNb8y_mq1hT9bq_qRY8"</string>
+    <string name="copywrite">Copyright © 2019 Great Brands Nig ltd. TM Release 3.1.0</string>
+    <string name="Themodules">Modules</string>
+
+    <string name="menu_sales">Customer List</string>
+    <string name="menu_history">Entries</string>
+    <string name="menu_commission">Customer Route</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

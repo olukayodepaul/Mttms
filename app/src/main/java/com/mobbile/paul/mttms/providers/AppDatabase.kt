@@ -1,0 +1,23 @@
+package com.mobbile.paul.mttms.providers
+
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.mobbile.paul.mttms.entity.Modules
+import com.mobbile.paul.mttms.models.EntityModules
+import com.mobbile.paul.mttms.models.EntityRepList
+import com.mobbile.paul.mttms.models.EntitySpiners
+
+
+@Database(entities = [
+    EntityModules::class, EntityRepList::class, EntitySpiners::class
+   ], version = 1)
+@TypeConverters(Converters::class)
+abstract class AppDatabase : RoomDatabase() {
+    abstract val appdao: AppDao
+
+    companion object {
+        val DATABASE_NAME = "tm_mobiletrader_application"
+    }
+
+}
