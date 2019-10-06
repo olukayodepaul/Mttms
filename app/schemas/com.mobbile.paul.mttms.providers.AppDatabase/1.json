@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b9372f6f43d10b42bb3c9be6297f6d34",
+    "identityHash": "ccae834f46235ba6b3c82927cc9df83c",
     "entities": [
       {
         "tableName": "modules",
@@ -129,12 +129,154 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "allcustomers",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `employeeid` INTEGER NOT NULL, `ecode` TEXT NOT NULL, `custcode` TEXT NOT NULL, `fullname` TEXT NOT NULL, PRIMARY KEY(`auto`))",
+        "fields": [
+          {
+            "fieldPath": "auto",
+            "columnName": "auto",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "employeeid",
+            "columnName": "employeeid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ecode",
+            "columnName": "ecode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "custcode",
+            "columnName": "custcode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fullname",
+            "columnName": "fullname",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "auto"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "alloutlets",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `id` INTEGER NOT NULL, `urno` INTEGER NOT NULL, `customerno` TEXT NOT NULL, `outletclassid` INTEGER NOT NULL, `outletlanguageid` INTEGER NOT NULL, `outlettypeid` INTEGER NOT NULL, `outletname` TEXT NOT NULL, `outletaddress` TEXT NOT NULL, `contactname` TEXT NOT NULL, `contactphone` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `outlet_pic` TEXT NOT NULL, PRIMARY KEY(`auto`))",
+        "fields": [
+          {
+            "fieldPath": "auto",
+            "columnName": "auto",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "urno",
+            "columnName": "urno",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "customerno",
+            "columnName": "customerno",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "outletclassid",
+            "columnName": "outletclassid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "outletlanguageid",
+            "columnName": "outletlanguageid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "outlettypeid",
+            "columnName": "outlettypeid",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "outletname",
+            "columnName": "outletname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "outletaddress",
+            "columnName": "outletaddress",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contactname",
+            "columnName": "contactname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contactphone",
+            "columnName": "contactphone",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "outlet_pic",
+            "columnName": "outlet_pic",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "auto"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b9372f6f43d10b42bb3c9be6297f6d34\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"ccae834f46235ba6b3c82927cc9df83c\")"
     ]
   }
 }

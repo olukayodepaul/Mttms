@@ -5,16 +5,22 @@ import com.mobbile.paul.mttms.di.fragmentbuilders.FragmentBuilder
 import com.mobbile.paul.mttms.di.fragmentbuilders.FragmentBuilderScope
 import com.mobbile.paul.mttms.di.subcomponent.auth.AuthModule
 import com.mobbile.paul.mttms.di.subcomponent.auth.AuthScope
+import com.mobbile.paul.mttms.di.subcomponent.customers.CustomersModule
+import com.mobbile.paul.mttms.di.subcomponent.customers.CustomersScope
 import com.mobbile.paul.mttms.di.subcomponent.fragments.CustomerListFragmentModule
 import com.mobbile.paul.mttms.di.subcomponent.fragments.CustomerRouteFragmentModule
 import com.mobbile.paul.mttms.di.subcomponent.fragments.EntriesFragmentModule
 import com.mobbile.paul.mttms.di.subcomponent.modules.ModulesModule
 import com.mobbile.paul.mttms.di.subcomponent.modules.ModulesScope
+import com.mobbile.paul.mttms.di.subcomponent.outlets.OutletsModule
+import com.mobbile.paul.mttms.di.subcomponent.outlets.OutletsScope
 import com.mobbile.paul.mttms.di.subcomponent.replist.ReplistModule
 import com.mobbile.paul.mttms.di.subcomponent.replist.ReplistScope
 import com.mobbile.paul.mttms.ui.auth.Userauth
 import com.mobbile.paul.mttms.ui.customerlist.CustomerListViwePager
+import com.mobbile.paul.mttms.ui.customers.Customers
 import com.mobbile.paul.mttms.ui.modules.Modules
+import com.mobbile.paul.mttms.ui.outlets.Outlets
 import com.mobbile.paul.mttms.ui.replist.RepList
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -55,4 +61,21 @@ abstract class ActivityBuilderModule {
         EntriesFragmentModule::class
     ])
     abstract fun contributeSalesPagerActivity(): CustomerListViwePager
+
+    @CustomersScope
+    @ContributesAndroidInjector(
+        modules = [
+            CustomersModule::class
+        ]
+    )
+    abstract fun contributeCustomersModuleAndroidInjector(): Customers
+
+    @OutletsScope
+    @ContributesAndroidInjector(
+        modules = [
+            OutletsModule::class
+        ]
+    )
+    abstract fun contributeOutletsModuleAndroidInjector(): Outlets
+
 }

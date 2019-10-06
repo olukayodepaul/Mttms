@@ -4,13 +4,12 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.mobbile.paul.mttms.entity.Modules
-import com.mobbile.paul.mttms.models.EntityModules
-import com.mobbile.paul.mttms.models.EntityRepList
-import com.mobbile.paul.mttms.models.EntitySpiners
+import com.mobbile.paul.mttms.models.*
 
 
 @Database(entities = [
-    EntityModules::class, EntityRepList::class, EntitySpiners::class
+    EntityModules::class, EntityRepList::class, EntitySpiners::class,
+    EntityAllCustomersList::class, EntityAllOutletsList::class
    ], version = 1)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {

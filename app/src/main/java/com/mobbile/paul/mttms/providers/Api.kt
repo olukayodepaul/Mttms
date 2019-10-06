@@ -1,5 +1,7 @@
 package com.mobbile.paul.mttms.providers
 
+import com.mobbile.paul.mttms.models.InitAllCustomers
+import com.mobbile.paul.mttms.models.InitAllOutlets
 import com.mobbile.paul.mttms.models.UserAuth
 import io.reactivex.Single
 import retrofit2.http.Headers
@@ -16,5 +18,19 @@ interface Api {
         @Query("password") password: String,
         @Query("imei") imei: String
     ): Single<Response<UserAuth>>
+
+    @Headers("Connection:close")
+    @POST("/mobiletrader/tm_reps")
+    fun fetchAllCustomers(
+        @Query("depotid") depotid: Int,
+        @Query("regionid") regionid: Int
+    ): Single<Response<InitAllCustomers>>
+
+    @Headers("Connection:close")
+    @POST("/mobiletrader/tm_outlets")
+    fun fetchAllOutlets(
+        @Query("employeeid") employeeid: Int
+    ): Single<Response<InitAllOutlets>>
+
 }
 

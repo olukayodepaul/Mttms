@@ -1,8 +1,6 @@
 package com.mobbile.paul.mttms.providers
 
-import com.mobbile.paul.mttms.models.EntityModules
-import com.mobbile.paul.mttms.models.EntitySpiners
-import com.mobbile.paul.mttms.models.UserAuth
+import com.mobbile.paul.mttms.models.*
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -53,6 +51,44 @@ constructor(private val appDao: AppDao, private val api: Api) {
             appDao.fetchModules()
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+
+    fun fetchAllCustomers(depotid: Int, regionid: Int): Single<Response<InitAllCustomers>> =
+        api.fetchAllCustomers(depotid, regionid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                it
+            }
+
+    fun insertIntoAllcustomers(auto:Int, employeeid:Int, ecode:String, custcode:String, fullname:String) = Observable.fromCallable {
+        appDao.insertIntoAllcustomers(auto, employeeid, ecode, custcode, fullname)
+    }.subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
+
+    fun fetchEntityAllCustomersList(): Single<List<EntityAllCustomersList>> =
+        Single.fromCallable {
+            appDao.fetchEntityAllCustomersList()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+    fun fetchAllOutlets(employeeid: Int): Single<Response<InitAllOutlets>> =
+        api.fetchAllOutlets(employeeid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {
+                it
+            }
+
+    fun saveEntityAllOutletsList(
+        alloutlets: List<EntityAllOutletsList>
+    ) = Observable.fromCallable {
+        appDao.saveEntityAllOutletsList(
+            alloutlets
+        )
+    }.subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
 
 
 }

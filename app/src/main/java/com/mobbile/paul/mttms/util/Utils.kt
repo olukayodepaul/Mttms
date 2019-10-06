@@ -11,6 +11,7 @@ class Utils {
     companion object {
 
         const val USER_INFOS = "com.tm.mt.v3.1.2.user.info"
+        const val CUSTOMERS_VISITATION = "com.tm.visit.mt.v3.1.2.user.info"
 
         @Suppress("DEPRECATION")
         fun isInternetAvailable(context: Context): Boolean {

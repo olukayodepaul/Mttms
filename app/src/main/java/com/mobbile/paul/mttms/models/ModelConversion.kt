@@ -11,3 +11,10 @@ fun UserSpinners.toEntitySpiners(): EntitySpiners {
         auto,id, name, sep
     )
 }
+
+fun AllOutletsList.toEntityAllOutletsList(): EntityAllOutletsList {
+    return EntityAllOutletsList(
+        auto, id, urno, customerno, outletclassid, outletlanguageid, outlettypeid, outletname,
+        outletaddress, contactname, contactphone, latitude, longitude, outlet_pic
+    )
+}

@@ -32,3 +32,32 @@ data class EntitySpiners(
     var name: String = "",
     var sep: String = ""
 )
+
+@Entity(tableName = "allcustomers")
+data class EntityAllCustomersList (
+    @PrimaryKey(autoGenerate = false)
+    var auto: Int = 0,
+    var employeeid: Int = 0,
+    var ecode: String = "",
+    var custcode: String = "",
+    var fullname: String = ""
+)
+
+@Entity(tableName = "alloutlets")
+data class EntityAllOutletsList (
+    @PrimaryKey(autoGenerate = false)
+    var auto: Int = 0,
+    var id: Int = 0,
+    var urno: Int = 0 ,
+    var customerno: String = "",
+    var outletclassid: Int = 0,
+    var outletlanguageid: Int = 0,
+    var outlettypeid: Int = 0,
+    var outletname: String = "",
+    var outletaddress: String = "",
+    var contactname: String = "",
+    var contactphone: String = "",
+    var latitude: Double = 0.0,
+    var longitude: Double = 0.0,
+    var outlet_pic: String = ""
+)
