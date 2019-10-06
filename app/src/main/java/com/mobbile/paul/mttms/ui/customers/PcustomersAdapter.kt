@@ -1,10 +1,8 @@
 package com.mobbile.paul.mttms.ui.customers
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,15 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.mobbile.paul.mttms.R
-import com.mobbile.paul.mttms.models.AllCustomersList
 import com.mobbile.paul.mttms.models.EntityAllCustomersList
 import com.mobbile.paul.mttms.ui.outlets.Outlets
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.customers_adapters.view.*
 import kotlinx.android.synthetic.main.module_adapter.view.imageView
 import kotlinx.android.synthetic.main.module_adapter.view.tv_name
-import java.text.SimpleDateFormat
-import java.util.*
+
 
 
 class PcustomersAdapter(private var mItems: List<EntityAllCustomersList>,

@@ -89,6 +89,12 @@ constructor(private val appDao: AppDao, private val api: Api) {
     }.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
+    fun fetchEntityAllOutletsList(): Single<List<EntityAllOutletsList>> =
+        Single.fromCallable {
+            appDao.fetchEntityAllOutletsList()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
 
 
 }

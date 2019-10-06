@@ -16,7 +16,8 @@ import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.AllCustomersList
 import com.mobbile.paul.mttms.models.EntityAllCustomersList
 import com.mobbile.paul.mttms.models.InitAllCustomers
-import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_VISITATION
+import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_INFORMATION
+import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_VISIT
 import com.mobbile.paul.mttms.util.Utils.Companion.USER_INFOS
 import kotlinx.android.synthetic.main.activity_customer_list_viwe_pager.backbtn
 import kotlinx.android.synthetic.main.activity_customers.*
@@ -37,7 +38,9 @@ class Customers : BaseActivity() {
 
     private var preferences: SharedPreferences? = null
 
-    private var preferencesByAdapter: SharedPreferences? = null
+    private var preferencesByVisit: SharedPreferences? = null
+
+    private var preferencesByInfo: SharedPreferences? = null
 
     var todayDates: String? = null
 
@@ -50,12 +53,15 @@ class Customers : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_customers)
         vmodel = ViewModelProviders.of(this, modelFactory)[CustomersViewModel::class.java]
+
         preferences = getSharedPreferences(USER_INFOS, Context.MODE_PRIVATE)
-        preferencesByAdapter = getSharedPreferences(CUSTOMERS_VISITATION, Context.MODE_PRIVATE)
+        preferencesByVisit = getSharedPreferences(CUSTOMERS_VISIT, Context.MODE_PRIVATE)
+        preferencesByInfo = getSharedPreferences(CUSTOMERS_INFORMATION, Context.MODE_PRIVATE)
+
         todayDates = SimpleDateFormat("yyyy-MM-dd").format(Date())
 
-        pDate = preferencesByAdapter!!.getString("specific_rep_date", "")
-        pStatus = preferencesByAdapter!!.getInt("specific_rep_changevalues", 0)
+        pDate = preferencesByVisit!!.getString("specific_rep_date", "")
+        pStatus = preferencesByVisit!!.getInt("specific_rep_changevalues", 0)
 
         switchAdapters()
 
@@ -66,30 +72,24 @@ class Customers : BaseActivity() {
         }
     }
 
-    fun switchAdapters(){
+    fun switchAdapters() {
 
-
+        Log.d(TAG, pStatus .toString())
         when {
             pDate == todayDates && pStatus == 200 -> {
-                Log.d(TAG, "$pDate $pStatus HERE 1")
                vmodel.persistAndFetchCustomers(
                     1,
-                    preferencesByAdapter!!.getInt("specific_rep_id",0),
-                    preferencesByAdapter!!.getString("specific_edcode_id", ""),
-                    preferencesByAdapter!!.getString("specific_customer_id", ""),
-                    preferencesByAdapter!!.getString("specific_fname_id", "")
+                   preferencesByInfo!!.getInt("specific_rep_id",0),
+                   preferencesByInfo!!.getString("specific_edcode_id", ""),
+                   preferencesByInfo!!.getString("specific_customer_id", ""),
+                   preferencesByInfo!!.getString("specific_fname_id", "")
                 ).observe(this, PersistObserver)
             }
             pDate == todayDates && pStatus == 300 -> {
                 vmodel.fetchCustOnly(
                 ).observe(this, PersistObservers)
             }
-            pDate == todayDates && pStatus == 400 -> {
-                vmodel.fetchCustOnly(
-                ).observe(this, PersistObservers)
-            }
             else -> {
-                Log.d(TAG, "$pDate $pStatus HERE 2")
                 vmodel.fetchAllCustomers(
                     preferences!!.getInt("depot_id_user_preferences", 0),
                     preferences!!.getInt("region_id_user_preferences", 0)
@@ -103,7 +103,7 @@ class Customers : BaseActivity() {
             showProgressBar(false)
             counts.text = it.counts.toString()
             var list: List<AllCustomersList>? = it.allreps
-            mAdapter = CustomersAdapter(list!!, this, preferencesByAdapter)
+            mAdapter = CustomersAdapter(list!!, this, preferencesByVisit, preferencesByInfo)
             mAdapter.notifyDataSetChanged()
             _r_view_pager.adapter = mAdapter
         }
@@ -139,20 +139,16 @@ class Customers : BaseActivity() {
     }
 
     fun setPreferences() {
-        preferencesByAdapter!!.edit().clear().apply()
-        val editor = preferencesByAdapter!!.edit()
+        preferencesByVisit!!.edit().clear().apply()
+        val editor = preferencesByVisit!!.edit()
         editor.clear()
         editor.putString("specific_rep_date", SimpleDateFormat("yyyy-MM-dd").format(Date()))
         editor.putInt("specific_rep_changevalues", 300)
-        editor.putInt("specific_rep_id",preferencesByAdapter!!.getInt("specific_rep_id",0))
-        editor.putString("specific_customer_id",preferencesByAdapter!!.getString("specific_customer_id", ""))
-        editor.putString("specific_edcode_id",preferencesByAdapter!!.getString("specific_edcode_id", ""))
-        editor.putString("specific_fname_id",preferencesByAdapter!!.getString("specific_fname_id", ""))
         editor.apply()
     }
 
     companion object{
-        var TAG = "Customers"
+        var TAG = "Outlets"
     }
 }
 

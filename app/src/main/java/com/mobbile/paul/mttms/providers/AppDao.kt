@@ -39,6 +39,9 @@ interface AppDao {
         alloutlets: List<EntityAllOutletsList>
     )
 
+    @Query("SELECT * FROM alloutlets")
+    fun fetchEntityAllOutletsList(): List<EntityAllOutletsList>
+
 }
 
 

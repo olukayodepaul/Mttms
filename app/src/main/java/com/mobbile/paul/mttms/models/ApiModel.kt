@@ -118,9 +118,9 @@ data class InitAllOutlets (
     @SerializedName("counts")
     @Expose
     var counts: Int? = null,
-    @SerializedName("allreps")
+    @SerializedName("alloutlets")
     @Expose
-    var alloutlets: List<AllOutletsList>? = null
+    var alloutlets: List<AllOutletsList>?=null
 )
 
 data class AllOutletsList (

@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +25,9 @@ import java.util.*
 
 class CustomersAdapter(private var mItems: List<AllCustomersList>,
                        private var context: Context,
-                       private var preferencesByAdapter: SharedPreferences?) : RecyclerView.Adapter<CustomersAdapter.ViewHolder>() {
+                       private var preferencesByVisit: SharedPreferences?,
+                       private var preferencesByInfo: SharedPreferences?
+                       ) : RecyclerView.Adapter<CustomersAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
@@ -65,25 +68,33 @@ class CustomersAdapter(private var mItems: List<AllCustomersList>,
             }
         }
 
-        fun visitRepWithSharePreference() {
-            var intent = Intent(context, Outlets::class.java)
-            context.startActivity(intent)
-        }
-
-
-        @SuppressLint("SimpleDateFormat")
-        fun setPreferences(employeeid: Int, custcode: String, ecode: String, fname: String) {
-            preferencesByAdapter!!.edit().clear().apply()
-            val editor = preferencesByAdapter!!.edit()
+        fun setInfoSharePref(employeeid: Int, custcode: String, ecode: String, fname: String) {
+            preferencesByInfo!!.edit().clear().apply()
+            val editor = preferencesByInfo!!.edit()
             editor.clear()
-            editor.putString("specific_rep_date", SimpleDateFormat("yyyy-MM-dd").format(Date()))
-            editor.putInt("specific_rep_changevalues", 200)
             editor.putInt("specific_rep_id",employeeid)
             editor.putString("specific_customer_id",custcode)
             editor.putString("specific_edcode_id",ecode)
             editor.putString("specific_fname_id",fname)
             editor.apply()
-            visitRepWithSharePreference()
+            setVisitSharePref()
+            Log.d(TAG, preferencesByInfo!!.getString("specific_edcode_id","").toString() + "~"+ ecode)
+        }
+
+        @SuppressLint("SimpleDateFormat")
+        fun setVisitSharePref() {
+            preferencesByVisit!!.edit().clear().apply()
+            val editor = preferencesByVisit!!.edit()
+            editor.clear()
+            editor.putString("specific_rep_date", SimpleDateFormat("yyyy-MM-dd").format(Date()))
+            editor.putInt("specific_rep_changevalues", 200)
+            editor.apply()
+            setIntent()
+        }
+
+        fun setIntent() {
+            var intent = Intent(context, Outlets::class.java)
+            context.startActivity(intent)
         }
 
         private fun message(name:String, employeeid: Int, custcode: String, ecode: String, fname: String) {
@@ -93,7 +104,7 @@ class CustomersAdapter(private var mItems: List<AllCustomersList>,
                 .setIcon(R.drawable.icons8_google_alerts_100)
                 .setCancelable(false)
                 .setNegativeButton("YES") { _, _ ->
-                    setPreferences(employeeid, custcode, ecode, fname)
+                    setInfoSharePref(employeeid, custcode, ecode, fname)
                 }
                 .setPositiveButton("NO") { _, _ ->
                 }
