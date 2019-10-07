@@ -18,3 +18,10 @@ fun AllOutletsList.toEntityAllOutletsList(): EntityAllOutletsList {
         outletaddress, contactname, contactphone, latitude, longitude, outlet_pic
     )
 }
+
+fun EntityAllOutletsList.toAllOutletsList(): AllOutletsList {
+    return AllOutletsList(
+        auto, id, urno, customerno, outletclassid, outletlanguageid, outlettypeid, outletname,
+        outletaddress, contactname, contactphone, latitude, longitude, outlet_pic
+    )
+}

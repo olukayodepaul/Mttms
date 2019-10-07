@@ -95,6 +95,12 @@ constructor(private val appDao: AppDao, private val api: Api) {
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
+    fun fetchSpinners(): Single<List<EntitySpiners>> =
+        Single.fromCallable {
+            appDao.fetchSpinners()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
 
 
 }

@@ -3,7 +3,6 @@ package com.mobbile.paul.mttms.providers
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.mobbile.paul.mttms.entity.Modules
 import com.mobbile.paul.mttms.models.*
 
 

@@ -42,6 +42,9 @@ interface AppDao {
     @Query("SELECT * FROM alloutlets")
     fun fetchEntityAllOutletsList(): List<EntityAllOutletsList>
 
+    @Query("SELECT * FROM spiners")
+    fun fetchSpinners() : List<EntitySpiners>
+
 }
 
 

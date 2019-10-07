@@ -101,7 +101,6 @@ class Customers : BaseActivity() {
     val observers = Observer<InitAllCustomers> {
         if (it != null) {
             showProgressBar(false)
-            setPreference()
             counts.text = it.counts.toString()
             var list: List<AllCustomersList>? = it.allreps
             mAdapter = CustomersAdapter(list!!, this, preferencesByVisit, preferencesByInfo)
@@ -145,15 +144,6 @@ class Customers : BaseActivity() {
         editor.clear()
         editor.putString("specific_rep_date", SimpleDateFormat("yyyy-MM-dd").format(Date()))
         editor.putInt("specific_rep_changevalues", 300)
-        editor.apply()
-    }
-
-    fun setPreference() {
-        preferencesByVisit!!.edit().clear().apply()
-        val editor = preferencesByVisit!!.edit()
-        editor.clear()
-        editor.putString("specific_rep_date", SimpleDateFormat("yyyy-MM-dd").format(Date()))
-        editor.putInt("specific_rep_changevalues", 200)
         editor.apply()
     }
 

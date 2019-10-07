@@ -14,6 +14,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.outlet_adapter.view.*
 import android.widget.PopupMenu
 import android.widget.Toast
+import com.mobbile.paul.mttms.ui.outlets.updateoutlets.OutletUpdate
 
 
 class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
@@ -58,11 +59,6 @@ class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
             }
         }
 
-        fun setIntents() {
-            var intent = Intent(context, Outlets::class.java)
-            context.startActivity(intent)
-        }
-
         private fun showPopup(view: View, item: AllOutletsList) {
             val popupMenu = PopupMenu(context, view.icons_images)
             val inflater = popupMenu.menuInflater
@@ -83,7 +79,7 @@ class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
                         Toast.makeText(context, item.id.toString(), Toast.LENGTH_SHORT).show()
                     }
                     R.id.update_outlet -> {
-                        Toast.makeText(context, item.id.toString(), Toast.LENGTH_SHORT).show()
+                        updateOutlets(item)
                     }
                     R.id.v_details -> {
                         Toast.makeText(context, item.id.toString(), Toast.LENGTH_SHORT).show()
@@ -92,6 +88,21 @@ class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
                 true
             }
             popupMenu.show()
+        }
+
+        private fun updateOutlets(item: AllOutletsList) {
+
+            val passer = AllOutletsList(
+                item.auto, item.id,item.urno, item.customerno,
+                item.outletclassid, item.outletlanguageid,
+                item.outlettypeid, item.outletname, item.outletaddress,
+                item.contactname, item.contactphone, item.latitude,
+                item.longitude, item.outlet_pic
+            )
+
+            var intent = Intent(context, OutletUpdate::class.java)
+            intent.putExtra("extra_item", passer)
+            context.startActivity(intent)
         }
 
     }

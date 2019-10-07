@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.outlets.Outlets"></activity>
+        <activity android:name=".ui.outlets.updateoutlets.OutletUpdate"></activity>
+        <activity android:name=".ui.outlets.Outlets" />
         <activity android:name=".ui.customers.Customers" />
         <activity android:name=".ui.messages.Messages" />
         <activity android:name=".ui.customerlist.CustomerListViwePager" />

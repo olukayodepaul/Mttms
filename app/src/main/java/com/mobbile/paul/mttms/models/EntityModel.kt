@@ -30,7 +30,7 @@ data class EntitySpiners(
     var auto: Int = 0,
     var id: Int = 0,
     var name: String = "",
-    var sep: String = ""
+    var sep: Int = 0
 )
 
 @Entity(tableName = "allcustomers")

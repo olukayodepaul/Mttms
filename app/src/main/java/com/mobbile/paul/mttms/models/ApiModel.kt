@@ -1,7 +1,9 @@
 package com.mobbile.paul.mttms.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class UserAuth(
     @SerializedName("status")
@@ -78,7 +80,7 @@ data class UserSpinners(
     var name: String = "",
     @SerializedName("sep")
     @Expose
-    var sep: String = ""
+    var sep: Int = 0
 )
 
 data class InitAllCustomers (
@@ -123,6 +125,7 @@ data class InitAllOutlets (
     var alloutlets: List<AllOutletsList>?=null
 )
 
+@Parcelize
 data class AllOutletsList (
     @SerializedName("auto")
     @Expose
@@ -166,7 +169,7 @@ data class AllOutletsList (
     @SerializedName("outlet_pic")
     @Expose
     var outlet_pic: String = ""
-)
+): Parcelable
 
 
 

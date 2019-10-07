@@ -14,6 +14,8 @@ import com.mobbile.paul.mttms.di.subcomponent.modules.ModulesModule
 import com.mobbile.paul.mttms.di.subcomponent.modules.ModulesScope
 import com.mobbile.paul.mttms.di.subcomponent.outlets.OutletsModule
 import com.mobbile.paul.mttms.di.subcomponent.outlets.OutletsScope
+import com.mobbile.paul.mttms.di.subcomponent.outletupdate.OutletUpdateScope
+import com.mobbile.paul.mttms.di.subcomponent.outletupdate.OutletsUpdateModule
 import com.mobbile.paul.mttms.di.subcomponent.replist.ReplistModule
 import com.mobbile.paul.mttms.di.subcomponent.replist.ReplistScope
 import com.mobbile.paul.mttms.ui.auth.Userauth
@@ -21,6 +23,7 @@ import com.mobbile.paul.mttms.ui.customerlist.CustomerListViwePager
 import com.mobbile.paul.mttms.ui.customers.Customers
 import com.mobbile.paul.mttms.ui.modules.Modules
 import com.mobbile.paul.mttms.ui.outlets.Outlets
+import com.mobbile.paul.mttms.ui.outlets.updateoutlets.OutletUpdate
 import com.mobbile.paul.mttms.ui.replist.RepList
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -77,5 +80,13 @@ abstract class ActivityBuilderModule {
         ]
     )
     abstract fun contributeOutletsModuleAndroidInjector(): Outlets
+
+    @OutletUpdateScope
+    @ContributesAndroidInjector(
+        modules = [
+            OutletsUpdateModule::class
+        ]
+    )
+    abstract fun contributeOutletUpdateViewModelAndroidInjector(): OutletUpdate
 
 }
