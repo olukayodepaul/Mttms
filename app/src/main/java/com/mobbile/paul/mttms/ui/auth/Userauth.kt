@@ -24,6 +24,8 @@ import com.mobbile.paul.mttms.util.Utils.Companion.isInternetAvailable
 import androidx.lifecycle.Observer
 import com.mobbile.paul.mttms.models.AuthObjectData
 import com.mobbile.paul.mttms.ui.modules.Modules
+import com.mobbile.paul.mttms.util.Utils
+import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_VISIT
 import com.mobbile.paul.mttms.util.Utils.Companion.USER_INFOS
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,6 +41,8 @@ class Userauth : BaseActivity() {
 
     var todayDates: String? = null
 
+    private var preferencesByVisit: SharedPreferences? = null
+
 
     @SuppressLint("SimpleDateFormat")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -47,6 +51,7 @@ class Userauth : BaseActivity() {
         setContentView(R.layout.activity_main)
         vmodel = ViewModelProviders.of(this, modelFactory)[AuthViewModel::class.java]
         preferences = getSharedPreferences(USER_INFOS, Context.MODE_PRIVATE)
+        preferencesByVisit = getSharedPreferences(CUSTOMERS_VISIT, Context.MODE_PRIVATE)
         todayDates = SimpleDateFormat("yyyy-MM-dd").format(Date())
         showProgressBar(false)
 
@@ -72,7 +77,7 @@ class Userauth : BaseActivity() {
                 saveUserInfoInSharePref(it)
             }
             else -> {
-                Toast.makeText(applicationContext,it.msg, Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, it.msg, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -86,7 +91,12 @@ class Userauth : BaseActivity() {
         val validateDates = preferences!!.getString("today_date_preferences", "")
         if (permit == PackageManager.PERMISSION_GRANTED) {
             //vmodel.userAuth(username, password, tel.getImei(0), validateDates!!.equals(todayDates))
-            vmodel.userAuth("imoudu.g@mt3.com", "3236", "351736103273508", validateDates.equals(todayDates))
+            vmodel.userAuth(
+                "imoudu.g@mt3.com",
+                "3236",
+                "351736103273508",
+                validateDates.equals(todayDates)
+            )
         } else {
             makeRequest()
         }
@@ -119,14 +129,23 @@ class Userauth : BaseActivity() {
     }
 
     private fun saveUserInfoInSharePref(auths: AuthObjectData) {
-        preferences!!.edit().clear().apply()
-        val editor = preferences!!.edit()
-        editor.clear()
-        editor.putString("today_date_preferences", todayDates)
-        editor.putInt("employee_id_user_preferences",auths.employeeid)
-        editor.putInt("depot_id_user_preferences",auths.depots_id)
-        editor.putInt("region_id_user_preferences",auths.region_id)
-        editor.apply()
+        if(auths.setpref==2) {
+            preferences!!.edit().clear().apply()
+            val editor = preferences!!.edit()
+            editor.clear()
+            editor.putString("today_date_preferences", todayDates)
+            editor.putInt("employee_id_user_preferences", auths.employeeid)
+            editor.putInt("depot_id_user_preferences", auths.depots_id)
+            editor.putInt("region_id_user_preferences", auths.region_id)
+            editor.apply()
+        }
+        setPreference(auths.setpref)
+    }
+
+    fun setPreference(setpref:Int?) {
+        if (setpref==2) {
+            preferencesByVisit!!.edit().apply()
+        }
         callModuleIntent()
     }
 

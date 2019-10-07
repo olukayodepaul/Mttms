@@ -12,6 +12,8 @@ import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.AllOutletsList
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.outlet_adapter.view.*
+import android.widget.PopupMenu
+import android.widget.Toast
 
 
 class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
@@ -42,25 +44,56 @@ class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
         LayoutContainer {
         fun bind(item: AllOutletsList) {
 
-            var letter: String? = item.outletname.substring(0, 1)
-            var generator = ColorGenerator.MATERIAL
-            var drawable = TextDrawable.builder()
+            val letter: String? = item.outletname.substring(0, 1)
+            val generator = ColorGenerator.MATERIAL
+            val drawable = TextDrawable.builder()
                 .buildRound(letter, generator.getRandomColor())
             containerView.imageView.setImageDrawable(drawable)
 
             containerView.tv_name.text = item.outletname.toLowerCase().capitalize()
             containerView.tv_titles.text = ("${item.urno}, ${item.customerno}").toLowerCase().capitalize()
 
-            containerView.setOnClickListener {
-
+            containerView.icons_images.setOnClickListener {
+                showPopup(containerView, item)
             }
-
         }
 
         fun setIntents() {
             var intent = Intent(context, Outlets::class.java)
             context.startActivity(intent)
         }
+
+        private fun showPopup(view: View, item: AllOutletsList) {
+            val popupMenu = PopupMenu(context, view.icons_images)
+            val inflater = popupMenu.menuInflater
+            inflater.inflate(R.menu.floatingcontextmenu, popupMenu.menu)
+
+            popupMenu.setOnMenuItemClickListener {
+                when(it.itemId) {
+                    R.id.entries_id -> {
+                        Toast.makeText(context, item.id.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                    R.id.outlet_photo -> {
+                        Toast.makeText(context, item.id.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                    R.id.map_outlet -> {
+                        Toast.makeText(context, item.id.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                    R.id.outlet_nav -> {
+                        Toast.makeText(context, item.id.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                    R.id.update_outlet -> {
+                        Toast.makeText(context, item.id.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                    R.id.v_details -> {
+                        Toast.makeText(context, item.id.toString(), Toast.LENGTH_SHORT).show()
+                    }
+                }
+                true
+            }
+            popupMenu.show()
+        }
+
     }
 }
 

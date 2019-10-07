@@ -8,6 +8,8 @@ import com.mobbile.paul.mttms.models.AllOutletsList
 import com.mobbile.paul.mttms.models.EntityAllOutletsList
 import com.mobbile.paul.mttms.models.toEntityAllOutletsList
 import com.mobbile.paul.mttms.providers.Repository
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 class OutletViewmodel @Inject constructor(private val repository: Repository): ViewModel() {
@@ -50,6 +52,8 @@ class OutletViewmodel @Inject constructor(private val repository: Repository): V
             }).isDisposed
         return mResult
     }
+
+
 
     companion object{
         var TAG = "OutletViewmodel"

@@ -110,6 +110,8 @@ class Outlets : BaseActivity() {
         }
     }
 
+
+
     companion object{
         var TAG = "Outlets"
     }

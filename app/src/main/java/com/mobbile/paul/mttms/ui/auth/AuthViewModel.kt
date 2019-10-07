@@ -30,15 +30,16 @@ class AuthViewModel @Inject constructor(private val repository: Repository) : Vi
                     if (!dateCheck) {
                         deleteModules()
                     } else {
-                        mSG(it.body()!!.msg, 200, it.body()!!.employee_id, it.body()!!.region_id, it.body()!!.depots_id)
+                        //dont set sharePreference
+                        mSG(it.body()!!.msg, 200,1, it.body()!!.employee_id, it.body()!!.region_id, it.body()!!.depots_id)
                     }
 
                 } else {
-                    mSG(it.body()!!.msg, 400, 0,0,0)
+                    mSG(it.body()!!.msg, 400, 0,0,0,0)
                 }
 
             }, {
-                mSG(it.message.toString(), 400, 0,0,0)
+                mSG(it.message.toString(), 400, 0,0,0,0)
             }).isDisposed
     }
 
@@ -48,7 +49,7 @@ class AuthViewModel @Inject constructor(private val repository: Repository) : Vi
                 {
                     deleteRepList()
                 }, {
-                    mSG(it.message.toString(), 400, 0,0,0)
+                    mSG(it.message.toString(), 400, 0,0,0,0)
                 }
             ).isDisposed
     }
@@ -59,7 +60,7 @@ class AuthViewModel @Inject constructor(private val repository: Repository) : Vi
                 {
                     deleteSpiners()
                 }, {
-                    mSG(it.message.toString(), 400, 0,0,0)
+                    mSG(it.message.toString(), 400, 0,0,0,0)
                 }
             ).isDisposed
     }
@@ -70,7 +71,7 @@ class AuthViewModel @Inject constructor(private val repository: Repository) : Vi
                 {
                     inserIntoTable()
                 }, {
-                    mSG(it.message.toString(), 400, 0,0,0)
+                    mSG(it.message.toString(), 400, 0,0,0,0)
                 }
             ).isDisposed
     }
@@ -80,15 +81,16 @@ class AuthViewModel @Inject constructor(private val repository: Repository) : Vi
             data.modules!!.map { it.toEntityModules()},
             data.spinners!!.map { it.toEntitySpiners()}
         ).subscribe({
-            mSG(data.msg, 200, data.employee_id, data.region_id, data.depots_id)
+            mSG(data.msg, 200,2,data.employee_id, data.region_id, data.depots_id)
         }, {
-            mSG(it.message.toString(), 400, 0,0,0)
+            mSG(it.message.toString(), 400, 0,0,0,0)
         }).isDisposed
     }
 
-    private fun mSG(msg: String, status: Int, employeeid: Int, regionid: Int, depotid: Int) {
+    private fun mSG(msg: String, status: Int,  setpref:Int, employeeid: Int, regionid: Int, depotid: Int) {
         dataPasser.status = status
         dataPasser.msg = msg
+        dataPasser.setpref = setpref
         dataPasser.employeeid = employeeid
         dataPasser.depots_id = depotid
         dataPasser.region_id = regionid

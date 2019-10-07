@@ -16,9 +16,6 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.outlet_adapter.view.*
 
 
-
-
-
 class OutletLocalAdapter(private var mItems: List<EntityAllOutletsList>,
                          private var context: Context
 ) : RecyclerView.Adapter<OutletLocalAdapter.ViewHolder>() {
@@ -39,21 +36,14 @@ class OutletLocalAdapter(private var mItems: List<EntityAllOutletsList>,
         return mItems.size
     }
 
-    companion object {
-        private val TAG = "CustomersAdapter"
-    }
-
-
-
-
     inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
         fun bind(item: EntityAllOutletsList) {
 
 
-            var letter: String? = item.outletname.substring(0, 1)
-            var generator = ColorGenerator.MATERIAL
-            var drawable = TextDrawable.builder()
+            val letter: String? = item.outletname.substring(0, 1)
+            val generator = ColorGenerator.MATERIAL
+            val drawable = TextDrawable.builder()
                 .buildRound(letter, generator.getRandomColor())
             containerView.imageView.setImageDrawable(drawable)
 
