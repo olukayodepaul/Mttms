@@ -22,6 +22,14 @@ fun AllOutletsList.toEntityAllOutletsList(): EntityAllOutletsList {
 fun EntityAllOutletsList.toAllOutletsList(): AllOutletsList {
     return AllOutletsList(
         auto, id, urno, customerno, outletclassid, outletlanguageid, outlettypeid, outletname,
-        outletaddress, contactname, contactphone, latitude, longitude, outlet_pic
+        outletaddress, contactname, contactphone, latitude, longitude, outlet_pic, token, defaulttoken
     )
 }
+
+fun getSalesEntry.toEntityGetSalesEntry(): EntityGetSalesEntry {
+    return EntityGetSalesEntry(
+        id, productid, soq, productname, qty, price, seperator, seperatorname, orders, inventory,
+        pricing, entrytime, orderrice, mtcom, mtamt, contorder, contprincing, continventory
+    )
+}
+

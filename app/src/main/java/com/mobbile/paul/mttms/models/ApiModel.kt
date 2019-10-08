@@ -135,7 +135,7 @@ data class AllOutletsList (
     var id: Int = 0,
     @SerializedName("urno")
     @Expose
-    var urno: Int = 0 ,
+    var urno: String = "",
     @SerializedName("customerno")
     @Expose
     var customerno: String = "",
@@ -168,8 +168,112 @@ data class AllOutletsList (
     var longitude: Double = 0.0,
     @SerializedName("outlet_pic")
     @Expose
-    var outlet_pic: String = ""
+    var outlet_pic: String = "",
+    @SerializedName("token")
+    @Expose
+    var token: String = "",
+    @SerializedName("defaulttoken")
+    @Expose
+    var defaulttoken: String = ""
 ): Parcelable
+
+data class InitBbasket (
+    @SerializedName("status")
+    @Expose
+    var status: String = "",
+    @SerializedName("sales")
+    @Expose
+    var sales: List<setSalesEntry>?=null,
+    @SerializedName("entry")
+    @Expose
+    var entry: List<getSalesEntry>?=null
+
+)
+
+data class setSalesEntry (
+    @SerializedName("id")
+    @Expose
+    var id: Int = 0,
+    @SerializedName("product_id")
+    @Expose
+    var product_id: String = "",
+    @SerializedName("product_name")
+    @Expose
+    var product_name: String = "",
+    @SerializedName("soq")
+    @Expose
+    var soq: String = "",
+    @SerializedName("qty")
+    @Expose
+    var qty: Int = 0,
+    @SerializedName("price")
+    @Expose
+    var price: String = "",
+    @SerializedName("seperator")
+    @Expose
+    var seperator: String = ""
+)
+
+data class getSalesEntry (
+
+    @SerializedName("id")
+    @Expose
+    val id: Int,
+    @SerializedName("productid")
+    @Expose
+    val productid: String,
+    @SerializedName("soq")
+    @Expose
+    val soq: String,
+    @SerializedName("productname")
+    @Expose
+    val productname: String,
+    @SerializedName("qty")
+    @Expose
+    val qty: String,
+    @SerializedName("price")
+    @Expose
+    val price: String,
+    @SerializedName("seperator")
+    @Expose
+    val seperator: String,
+    @SerializedName("seperatorname")
+    @Expose
+    val seperatorname: String,
+    @SerializedName("orders")
+    @Expose
+    val orders: String,
+    @SerializedName("inventory")
+    @Expose
+    val inventory: String,
+    @SerializedName("pricing")
+    @Expose
+    val pricing: String,
+    @SerializedName("entrytime")
+    @Expose
+    val entrytime: String,
+    @SerializedName("orderrice")
+    @Expose
+    val orderrice: String,
+    @SerializedName("mtcom")
+    @Expose
+    val mtcom: String,
+    @SerializedName("mtamt")
+    @Expose
+    val mtamt: String,
+    @SerializedName("contorder")
+    @Expose
+    val contorder: String,
+    @SerializedName("contprincing")
+    @Expose
+    val contprincing: String,
+    @SerializedName("continventory")
+    @Expose
+    val continventory: String
+
+
+)
+
 
 
 

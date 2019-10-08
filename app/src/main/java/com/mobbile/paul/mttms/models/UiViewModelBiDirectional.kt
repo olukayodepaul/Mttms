@@ -8,3 +8,9 @@ data class AuthObjectData (
     var depots_id: Int = 0 ,
     var region_id: Int  = 0
 )
+
+data class EntryCallback (
+    var status: String? = null,
+    var msg: String? = null,
+    var data: List<setSalesEntry>? = null
+)

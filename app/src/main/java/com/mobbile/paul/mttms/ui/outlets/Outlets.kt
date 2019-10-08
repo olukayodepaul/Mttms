@@ -2,6 +2,7 @@ package com.mobbile.paul.mttms.ui.outlets
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
@@ -14,9 +15,9 @@ import com.mobbile.paul.mttms.BaseActivity
 import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.AllOutletsList
 import com.mobbile.paul.mttms.models.EntityAllOutletsList
+import com.mobbile.paul.mttms.ui.outlets.mapoutlet.MapOutlet
 import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_INFORMATION
 import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_VISIT
-import kotlinx.android.synthetic.main.activity_customer_list_viwe_pager.*
 import kotlinx.android.synthetic.main.activity_outlets.*
 import kotlinx.android.synthetic.main.activity_outlets.backbtn
 import java.text.SimpleDateFormat
@@ -69,13 +70,25 @@ class Outlets : BaseActivity() {
         backbtn.setOnClickListener {
             onBackPressed()
         }
+
+        floatingActionButton.setOnClickListener {
+            mapOutlets()
+        }
+
+        counts.text = SimpleDateFormat("EEE, MMM dd, ''yy").format(Date())
+    }
+
+
+    private fun mapOutlets(){
+        val intent = Intent(this, MapOutlet::class.java)
+        startActivity(intent)
     }
 
     fun switchAdapters() {
         Log.d(TAG, pStatus.toString())
         when {
             pDate == todayDates && pStatus == 200 -> {
-                vmodel.fetchAllOutlets(preferencesByInfo!!.getInt("specific_rep_id",0))
+                vmodel.fetchAllOutlets(preferencesByInfo!!.getInt("specific_rep_id",0), todayDates!!)
             }
             pDate == todayDates && pStatus == 300 -> {
                 vmodel.fetchLocalOutlet().observe(this, localObservers)
@@ -101,7 +114,6 @@ class Outlets : BaseActivity() {
 
     private val remoteObservers = Observer<List<AllOutletsList>> {
         if (it != null) {
-            //setVisitSharePref()
             showProgressBar(false)
             val list: List<AllOutletsList> = it
             mAdapter = OutletRemoteAdapter(list, this)
@@ -109,8 +121,6 @@ class Outlets : BaseActivity() {
             _r_view_pager.adapter = mAdapter
         }
     }
-
-
 
     companion object{
         var TAG = "Outlets"

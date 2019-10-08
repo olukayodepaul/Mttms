@@ -48,7 +48,7 @@ data class EntityAllOutletsList (
     @PrimaryKey(autoGenerate = false)
     var auto: Int = 0,
     var id: Int = 0,
-    var urno: Int = 0 ,
+    var urno: String = "" ,
     var customerno: String = "",
     var outletclassid: Int = 0,
     var outletlanguageid: Int = 0,
@@ -59,5 +59,31 @@ data class EntityAllOutletsList (
     var contactphone: String = "",
     var latitude: Double = 0.0,
     var longitude: Double = 0.0,
-    var outlet_pic: String = ""
+    var outlet_pic: String = "",
+    var token: String = "",
+    var defaulttoken: String = ""
+)
+
+@Entity(tableName = "salesentries")
+data class EntityGetSalesEntry (
+    @PrimaryKey(autoGenerate = false)
+    val id: Int,
+    val productid: String,
+    val soq: String,
+    val productname: String,
+    val qty: String,
+    val price: String,
+    val seperator: String,
+    val seperatorname: String,
+    val orders: String,
+    val inventory: String,
+    val pricing: String,
+    val entrytime: String,
+    val orderrice: String,
+    val mtcom: String,
+    val mtamt: String,
+    val contorder: String,
+    val contprincing: String,
+    val continventory: String
+
 )

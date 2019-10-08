@@ -20,8 +20,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ui.outlets.updateoutlets.OutletUpdate"></activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ui.outlets.sku.SkuActivity"></activity>
+        <activity android:name=".ui.outlets.entries.Entries" />
+        <activity android:name=".ui.outlets.mapoutlet.MapOutlet" />
+        <activity android:name=".ui.outlets.updateoutlets.OutletUpdate" />
         <activity android:name=".ui.outlets.Outlets" />
         <activity android:name=".ui.customers.Customers" />
         <activity android:name=".ui.messages.Messages" />

@@ -2,17 +2,18 @@ package com.mobbile.paul.mttms.ui.outlets
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.EntityAllOutletsList
 import com.mobbile.paul.mttms.models.toAllOutletsList
+import com.mobbile.paul.mttms.ui.outlets.entries.Entries
 import com.mobbile.paul.mttms.ui.outlets.updateoutlets.OutletUpdate
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.outlet_adapter.view.*
@@ -44,7 +45,6 @@ class OutletLocalAdapter(
         LayoutContainer {
         fun bind(item: EntityAllOutletsList) {
 
-
             val letter: String? = item.outletname.substring(0, 1)
             val generator = ColorGenerator.MATERIAL
             val drawable = TextDrawable.builder()
@@ -69,22 +69,17 @@ class OutletLocalAdapter(
             popupMenu.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.entries_id -> {
-                        Toast.makeText(context, item.id.toString(), Toast.LENGTH_SHORT).show()
+                        salesEntries(item)
                     }
                     R.id.outlet_photo -> {
-                        Toast.makeText(context, item.id.toString(), Toast.LENGTH_SHORT).show()
-                    }
-                    R.id.map_outlet -> {
-                        Toast.makeText(context, item.id.toString(), Toast.LENGTH_SHORT).show()
+
                     }
                     R.id.outlet_nav -> {
-                        Toast.makeText(context, item.id.toString(), Toast.LENGTH_SHORT).show()
+                        val ads = "${item.latitude},${item.longitude}"
+                        startMapIntent(context, ads, 'd', 't')
                     }
                     R.id.update_outlet -> {
                         updateOutlets(item)
-                    }
-                    R.id.v_details -> {
-                        Toast.makeText(context, item.id.toString(), Toast.LENGTH_SHORT).show()
                     }
                 }
                 true
@@ -116,5 +111,29 @@ class OutletLocalAdapter(
             context.startActivity(intent)
 
         }
+
+        fun startMapIntent(ctx: Context, ads: String, mode: Char, avoid: Char): Any {
+            val uri = Uri.parse("google.navigation:q=$ads&mode=$mode&avoid=$avoid")
+            val mIntent = Intent(Intent.ACTION_VIEW, uri)
+            mIntent.`package` = "com.google.android.apps.maps"
+            return if (mIntent.resolveActivity(ctx.packageManager) != null) {
+                ctx.startActivity(mIntent)
+                true
+            } else
+                false
+        }
+
+        private fun salesEntries(item: EntityAllOutletsList) {
+            val intent = Intent(context, Entries::class.java)
+            intent.putExtra("passerUrno", item.urno)
+            intent.putExtra("passerCustno", item.customerno)
+            intent.putExtra("passerOutletname", item.outletname)
+            intent.putExtra("passerLat", item.latitude)
+            intent.putExtra("passerLng", item.longitude)
+            intent.putExtra("passerToken", item.token)
+            intent.putExtra("passerDtoken", item.defaulttoken)
+            context.startActivity(intent)
+        }
+
     }
 }

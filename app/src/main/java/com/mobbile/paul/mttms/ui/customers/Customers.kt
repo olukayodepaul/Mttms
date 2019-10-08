@@ -70,6 +70,8 @@ class Customers : BaseActivity() {
         backbtn.setOnClickListener {
             onBackPressed()
         }
+
+        counts.text = SimpleDateFormat("EEE, MMM dd, ''yy").format(Date())
     }
 
     fun switchAdapters() {
@@ -101,7 +103,6 @@ class Customers : BaseActivity() {
     val observers = Observer<InitAllCustomers> {
         if (it != null) {
             showProgressBar(false)
-            counts.text = it.counts.toString()
             var list: List<AllCustomersList>? = it.allreps
             mAdapter = CustomersAdapter(list!!, this, preferencesByVisit, preferencesByInfo)
             mAdapter.notifyDataSetChanged()
@@ -113,7 +114,6 @@ class Customers : BaseActivity() {
         if (it != null) {
             showProgressBar(false)
             setPreferences()
-            counts.text = "1"
             var list: List<EntityAllCustomersList>? = it
             nAdapter = PcustomersAdapter(list!!, this)
             nAdapter.notifyDataSetChanged()
@@ -124,7 +124,6 @@ class Customers : BaseActivity() {
     val PersistObservers = Observer<List<EntityAllCustomersList>> {
         if (it != null) {
             showProgressBar(false)
-            counts.text = "1"
             var list: List<EntityAllCustomersList>? = it
             nAdapter = PcustomersAdapter(list!!, this)
             nAdapter.notifyDataSetChanged()

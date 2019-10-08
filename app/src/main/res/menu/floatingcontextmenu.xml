@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Entries"
+    <item android:title="Sales Entry"
         android:id="@+id/entries_id" />
 
     <item android:title="Edit Outlet Photo"
         android:id="@+id/outlet_photo" />
-
-
-    <item android:title="Map Outlets"
-            android:id="@+id/map_outlet" />
 
     <item android:title="Outlet Navigation"
         android:id="@+id/outlet_nav" />
 
     <item android:title="Update Outlet"
         android:id="@+id/update_outlet" />
-
-    <item android:title="View Outlet Details"
-        android:id="@+id/v_details" />
 
 </menu>

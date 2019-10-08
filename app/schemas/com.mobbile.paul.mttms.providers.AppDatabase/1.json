@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0c6269dd8a4a4476e8cf0af3ed2e46e0",
+    "identityHash": "1245e30103dc52b4678e0e0d329c998d",
     "entities": [
       {
         "tableName": "modules",
@@ -176,7 +176,7 @@
       },
       {
         "tableName": "alloutlets",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `id` INTEGER NOT NULL, `urno` INTEGER NOT NULL, `customerno` TEXT NOT NULL, `outletclassid` INTEGER NOT NULL, `outletlanguageid` INTEGER NOT NULL, `outlettypeid` INTEGER NOT NULL, `outletname` TEXT NOT NULL, `outletaddress` TEXT NOT NULL, `contactname` TEXT NOT NULL, `contactphone` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `outlet_pic` TEXT NOT NULL, PRIMARY KEY(`auto`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `id` INTEGER NOT NULL, `urno` TEXT NOT NULL, `customerno` TEXT NOT NULL, `outletclassid` INTEGER NOT NULL, `outletlanguageid` INTEGER NOT NULL, `outlettypeid` INTEGER NOT NULL, `outletname` TEXT NOT NULL, `outletaddress` TEXT NOT NULL, `contactname` TEXT NOT NULL, `contactphone` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `outlet_pic` TEXT NOT NULL, `token` TEXT NOT NULL, `defaulttoken` TEXT NOT NULL, PRIMARY KEY(`auto`))",
         "fields": [
           {
             "fieldPath": "auto",
@@ -193,7 +193,7 @@
           {
             "fieldPath": "urno",
             "columnName": "urno",
-            "affinity": "INTEGER",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -261,6 +261,18 @@
             "columnName": "outlet_pic",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "token",
+            "columnName": "token",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "defaulttoken",
+            "columnName": "defaulttoken",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -271,12 +283,134 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "salesentries",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `productid` TEXT NOT NULL, `soq` TEXT NOT NULL, `productname` TEXT NOT NULL, `qty` TEXT NOT NULL, `price` TEXT NOT NULL, `seperator` TEXT NOT NULL, `seperatorname` TEXT NOT NULL, `orders` TEXT NOT NULL, `inventory` TEXT NOT NULL, `pricing` TEXT NOT NULL, `entrytime` TEXT NOT NULL, `orderrice` TEXT NOT NULL, `mtcom` TEXT NOT NULL, `mtamt` TEXT NOT NULL, `contorder` TEXT NOT NULL, `contprincing` TEXT NOT NULL, `continventory` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productid",
+            "columnName": "productid",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "soq",
+            "columnName": "soq",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "productname",
+            "columnName": "productname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "qty",
+            "columnName": "qty",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "price",
+            "columnName": "price",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seperator",
+            "columnName": "seperator",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "seperatorname",
+            "columnName": "seperatorname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orders",
+            "columnName": "orders",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inventory",
+            "columnName": "inventory",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pricing",
+            "columnName": "pricing",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entrytime",
+            "columnName": "entrytime",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orderrice",
+            "columnName": "orderrice",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mtcom",
+            "columnName": "mtcom",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mtamt",
+            "columnName": "mtamt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contorder",
+            "columnName": "contorder",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "contprincing",
+            "columnName": "contprincing",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "continventory",
+            "columnName": "continventory",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0c6269dd8a4a4476e8cf0af3ed2e46e0\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1245e30103dc52b4678e0e0d329c998d\")"
     ]
   }
 }

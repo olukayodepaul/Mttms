@@ -2,6 +2,7 @@ package com.mobbile.paul.mttms.providers
 
 import com.mobbile.paul.mttms.models.InitAllCustomers
 import com.mobbile.paul.mttms.models.InitAllOutlets
+import com.mobbile.paul.mttms.models.InitBbasket
 import com.mobbile.paul.mttms.models.UserAuth
 import io.reactivex.Single
 import retrofit2.http.Headers
@@ -29,8 +30,17 @@ interface Api {
     @Headers("Connection:close")
     @POST("/mobiletrader/tm_outlets")
     fun fetchAllOutlets(
-        @Query("employeeid") employeeid: Int
+        @Query("employeeid") employeeid: Int,
+        @Query("today") today: String
     ): Single<Response<InitAllOutlets>>
+
+    @Headers("Connection:close")
+    @POST("/mobiletrader/tm_basket")
+    fun getbasket(
+        @Query("employeeid") employeeid: Int,
+        @Query("custno") custno: String,
+        @Query("urno") urno: String
+    ): Single<Response<InitBbasket>>
 
 }
 

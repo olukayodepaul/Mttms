@@ -1,10 +1,7 @@
 package com.mobbile.paul.mttms.providers
 
 import androidx.room.*
-import com.mobbile.paul.mttms.models.EntityAllCustomersList
-import com.mobbile.paul.mttms.models.EntityAllOutletsList
-import com.mobbile.paul.mttms.models.EntityModules
-import com.mobbile.paul.mttms.models.EntitySpiners
+import com.mobbile.paul.mttms.models.*
 
 
 @Dao
@@ -44,6 +41,21 @@ interface AppDao {
 
     @Query("SELECT * FROM spiners")
     fun fetchSpinners() : List<EntitySpiners>
+
+    @Query("DELETE FROM salesentries")
+    fun deleteEntityGetSalesEntry()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun saveSalesEntry(
+        salesen: List<EntityGetSalesEntry>
+    )
+
+    @Query("UPDATE salesentries SET orders=:orders, inventory=:inventory, pricing=:pricing, entrytime=:entry_time, orderrice=:salesprice, contorder=:contOrder, contprincing=:contPrincing, continventory=:contInventory, mtamt = mtcom * :orders where  productid=:product_id")
+    fun updateDailySales(orders: Double, inventory: Double, pricing: Int, entry_time: String,  product_id: String, salesprice: Double, contOrder: String, contPrincing: String, contInventory: String)
+
+
+    @Query("SELECT count(id) FROM salesentries WHERE contorder= '' OR contprincing = '' OR continventory = ''")
+    fun validateSalesEntry() : Int
 
 }
 
