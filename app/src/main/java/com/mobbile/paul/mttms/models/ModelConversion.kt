@@ -15,14 +15,14 @@ fun UserSpinners.toEntitySpiners(): EntitySpiners {
 fun AllOutletsList.toEntityAllOutletsList(): EntityAllOutletsList {
     return EntityAllOutletsList(
         auto, id, urno, customerno, outletclassid, outletlanguageid, outlettypeid, outletname,
-        outletaddress, contactname, contactphone, latitude, longitude, outlet_pic
+        outletaddress, contactname, contactphone, latitude, longitude, outlet_pic,token, defaulttoken, sequenceno
     )
 }
 
 fun EntityAllOutletsList.toAllOutletsList(): AllOutletsList {
     return AllOutletsList(
         auto, id, urno, customerno, outletclassid, outletlanguageid, outlettypeid, outletname,
-        outletaddress, contactname, contactphone, latitude, longitude, outlet_pic, token, defaulttoken
+        outletaddress, contactname, contactphone, latitude, longitude, outlet_pic, token, defaulttoken, sequenceno
     )
 }
 

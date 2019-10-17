@@ -14,3 +14,9 @@ data class EntryCallback (
     var msg: String? = null,
     var data: List<setSalesEntry>? = null
 )
+
+
+data class CardCallback (
+    var status: String? = null,
+    var msg: String? = null
+)

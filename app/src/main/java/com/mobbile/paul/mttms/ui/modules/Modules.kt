@@ -46,7 +46,7 @@ class Modules : BaseActivity() {
         }
     }
 
-    companion object{
+    companion object {
         var TAG = "Modules"
     }
 }

@@ -13,6 +13,7 @@ class Utils {
         const val USER_INFOS = "com.tm.mt.v3.1.2.user.info"
         const val CUSTOMERS_VISIT = "com.tm.visit.mt.v3.1.2.user.info"
         const val CUSTOMERS_INFORMATION = "com.tm.info.mt.v3.1.2.user.info"
+        const val LOCAL_AND_REMOTE_CUSTOMERS = "com.tm.info.mt.local.remote.v3.1.2.user.info"
 
         @Suppress("DEPRECATION")
         fun isInternetAvailable(context: Context): Boolean {

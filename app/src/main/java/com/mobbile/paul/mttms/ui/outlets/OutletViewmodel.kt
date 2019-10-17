@@ -40,6 +40,7 @@ class OutletViewmodel @Inject constructor(private val repository: Repository): V
         ).subscribe({
             nResult.postValue(callback)
         },{
+            Log.d(TAG, it.message.toString())
         }).isDisposed
     }
 
@@ -49,11 +50,25 @@ class OutletViewmodel @Inject constructor(private val repository: Repository): V
             .subscribe({
                 mResult.postValue(it)
             },{
+                Log.d(TAG, it.message.toString())
             }).isDisposed
         return mResult
     }
 
-
+    fun takeTmVit(rep_id: Int, tm_id: Int, entry_date: String, entry_date_time: String): LiveData<String> {
+        var mResult = MutableLiveData<String>()
+        repository.tmVisit(rep_id, tm_id, entry_date, entry_date_time)
+            .subscribe({
+                if(it.body()!!.status=="OK") {
+                    mResult.postValue(it.body()!!.status)
+                }else{
+                    mResult.postValue(it.body()!!.status)
+                }
+            },{
+                mResult.postValue(it.message)
+            }).isDisposed
+        return mResult
+    }
 
     companion object{
         var TAG = "OutletViewmodel"

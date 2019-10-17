@@ -1,8 +1,11 @@
 package com.mobbile.paul.mttms.ui.outlets.entries
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -14,6 +17,9 @@ import com.mobbile.paul.mttms.models.EntryCallback
 import com.mobbile.paul.mttms.models.setSalesEntry
 import com.mobbile.paul.mttms.providers.Repository
 import com.mobbile.paul.mttms.ui.outlets.sku.SkuActivity
+import com.mobbile.paul.mttms.util.Utils
+import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_INFORMATION
+import com.mobbile.paul.mttms.util.Utils.Companion.USER_INFOS
 import kotlinx.android.synthetic.main.activity_entries.*
 import javax.inject.Inject
 
@@ -21,10 +27,12 @@ class Entries : BaseActivity() {
 
     var custName: String = ""
     var custUrno: String = ""
+    var custNo: String = ""
     var custLatitude: Double = 0.0
     var custLongitude: Double = 0.0
     var custToken: String = ""
     var defaultCustToken: String = ""
+    var custids: Int = 0
 
     @Inject
     internal lateinit var modelFactory: ViewModelProvider.Factory
@@ -36,17 +44,25 @@ class Entries : BaseActivity() {
 
     private lateinit var mAdapter: EntriesAdapter
 
+    private var preferencesByInfo: SharedPreferences? = null
+
+    private var preferences: SharedPreferences? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entries)
         vmodel = ViewModelProviders.of(this, modelFactory)[EntriesViewModel::class.java]
+        preferencesByInfo = getSharedPreferences(CUSTOMERS_INFORMATION, Context.MODE_PRIVATE)
+        preferences = getSharedPreferences(USER_INFOS, Context.MODE_PRIVATE)
 
         custName = intent.getStringExtra("passerOutletname")!!
-        custUrno = intent.getStringExtra("passerCustno")!!
+        custNo = intent.getStringExtra("passerCustno")!!
+        custUrno = intent.getStringExtra("passerUrno")!!
         custLatitude = intent.getDoubleExtra("passerLat",0.0)
         custLongitude = intent.getDoubleExtra("passerLng",0.0)
         custToken = intent.getStringExtra("passerToken")!!
         defaultCustToken = intent.getStringExtra("passerDtoken")!!
+        custids = intent.getIntExtra("outletid",0)
 
         tv_outlet_name.text = custName
 
@@ -54,9 +70,19 @@ class Entries : BaseActivity() {
             onBackPressed()
         }
 
-        vmodel.fetchSales(3262,"SWC2931","020565")
+        Log.d(TAG, "$custLatitude $custLongitude")
+
+        vmodel.fetchSales(preferencesByInfo!!.getInt("specific_rep_id",0),
+            preferencesByInfo!!.getString("specific_customer_id","")!!,
+            custUrno)
+
         vmodel.comData().observe(this, observeComData)
         initViews()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        showProgressBar(false)
     }
 
     private fun initViews() {
@@ -72,8 +98,17 @@ class Entries : BaseActivity() {
 
     val countOserver = Observer<Int> {
         showProgressBar(true)
+        Log.d(TAG, "1-$custToken 2-$defaultCustToken 3-$custids 4-$custUrno")
         if(it==0) {
             val intent = Intent(this, SkuActivity::class.java)
+            intent.putExtra("token",custToken)
+            intent.putExtra("dtoken",defaultCustToken)
+            intent.putExtra("outletids",custids)
+            intent.putExtra("urno",custUrno)
+            intent.putExtra("rep_employee_id",preferencesByInfo!!.getInt("specific_rep_id",0))
+            intent.putExtra("tm_employee_id",preferences!!.getInt("employee_id_user_preferences",0))
+            intent.putExtra("passerLat",0.0)
+            intent.putExtra("passerLng",0.0)
             startActivity(intent)
         }else {
             showProgressBar(false)
@@ -82,7 +117,6 @@ class Entries : BaseActivity() {
     }
 
     private fun notifyValidation(msg: String, title: String) {
-
         val builder = AlertDialog.Builder(this, R.style.AlertDialogDanger)
         builder.setMessage(msg)
             .setTitle(title)

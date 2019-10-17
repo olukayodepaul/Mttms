@@ -24,8 +24,9 @@ import com.mobbile.paul.mttms.util.Utils.Companion.isInternetAvailable
 import androidx.lifecycle.Observer
 import com.mobbile.paul.mttms.models.AuthObjectData
 import com.mobbile.paul.mttms.ui.modules.Modules
-import com.mobbile.paul.mttms.util.Utils
+import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_INFORMATION
 import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_VISIT
+import com.mobbile.paul.mttms.util.Utils.Companion.LOCAL_AND_REMOTE_CUSTOMERS
 import com.mobbile.paul.mttms.util.Utils.Companion.USER_INFOS
 import java.text.SimpleDateFormat
 import java.util.*
@@ -43,6 +44,10 @@ class Userauth : BaseActivity() {
 
     private var preferencesByVisit: SharedPreferences? = null
 
+    private var preferencesByInfo: SharedPreferences? = null
+
+    private var preferencesSwitcher: SharedPreferences? = null
+
 
     @SuppressLint("SimpleDateFormat")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -50,8 +55,12 @@ class Userauth : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         vmodel = ViewModelProviders.of(this, modelFactory)[AuthViewModel::class.java]
+
         preferences = getSharedPreferences(USER_INFOS, Context.MODE_PRIVATE)
         preferencesByVisit = getSharedPreferences(CUSTOMERS_VISIT, Context.MODE_PRIVATE)
+        preferencesByInfo = getSharedPreferences(CUSTOMERS_INFORMATION, Context.MODE_PRIVATE)
+        preferencesSwitcher = getSharedPreferences(LOCAL_AND_REMOTE_CUSTOMERS, Context.MODE_PRIVATE)
+
         todayDates = SimpleDateFormat("yyyy-MM-dd").format(Date())
         showProgressBar(false)
 
@@ -90,10 +99,10 @@ class Userauth : BaseActivity() {
         val tel = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         val validateDates = preferences!!.getString("today_date_preferences", "")
         if (permit == PackageManager.PERMISSION_GRANTED) {
-            //vmodel.userAuth(username, password, tel.getImei(0), validateDates!!.equals(todayDates))
+            //vmodel.userAuth("imoudu.g@mt3.com", "3236", tel.getImei(0), validateDates!!.equals(todayDates))
             vmodel.userAuth(
-                "imoudu.g@mt3.com",
-                "3236",
+                username,
+                password,
                 "351736103273508",
                 validateDates.equals(todayDates)
             )
@@ -118,6 +127,7 @@ class Userauth : BaseActivity() {
                 }
             }
         }
+        showProgressBar(false)
     }
 
     private fun makeRequest() {
@@ -130,7 +140,10 @@ class Userauth : BaseActivity() {
 
     private fun saveUserInfoInSharePref(auths: AuthObjectData) {
         if(auths.setpref==2) {
-            preferences!!.edit().clear().apply()
+            preferences!!.edit().apply()
+            preferencesByVisit!!.edit().apply()
+            preferencesByInfo!!.edit().apply()
+            preferencesSwitcher!!.edit().apply()
             val editor = preferences!!.edit()
             editor.clear()
             editor.putString("today_date_preferences", todayDates)
@@ -138,16 +151,12 @@ class Userauth : BaseActivity() {
             editor.putInt("depot_id_user_preferences", auths.depots_id)
             editor.putInt("region_id_user_preferences", auths.region_id)
             editor.apply()
+            callModuleIntent()
+        }else{
+            callModuleIntent()
         }
-        setPreference(auths.setpref)
     }
 
-    fun setPreference(setpref:Int?) {
-        if (setpref==2) {
-            preferencesByVisit!!.edit().apply()
-        }
-        callModuleIntent()
-    }
 
     private fun callModuleIntent() {
         val intent = Intent(this, Modules::class.java)

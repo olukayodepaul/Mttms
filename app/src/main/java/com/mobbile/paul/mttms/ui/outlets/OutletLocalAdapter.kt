@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.outlet_adapter.view.*
 
 class OutletLocalAdapter(
     private var mItems: List<EntityAllOutletsList>,
-    private var context: Context
+    private var context: Context, private var mod:String
 ) : RecyclerView.Adapter<OutletLocalAdapter.ViewHolder>() {
 
 
@@ -45,15 +45,15 @@ class OutletLocalAdapter(
         LayoutContainer {
         fun bind(item: EntityAllOutletsList) {
 
-            val letter: String? = item.outletname.substring(0, 1)
+            val letter: String? = item.outletname.substring(0, 1).toUpperCase()
             val generator = ColorGenerator.MATERIAL
             val drawable = TextDrawable.builder()
                 .buildRound(letter, generator.getRandomColor())
             containerView.imageView.setImageDrawable(drawable)
 
             containerView.tv_name.text = item.outletname.toLowerCase().capitalize()
-            containerView.tv_titles.text =
-                ("${item.urno}, ${item.customerno}").toLowerCase().capitalize()
+            containerView.tv_titles.text = ("${item.urno}, ${item.customerno}").toLowerCase().capitalize()
+            containerView.tv_sequence.text = "${item.sequenceno}"
 
             containerView.icons_images.setOnClickListener {
                 showPopup(containerView, item)
@@ -71,12 +71,9 @@ class OutletLocalAdapter(
                     R.id.entries_id -> {
                         salesEntries(item)
                     }
-                    R.id.outlet_photo -> {
-
-                    }
                     R.id.outlet_nav -> {
                         val ads = "${item.latitude},${item.longitude}"
-                        startMapIntent(context, ads, 'd', 't')
+                        startMapIntent(context, ads, mod.single(), 't')
                     }
                     R.id.update_outlet -> {
                         updateOutlets(item)
@@ -90,7 +87,6 @@ class OutletLocalAdapter(
         private fun updateOutlets(item: EntityAllOutletsList) {
 
             val passer = EntityAllOutletsList()
-
             passer.auto = item.auto
             passer.id = item.id
             passer.urno = item.urno
@@ -109,7 +105,6 @@ class OutletLocalAdapter(
             val intent = Intent(context, OutletUpdate::class.java)
             intent.putExtra("extra_item", passer.toAllOutletsList())
             context.startActivity(intent)
-
         }
 
         fun startMapIntent(ctx: Context, ads: String, mode: Char, avoid: Char): Any {
@@ -125,6 +120,7 @@ class OutletLocalAdapter(
 
         private fun salesEntries(item: EntityAllOutletsList) {
             val intent = Intent(context, Entries::class.java)
+            intent.putExtra("outletid", item.id)
             intent.putExtra("passerUrno", item.urno)
             intent.putExtra("passerCustno", item.customerno)
             intent.putExtra("passerOutletname", item.outletname)
@@ -134,6 +130,8 @@ class OutletLocalAdapter(
             intent.putExtra("passerDtoken", item.defaulttoken)
             context.startActivity(intent)
         }
-
+    }
+    companion object{
+        var TAG = "OutletLocalAdapter"
     }
 }

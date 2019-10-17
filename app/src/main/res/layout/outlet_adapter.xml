@@ -59,13 +59,35 @@
             android:fontFamily="@font/roboto_regular"
             android:textSize="@dimen/sales_title"/>
 
-        <TextView android:id="@+id/tv_titles"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_regular"
-            android:textSize="@dimen/sales_outlets"
-            android:layout_below="@+id/tv_name"
-            android:text="Customers"/>
+            android:layout_below="@+id/tv_name">
+
+            <TextView
+                android:id="@+id/tv_titles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Customers"
+                android:textSize="@dimen/sales_outlets"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_sequence"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:fontFamily="@font/roboto_thin"
+                android:text="0"
+                android:textAlignment="textEnd"
+                android:textSize="@dimen/sales_outlets"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 
     </RelativeLayout>

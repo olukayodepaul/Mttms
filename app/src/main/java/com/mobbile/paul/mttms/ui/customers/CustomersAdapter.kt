@@ -14,7 +14,7 @@ import com.amulyakhare.textdrawable.TextDrawable
 import com.amulyakhare.textdrawable.util.ColorGenerator
 import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.AllCustomersList
-import com.mobbile.paul.mttms.ui.outlets.Outlets
+import com.mobbile.paul.mttms.ui.modules.Modules
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.customers_adapters.view.*
 import kotlinx.android.synthetic.main.module_adapter.view.imageView
@@ -51,24 +51,24 @@ class CustomersAdapter(private var mItems: List<AllCustomersList>,
 
     inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
-        @SuppressLint("DefaultLocale")
+        @SuppressLint("DefaultLocale", "SetTextI18n")
         fun bind(item: AllCustomersList) {
 
-            var letter: String? = item.fullname.substring(0, 1)
+            var letter: String? = item.fullname.substring(0, 1).toUpperCase()
             var generator = ColorGenerator.MATERIAL
             var drawable = TextDrawable.builder()
                 .buildRound(letter, generator.getRandomColor())
             containerView.imageView.setImageDrawable(drawable)
 
             containerView.tv_name.text = item.fullname.toLowerCase().capitalize()
-            containerView.tv_titles.text = ("${item.ecode}, ${item.custcode}").toLowerCase().capitalize()
+            containerView.tv_titles.text = "${item.ecode.toLowerCase().toUpperCase()}, ${item.custcode.toUpperCase()}"
 
             containerView.setOnClickListener {
-                message(item.fullname.toLowerCase().capitalize(), item.employeeid, item.custcode, item.ecode, item.fullname)
+                message(item.fullname.toLowerCase().capitalize(), item.employeeid, item.custcode, item.ecode, item.fullname, item.mode)
             }
         }
 
-        fun setInfoSharePref(employeeid: Int, custcode: String, ecode: String, fname: String) {
+        fun setInfoSharePref(employeeid: Int, custcode: String, ecode: String, fname: String, mode:String) {
             preferencesByInfo!!.edit().clear().apply()
             val editor = preferencesByInfo!!.edit()
             editor.clear()
@@ -76,6 +76,7 @@ class CustomersAdapter(private var mItems: List<AllCustomersList>,
             editor.putString("specific_customer_id",custcode)
             editor.putString("specific_edcode_id",ecode)
             editor.putString("specific_fname_id",fname)
+            editor.putString("specific_mode_id",mode)
             editor.apply()
             setVisitSharePref()
             Log.d(TAG, preferencesByInfo!!.getString("specific_edcode_id","").toString() + "~"+ ecode)
@@ -93,18 +94,18 @@ class CustomersAdapter(private var mItems: List<AllCustomersList>,
         }
 
         fun setIntent() {
-            var intent = Intent(context, Outlets::class.java)
+            var intent = Intent(context, Modules::class.java)
             context.startActivity(intent)
         }
 
-        private fun message(name:String, employeeid: Int, custcode: String, ecode: String, fname: String) {
+        private fun message(name:String, employeeid: Int, custcode: String, ecode: String, fname: String, mode:String) {
             val builder = AlertDialog.Builder(context, R.style.AlertDialogDanger)
             builder.setMessage("Are you sure you want to visit $name")
                 .setTitle("Customer Visit")
                 .setIcon(R.drawable.icons8_google_alerts_100)
                 .setCancelable(false)
                 .setNegativeButton("YES") { _, _ ->
-                    setInfoSharePref(employeeid, custcode, ecode, fname)
+                    setInfoSharePref(employeeid, custcode, ecode, fname, mode)
                 }
                 .setPositiveButton("NO") { _, _ ->
                 }

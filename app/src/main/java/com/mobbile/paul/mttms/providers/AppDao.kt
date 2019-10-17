@@ -16,6 +16,12 @@ interface AppDao {
     @Query("DELETE FROM spiners")
     fun deleteSpiners()
 
+    @Query("DELETE FROM allcustomers")
+    fun deleteAllcustomers()
+
+    @Query("DELETE FROM alloutlets")
+    fun deleteAlloutlets()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveModulesANDspiners(
         modules: List<EntityModules>,
@@ -25,8 +31,8 @@ interface AppDao {
     @Query("SELECT * FROM modules")
     fun fetchModules(): List<EntityModules>
 
-    @Query("insert into allcustomers (auto, employeeid, ecode, custcode, fullname) values (:auto, :employeeid,:ecode,:custcode,:fullname)")
-    fun insertIntoAllcustomers(auto:Int, employeeid:Int, ecode:String, custcode:String, fullname:String)
+    @Query("insert into allcustomers (auto, employeeid, ecode, custcode, fullname, mode) values (:auto, :employeeid,:ecode,:custcode,:fullname, :mode)")
+    fun insertIntoAllcustomers(auto:Int, employeeid:Int, ecode:String, custcode:String, fullname:String, mode:String)
 
     @Query("SELECT * FROM allcustomers")
     fun fetchEntityAllCustomersList(): List<EntityAllCustomersList>
@@ -56,6 +62,13 @@ interface AppDao {
 
     @Query("SELECT count(id) FROM salesentries WHERE contorder= '' OR contprincing = '' OR continventory = ''")
     fun validateSalesEntry() : Int
+
+    @Query("SELECT * FROM salesentries order by seperator asc")
+    fun fetchAllEntryPerDay(): List<EntityGetSalesEntry>
+
+
+    @Query("SELECT SUM(orders) AS sorder, SUM(inventory) AS sinventory, SUM(pricing) AS spricing, SUM(price*orders) AS stotalsum  FROM salesentries")
+    fun sumAllSalesEntry(): SumSales
 
 }
 

@@ -21,13 +21,18 @@ import com.mobbile.paul.mttms.di.subcomponent.outlets.OutletsScope
 import com.mobbile.paul.mttms.di.subcomponent.outletupdate.OutletsUpdateModule
 import com.mobbile.paul.mttms.di.subcomponent.replist.ReplistModule
 import com.mobbile.paul.mttms.di.subcomponent.replist.ReplistScope
+import com.mobbile.paul.mttms.di.subcomponent.sku.SkuModule
+import com.mobbile.paul.mttms.di.subcomponent.sku.SkuScope
 import com.mobbile.paul.mttms.ui.auth.Userauth
 import com.mobbile.paul.mttms.ui.customerlist.CustomerListViwePager
 import com.mobbile.paul.mttms.ui.customers.Customers
 import com.mobbile.paul.mttms.ui.modules.Modules
 import com.mobbile.paul.mttms.ui.outlets.Outlets
 import com.mobbile.paul.mttms.ui.outlets.entries.Entries
+import com.mobbile.paul.mttms.ui.outlets.mapoutlet.AttachPhotos
 import com.mobbile.paul.mttms.ui.outlets.mapoutlet.MapOutlet
+import com.mobbile.paul.mttms.ui.outlets.sku.SkuActivity
+import com.mobbile.paul.mttms.ui.outlets.updateoutlets.AttachPhoto
 import com.mobbile.paul.mttms.ui.outlets.updateoutlets.OutletUpdate
 import com.mobbile.paul.mttms.ui.replist.RepList
 import dagger.Module
@@ -103,6 +108,14 @@ abstract class ActivityBuilderModule {
     )
     abstract fun contributeMapOutletModuleAndroidInjector(): MapOutlet
 
+    @MapOutletScope
+    @ContributesAndroidInjector(
+        modules = [
+            MapOutletModule::class
+        ]
+    )
+    abstract fun contributeAttachPhotosAndroidInjector(): AttachPhotos
+
     @EntriesScope
     @ContributesAndroidInjector(
         modules = [
@@ -111,7 +124,19 @@ abstract class ActivityBuilderModule {
     )
     abstract fun contributeEntriesModuleAndroidInjector(): Entries
 
+    @SkuScope
+    @ContributesAndroidInjector(
+        modules = [
+            SkuModule::class
+        ]
+    )
+    abstract fun contributeSkuModuleAndroidInjector(): SkuActivity
 
-
-
+    @OutletsScope
+    @ContributesAndroidInjector(
+        modules = [
+            OutletsUpdateModule::class
+        ]
+    )
+    abstract fun contributeAttachPhotoAndroidInjector(): AttachPhoto
 }

@@ -65,7 +65,10 @@ data class RepList(
     var custcode: String = "",
     @SerializedName("fullname")
     @Expose
-    var fullname: String = ""
+    var fullname: String = "",
+    @SerializedName("mode")
+    @Expose
+    var mode: String = ""
 )
 
 data class UserSpinners(
@@ -110,7 +113,10 @@ data class AllCustomersList (
     var custcode: String = "",
     @SerializedName("fullname")
     @Expose
-    var fullname: String = ""
+    var fullname: String = "",
+    @SerializedName("mode")
+    @Expose
+    var mode: String = ""
 )
 
 data class InitAllOutlets (
@@ -174,7 +180,11 @@ data class AllOutletsList (
     var token: String = "",
     @SerializedName("defaulttoken")
     @Expose
-    var defaulttoken: String = ""
+    var defaulttoken: String = "",
+    @SerializedName("sequenceno")
+    @Expose
+    var sequenceno: Int = 0
+
 ): Parcelable
 
 data class InitBbasket (
@@ -187,7 +197,6 @@ data class InitBbasket (
     @SerializedName("entry")
     @Expose
     var entry: List<getSalesEntry>?=null
-
 )
 
 data class setSalesEntry (
@@ -270,9 +279,21 @@ data class getSalesEntry (
     @SerializedName("continventory")
     @Expose
     val continventory: String
-
-
 )
+
+data class SumSales(
+    var sorder: Double = 0.0,
+    var spricing: Int = 0,
+    var sinventory: Double = 0.0,
+    var stotalsum: Double = 0.0
+)
+
+data class getCards (
+    @SerializedName("status")
+    @Expose
+    val status: String
+)
+
 
 
 

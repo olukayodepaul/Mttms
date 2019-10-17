@@ -4,9 +4,6 @@
     <item android:title="Sales Entry"
         android:id="@+id/entries_id" />
 
-    <item android:title="Edit Outlet Photo"
-        android:id="@+id/outlet_photo" />
-
     <item android:title="Outlet Navigation"
         android:id="@+id/outlet_nav" />
 

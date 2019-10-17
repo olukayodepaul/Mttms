@@ -17,10 +17,11 @@ class CustomersViewModel @Inject constructor(private val repository: Repository)
         employeeid: Int,
         ecode: String?,
         custcode: String?,
-        fullname: String?
+        fullname: String?,
+        mode: String?
     ): LiveData<List<EntityAllCustomersList>> {
         var mResult = MutableLiveData<List<EntityAllCustomersList>>()
-        repository.insertIntoAllcustomers(auto, employeeid, ecode!!, custcode!!, fullname!!)
+        repository.insertIntoAllcustomers(auto, employeeid, ecode!!, custcode!!, fullname!!, mode!!)
             .subscribe({
                 repository.fetchEntityAllCustomersList()
                     .subscribe({

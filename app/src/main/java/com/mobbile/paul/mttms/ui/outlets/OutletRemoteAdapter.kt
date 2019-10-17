@@ -19,7 +19,7 @@ import com.mobbile.paul.mttms.ui.outlets.updateoutlets.OutletUpdate
 
 
 class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
-                          private var context: Context
+                          private var context: Context, private var mod:String
 ) : RecyclerView.Adapter<OutletRemoteAdapter.ViewHolder>() {
 
 
@@ -46,7 +46,7 @@ class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
         LayoutContainer {
         fun bind(item: AllOutletsList) {
 
-            val letter: String? = item.outletname.substring(0, 1)
+            val letter: String? = item.outletname.substring(0, 1).toUpperCase()
             val generator = ColorGenerator.MATERIAL
             val drawable = TextDrawable.builder()
                 .buildRound(letter, generator.getRandomColor())
@@ -54,6 +54,7 @@ class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
 
             containerView.tv_name.text = item.outletname.toLowerCase().capitalize()
             containerView.tv_titles.text = ("${item.urno}, ${item.customerno}").toLowerCase().capitalize()
+            containerView.tv_sequence.text = "${item.sequenceno}"
 
             containerView.icons_images.setOnClickListener {
                 showPopup(containerView, item)
@@ -70,12 +71,9 @@ class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
                     R.id.entries_id -> {
                         salesEntries(item)
                     }
-                    R.id.outlet_photo -> {
-
-                    }
                     R.id.outlet_nav -> {
                         val ads = "${item.latitude},${item.longitude}"
-                        startMapIntent(context, ads, 'd', 't')
+                        startMapIntent(context, ads, mod.single(), 't')
                     }
                     R.id.update_outlet -> {
                         updateOutlets(item)
@@ -87,15 +85,21 @@ class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
         }
 
         private fun updateOutlets(item: AllOutletsList) {
-
             val passer = AllOutletsList(
-                item.auto, item.id,item.urno, item.customerno,
-                item.outletclassid, item.outletlanguageid,
-                item.outlettypeid, item.outletname, item.outletaddress,
-                item.contactname, item.contactphone, item.latitude,
-                item.longitude, item.outlet_pic
+                item.auto,
+                item.id,item.urno,
+                item.customerno,
+                item.outletclassid,
+                item.outletlanguageid,
+                item.outlettypeid,
+                item.outletname,
+                item.outletaddress,
+                item.contactname,
+                item.contactphone,
+                item.latitude,
+                item.longitude,
+                item.outlet_pic
             )
-
             val intent = Intent(context, OutletUpdate::class.java)
             intent.putExtra("extra_item", passer)
             context.startActivity(intent)
@@ -113,17 +117,16 @@ class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
         }
 
         private fun salesEntries(item: AllOutletsList) {
-
-            val intent = Intent(context, Entries::class.java)
-            intent.putExtra("passerUrno", item.urno)
-            intent.putExtra("passerCustno", item.customerno)
-            intent.putExtra("passerOutletname", item.outletname)
-            intent.putExtra("passerLat", item.latitude)
-            intent.putExtra("passerLng", item.longitude)
-            intent.putExtra("passerToken", item.token)
-            intent.putExtra("passerDtoken", item.defaulttoken)
-            context.startActivity(intent)
-
+             val intent = Intent(context, Entries::class.java)
+             intent.putExtra("outletid", item.id)
+             intent.putExtra("passerUrno", item.urno)
+             intent.putExtra("passerCustno", item.customerno)
+             intent.putExtra("passerOutletname", item.outletname)
+             intent.putExtra("passerLat", item.latitude)
+             intent.putExtra("passerLng", item.longitude)
+             intent.putExtra("passerToken", item.token)
+             intent.putExtra("passerDtoken", item.defaulttoken)
+             context.startActivity(intent)
         }
     }
 }

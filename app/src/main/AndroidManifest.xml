@@ -22,9 +22,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.outlets.sku.SkuActivity"></activity>
+        <activity android:name=".ui.outlets.updateoutlets.AttachPhoto"></activity>
+        <activity android:name=".ui.outlets.sku.SkuActivity" />
         <activity android:name=".ui.outlets.entries.Entries" />
         <activity android:name=".ui.outlets.mapoutlet.MapOutlet" />
+        <activity android:name=".ui.outlets.mapoutlet.AttachPhotos" />
         <activity android:name=".ui.outlets.updateoutlets.OutletUpdate" />
         <activity android:name=".ui.outlets.Outlets" />
         <activity android:name=".ui.customers.Customers" />
@@ -39,6 +41,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>

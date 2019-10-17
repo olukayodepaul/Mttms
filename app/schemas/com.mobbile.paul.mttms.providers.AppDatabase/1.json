@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "1245e30103dc52b4678e0e0d329c998d",
+    "identityHash": "32df18827f87d28ab8a7803a8d981787",
     "entities": [
       {
         "tableName": "modules",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "replist",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `employeeid` INTEGER NOT NULL, `edcode` TEXT NOT NULL, `custcode` TEXT NOT NULL, `fullname` TEXT NOT NULL, PRIMARY KEY(`auto`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `employeeid` INTEGER NOT NULL, `edcode` TEXT NOT NULL, `custcode` TEXT NOT NULL, `fullname` TEXT NOT NULL, `mode` TEXT NOT NULL, PRIMARY KEY(`auto`))",
         "fields": [
           {
             "fieldPath": "auto",
@@ -79,6 +79,12 @@
           {
             "fieldPath": "fullname",
             "columnName": "fullname",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mode",
+            "columnName": "mode",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -132,7 +138,7 @@
       },
       {
         "tableName": "allcustomers",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `employeeid` INTEGER NOT NULL, `ecode` TEXT NOT NULL, `custcode` TEXT NOT NULL, `fullname` TEXT NOT NULL, PRIMARY KEY(`auto`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `employeeid` INTEGER NOT NULL, `ecode` TEXT NOT NULL, `custcode` TEXT NOT NULL, `fullname` TEXT NOT NULL, `mode` TEXT NOT NULL, PRIMARY KEY(`auto`))",
         "fields": [
           {
             "fieldPath": "auto",
@@ -163,6 +169,12 @@
             "columnName": "fullname",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "mode",
+            "columnName": "mode",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -176,7 +188,7 @@
       },
       {
         "tableName": "alloutlets",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `id` INTEGER NOT NULL, `urno` TEXT NOT NULL, `customerno` TEXT NOT NULL, `outletclassid` INTEGER NOT NULL, `outletlanguageid` INTEGER NOT NULL, `outlettypeid` INTEGER NOT NULL, `outletname` TEXT NOT NULL, `outletaddress` TEXT NOT NULL, `contactname` TEXT NOT NULL, `contactphone` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `outlet_pic` TEXT NOT NULL, `token` TEXT NOT NULL, `defaulttoken` TEXT NOT NULL, PRIMARY KEY(`auto`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `id` INTEGER NOT NULL, `urno` TEXT NOT NULL, `customerno` TEXT NOT NULL, `outletclassid` INTEGER NOT NULL, `outletlanguageid` INTEGER NOT NULL, `outlettypeid` INTEGER NOT NULL, `outletname` TEXT NOT NULL, `outletaddress` TEXT NOT NULL, `contactname` TEXT NOT NULL, `contactphone` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `outlet_pic` TEXT NOT NULL, `token` TEXT NOT NULL, `defaulttoken` TEXT NOT NULL, `sequenceno` INTEGER NOT NULL, PRIMARY KEY(`auto`))",
         "fields": [
           {
             "fieldPath": "auto",
@@ -272,6 +284,12 @@
             "fieldPath": "defaulttoken",
             "columnName": "defaulttoken",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sequenceno",
+            "columnName": "sequenceno",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -410,7 +428,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"1245e30103dc52b4678e0e0d329c998d\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"32df18827f87d28ab8a7803a8d981787\")"
     ]
   }
 }

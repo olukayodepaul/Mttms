@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.module_adapter.view.imageView
 import kotlinx.android.synthetic.main.module_adapter.view.tv_name
 
 
-
 class PcustomersAdapter(private var mItems: List<EntityAllCustomersList>,
                         private var context: Context
                         ) : RecyclerView.Adapter<PcustomersAdapter.ViewHolder>() {
@@ -40,22 +39,22 @@ class PcustomersAdapter(private var mItems: List<EntityAllCustomersList>,
     }
 
     companion object {
-        private val TAG = "CustomersAdapter"
+        private val TAG = "PcustomersAdapter"
     }
 
     inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
-        @SuppressLint("DefaultLocale")
+        @SuppressLint("DefaultLocale", "SetTextI18n")
         fun bind(item: EntityAllCustomersList) {
 
-            var letter: String? = item.fullname.substring(0, 1)
+            var letter: String? = item.fullname.substring(0, 1).toUpperCase()
             var generator = ColorGenerator.MATERIAL
             var drawable = TextDrawable.builder()
                 .buildRound(letter, generator.getRandomColor())
             containerView.imageView.setImageDrawable(drawable)
 
             containerView.tv_name.text = item.fullname.toLowerCase().capitalize()
-            containerView.tv_titles.text = ("${item.ecode}, ${item.custcode}").toLowerCase().capitalize()
+            containerView.tv_titles.text = "${item.ecode.toUpperCase()}, ${item.custcode.toUpperCase()}"
 
             containerView.setOnClickListener {
                 visitRepWithSharePreference()

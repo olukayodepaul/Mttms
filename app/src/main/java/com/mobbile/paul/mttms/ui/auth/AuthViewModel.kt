@@ -19,25 +19,18 @@ class AuthViewModel @Inject constructor(private val repository: Repository) : Vi
     }
 
     fun userAuth(username: String, password: String, imei: String, dateCheck: Boolean) {
-
         repository.userAuth(username, password, imei)
             .subscribe({
-
                 if (it.isSuccessful && it.body() != null && it.code() == 200 && it.body()!!.status == "OK") {
-
                     data = it.body()!!
-
                     if (!dateCheck) {
                         deleteModules()
                     } else {
-                        //dont set sharePreference
                         mSG(it.body()!!.msg, 200,1, it.body()!!.employee_id, it.body()!!.region_id, it.body()!!.depots_id)
                     }
-
                 } else {
                     mSG(it.body()!!.msg, 400, 0,0,0,0)
                 }
-
             }, {
                 mSG(it.message.toString(), 400, 0,0,0,0)
             }).isDisposed
@@ -56,6 +49,28 @@ class AuthViewModel @Inject constructor(private val repository: Repository) : Vi
 
     private fun deleteRepList() {
         repository.deleteRepList()
+            .subscribe(
+                {
+                    deleteAllcustomers()
+                }, {
+                    mSG(it.message.toString(), 400, 0,0,0,0)
+                }
+            ).isDisposed
+    }
+
+    private fun deleteAllcustomers() {
+        repository.deleteAllcustomers()
+            .subscribe(
+                {
+                    deleteAlloutlets()
+                }, {
+                    mSG(it.message.toString(), 400, 0,0,0,0)
+                }
+            ).isDisposed
+    }
+
+    private fun deleteAlloutlets() {
+        repository.deleteAlloutlets()
             .subscribe(
                 {
                     deleteSpiners()

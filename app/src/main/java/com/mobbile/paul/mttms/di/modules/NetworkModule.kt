@@ -31,12 +31,12 @@ class NetworkModule {
             val logging = HttpLoggingInterceptor()
             logging.level = HttpLoggingInterceptor.Level.BASIC
             okHttpClientBuilder
-                //.addInterceptor(ConnectivityInterceptorImpl(application))
+               // .addInterceptor(ConnectivityInterceptorImpl(application))
                 .addInterceptor(logging)
         }
 
         return Retrofit.Builder()
-            .baseUrl("http://82.163.72.135:8092")
+            .baseUrl("http://www.mobiletraderapi.com")
             .client(okHttpClientBuilder.build())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())

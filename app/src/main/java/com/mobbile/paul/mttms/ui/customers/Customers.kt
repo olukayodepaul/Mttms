@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -75,8 +74,6 @@ class Customers : BaseActivity() {
     }
 
     fun switchAdapters() {
-
-        Log.d(TAG, pStatus .toString())
         when {
             pDate == todayDates && pStatus == 200 -> {
                vmodel.persistAndFetchCustomers(
@@ -84,7 +81,8 @@ class Customers : BaseActivity() {
                    preferencesByInfo!!.getInt("specific_rep_id",0),
                    preferencesByInfo!!.getString("specific_edcode_id", ""),
                    preferencesByInfo!!.getString("specific_customer_id", ""),
-                   preferencesByInfo!!.getString("specific_fname_id", "")
+                   preferencesByInfo!!.getString("specific_fname_id", ""),
+                   preferencesByInfo!!.getString("specific_mode_id", "")
                 ).observe(this, PersistObserver)
             }
             pDate == todayDates && pStatus == 300 -> {
@@ -98,6 +96,11 @@ class Customers : BaseActivity() {
                 ).observe(this, observers)
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        switchAdapters()
     }
 
     val observers = Observer<InitAllCustomers> {
@@ -146,8 +149,8 @@ class Customers : BaseActivity() {
         editor.apply()
     }
 
-    companion object{
-        var TAG = "Outlets"
+    companion object {
+        var TAG = "Customers"
     }
 }
 

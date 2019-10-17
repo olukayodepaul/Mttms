@@ -5,6 +5,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import okhttp3.RequestBody
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,6 +37,16 @@ constructor(private val appDao: AppDao, private val api: Api) {
     }.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
+    fun deleteAllcustomers() = Observable.fromCallable {
+        appDao.deleteAllcustomers()
+    }.subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
+    fun deleteAlloutlets() = Observable.fromCallable {
+        appDao.deleteAlloutlets()
+    }.subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
     fun saveModulesANDspiners(
         modules: List<EntityModules>,
         spinners: List<EntitySpiners>
@@ -60,8 +71,8 @@ constructor(private val appDao: AppDao, private val api: Api) {
                 it
             }
 
-    fun insertIntoAllcustomers(auto:Int, employeeid:Int, ecode:String, custcode:String, fullname:String) = Observable.fromCallable {
-        appDao.insertIntoAllcustomers(auto, employeeid, ecode, custcode, fullname)
+    fun insertIntoAllcustomers(auto:Int, employeeid:Int, ecode:String, custcode:String, fullname:String, mode:String) = Observable.fromCallable {
+        appDao.insertIntoAllcustomers(auto, employeeid, ecode, custcode, fullname, mode)
     }.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
@@ -133,6 +144,43 @@ constructor(private val appDao: AppDao, private val api: Api) {
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
+    fun fetchAllEntryPerDaily(): Observable<List<EntityGetSalesEntry>> =
+        Observable.fromCallable {
+            appDao.fetchAllEntryPerDay()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+    fun sumAllSalesEntry(): Observable<SumSales> =
+        Observable.fromCallable {
+            appDao.sumAllSalesEntry()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+    fun updateCards(employee_id: Int, urno: String, outletclassid:Int, outletlanguageid: Int, outlettypeid:Int,
+                 outletname:String, outletaddress:String, contactname: String, contactphone:String, latitude:String,
+                 longitude:String,  entry_date_time:String, entry_date:String, outlet_pic: Map<String, RequestBody>): Single<Response<getCards>> =
+        api.updateCards(employee_id, urno, outletclassid, outletlanguageid, outlettypeid,
+            outletname, outletaddress, contactname, contactphone, latitude,
+            longitude, outlet_pic, entry_date_time, entry_date)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {it}
+
+    fun createNewCards(employee_id: Int, outletclassid:Int, outletlanguageid: Int, outlettypeid:Int,
+                 outletname:String, outletaddress:String, contactname: String, contactphone:String, latitude:String,
+                 longitude:String,  entry_date_time:String, entry_date:String, outlet_pic: Map<String, RequestBody>): Single<Response<getCards>> =
+        api.createNewCards(employee_id,  outletclassid, outletlanguageid, outlettypeid,
+            outletname, outletaddress, contactname, contactphone, latitude,
+            longitude, outlet_pic, entry_date_time, entry_date)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {it}
+
+    fun tmVisit( rep_id: Int, tm_id: Int, entry_date: String, entry_date_time: String): Single<Response<getCards>> =
+        api.tmVisit( rep_id, tm_id, entry_date, entry_date_time)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {it}
 
 
 }

@@ -21,7 +21,8 @@ data class EntityRepList(
     var employeeid: Int = 0,
     var edcode: String = "",
     var custcode: String = "",
-    var fullname: String = ""
+    var fullname: String = "",
+    var mode: String = ""
 )
 
 @Entity(tableName = "spiners")
@@ -40,7 +41,8 @@ data class EntityAllCustomersList (
     var employeeid: Int = 0,
     var ecode: String = "",
     var custcode: String = "",
-    var fullname: String = ""
+    var fullname: String = "",
+    var mode: String = ""
 )
 
 @Entity(tableName = "alloutlets")
@@ -61,7 +63,8 @@ data class EntityAllOutletsList (
     var longitude: Double = 0.0,
     var outlet_pic: String = "",
     var token: String = "",
-    var defaulttoken: String = ""
+    var defaulttoken: String = "",
+    var sequenceno: Int = 0
 )
 
 @Entity(tableName = "salesentries")
