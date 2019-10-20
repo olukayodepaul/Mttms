@@ -106,13 +106,11 @@ class MapOutlet : BaseActivity() {
                     }
                 }
             }
-            val mOutletClass =
-                ArrayAdapter(this, android.R.layout.simple_spinner_item, outletClassList)
+            val mOutletClass = ArrayAdapter(this, android.R.layout.simple_spinner_item, outletClassList)
             mOutletClass.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             custClass!!.adapter = mOutletClass
 
-            val mPreferedLang =
-                ArrayAdapter(this, android.R.layout.simple_spinner_item, preLangsList)
+            val mPreferedLang = ArrayAdapter(this, android.R.layout.simple_spinner_item, preLangsList)
             mPreferedLang.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             preflang!!.adapter = mPreferedLang
 

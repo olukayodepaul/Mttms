@@ -99,13 +99,13 @@ class Userauth : BaseActivity() {
         val tel = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         val validateDates = preferences!!.getString("today_date_preferences", "")
         if (permit == PackageManager.PERMISSION_GRANTED) {
-            //vmodel.userAuth("imoudu.g@mt3.com", "3236", tel.getImei(0), validateDates!!.equals(todayDates))
-            vmodel.userAuth(
+            vmodel.userAuth("imoudu.g@mt3.com", "3236", tel.getImei(0), validateDates!!.equals(todayDates))
+            /*vmodel.userAuth(
                 username,
                 password,
                 "351736103273508",
                 validateDates.equals(todayDates)
-            )
+            )*/
         } else {
             makeRequest()
         }

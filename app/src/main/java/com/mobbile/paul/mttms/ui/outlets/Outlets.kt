@@ -16,6 +16,7 @@ import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.AllOutletsList
 import com.mobbile.paul.mttms.models.EntityAllOutletsList
 import com.mobbile.paul.mttms.ui.outlets.mapoutlet.MapOutlet
+import com.mobbile.paul.mttms.util.Util.showSomeDialog
 import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_INFORMATION
 import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_VISIT
 import com.mobbile.paul.mttms.util.Utils.Companion.LOCAL_AND_REMOTE_CUSTOMERS
@@ -128,7 +129,7 @@ class Outlets : BaseActivity() {
 
     @SuppressLint("SimpleDateFormat")
     private val remoteObservers = Observer<List<AllOutletsList>> {
-        if (it != null) {
+        if (it != null && it.isNotEmpty()) {
             dataLocalList = it
             vmodel.takeTmVit(
                 preferencesByInfo!!.getInt("specific_rep_id",0),
@@ -136,6 +137,9 @@ class Outlets : BaseActivity() {
                 todayDates!!,
                 todayDates!!+' '+SimpleDateFormat("HH:mm:ss").format(Date())
                 ).observe(this,observeTmVisit)
+        }else{
+            showProgressBar(false)
+            showSomeDialog(this, "No Outlet populated for this rep","Outlet Error")
         }
     }
 
