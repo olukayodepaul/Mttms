@@ -204,7 +204,7 @@ class Customers : BaseActivity() {
             )
 
             if (!checkCustomerOutlet) {
-                GoogleApiAvailRationaleAlert("You are not at the corresponding outlet. Thanks!","Outlet Error")
+                GoogleApiAvailRationaleAlert("You are not at the corresponding outlet. Thanks!","Location Error")
             } else {
 
             }
