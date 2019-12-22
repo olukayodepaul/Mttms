@@ -297,6 +297,7 @@ class Customers : BaseActivity() {
             dialog.show()
         }else {
             switchAdapters()
+            Log.d(TAG,"")
         }
     }
 
