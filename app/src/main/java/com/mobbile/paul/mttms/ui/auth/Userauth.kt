@@ -22,11 +22,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.core.app.ActivityCompat.checkSelfPermission
 import com.mobbile.paul.mttms.util.Utils.Companion.isInternetAvailable
 import androidx.lifecycle.Observer
-import com.mobbile.paul.mttms.models.AuthObjectData
+import com.mobbile.paul.mttms.models.AuthBiData
 import com.mobbile.paul.mttms.ui.modules.Modules
-import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_INFORMATION
-import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_VISIT
-import com.mobbile.paul.mttms.util.Utils.Companion.LOCAL_AND_REMOTE_CUSTOMERS
 import com.mobbile.paul.mttms.util.Utils.Companion.USER_INFOS
 import java.text.SimpleDateFormat
 import java.util.*
@@ -42,12 +39,6 @@ class Userauth : BaseActivity() {
 
     var todayDates: String? = null
 
-    private var preferencesByVisit: SharedPreferences? = null
-
-    private var preferencesByInfo: SharedPreferences? = null
-
-    private var preferencesSwitcher: SharedPreferences? = null
-
 
     @SuppressLint("SimpleDateFormat")
     @RequiresApi(Build.VERSION_CODES.O)
@@ -55,12 +46,7 @@ class Userauth : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         vmodel = ViewModelProviders.of(this, modelFactory)[AuthViewModel::class.java]
-
         preferences = getSharedPreferences(USER_INFOS, Context.MODE_PRIVATE)
-        preferencesByVisit = getSharedPreferences(CUSTOMERS_VISIT, Context.MODE_PRIVATE)
-        preferencesByInfo = getSharedPreferences(CUSTOMERS_INFORMATION, Context.MODE_PRIVATE)
-        preferencesSwitcher = getSharedPreferences(LOCAL_AND_REMOTE_CUSTOMERS, Context.MODE_PRIVATE)
-
         todayDates = SimpleDateFormat("yyyy-MM-dd").format(Date())
         showProgressBar(false)
 
@@ -79,18 +65,6 @@ class Userauth : BaseActivity() {
         vmodel.authObservable().observe(this, authObserver)
     }
 
-    private val authObserver = Observer<AuthObjectData> {
-        showProgressBar(false)
-        when (it.status) {
-            200 -> {
-                saveUserInfoInSharePref(it)
-            }
-            else -> {
-                Toast.makeText(applicationContext, it.msg, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
     @RequiresApi(Build.VERSION_CODES.O)
     fun dataProcess() {
         val permit = checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
@@ -98,8 +72,9 @@ class Userauth : BaseActivity() {
         val password: String = et_password.text.toString()
         val tel = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         val validateDates = preferences!!.getString("today_date_preferences", "")
+
         if (permit == PackageManager.PERMISSION_GRANTED) {
-            vmodel.userAuth("imoudu.g@mt3.com", "3236", tel.getImei(0), validateDates!!.equals(todayDates))
+            vmodel.userAuth("soji.o@mt3.com", "4714", "359514065765015", validateDates!!)
             /*vmodel.userAuth(
                 username,
                 password,
@@ -108,6 +83,18 @@ class Userauth : BaseActivity() {
             )*/
         } else {
             makeRequest()
+        }
+    }
+
+    private val authObserver = Observer<AuthBiData> {
+        showProgressBar(false)
+        when (it.status) {
+            200 -> {
+                saveUserInfoInSharePref(it)
+            }
+            else -> {
+                Toast.makeText(applicationContext, it.msg, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -138,12 +125,9 @@ class Userauth : BaseActivity() {
         )
     }
 
-    private fun saveUserInfoInSharePref(auths: AuthObjectData) {
-        if(auths.setpref==2) {
+    private fun saveUserInfoInSharePref(auths: AuthBiData) {
+        if(auths.setpref==1) {
             preferences!!.edit().apply()
-            preferencesByVisit!!.edit().apply()
-            preferencesByInfo!!.edit().apply()
-            preferencesSwitcher!!.edit().apply()
             val editor = preferences!!.edit()
             editor.clear()
             editor.putString("today_date_preferences", todayDates)

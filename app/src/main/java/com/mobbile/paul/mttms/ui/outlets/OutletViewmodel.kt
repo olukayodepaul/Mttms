@@ -25,7 +25,7 @@ class OutletViewmodel @Inject constructor(private val repository: Repository): V
     fun fetchAllOutlets(employeeid: Int, today: String) {
 
         repository.fetchAllOutlets(employeeid, today).subscribe({
-            if (it.isSuccessful && it.body() != null && it.code() == 200 && it.body()!!.status == "OK") {
+            if (it.isSuccessful && it.body() != null && it.code() == 200 ) {
                 callback = it.body()!!.alloutlets
                 saveEntityAllOutletsList(it.body()!!.alloutlets)
             }

@@ -10,14 +10,20 @@ interface AppDao {
     @Query("DELETE FROM modules")
     fun deleteModules()
 
-    @Query("DELETE FROM replist")
+    /*@Query("DELETE FROM replist")
     fun deleteRepList()
+
+     */
+
+
 
     @Query("DELETE FROM spiners")
     fun deleteSpiners()
 
-    @Query("DELETE FROM allcustomers")
+    /*@Query("DELETE FROM allcustomers")
     fun deleteAllcustomers()
+
+     */
 
     @Query("DELETE FROM alloutlets")
     fun deleteAlloutlets()
@@ -28,22 +34,29 @@ interface AppDao {
         spinners: List<EntitySpiners>
     )
 
-    @Query("SELECT * FROM modules")
-    fun fetchModules(): List<EntityModules>
-
-    @Query("insert into allcustomers (auto, employeeid, ecode, custcode, fullname, mode) values (:auto, :employeeid,:ecode,:custcode,:fullname, :mode)")
-    fun insertIntoAllcustomers(auto:Int, employeeid:Int, ecode:String, custcode:String, fullname:String, mode:String)
-
-    @Query("SELECT * FROM allcustomers")
-    fun fetchEntityAllCustomersList(): List<EntityAllCustomersList>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveEntityAllOutletsList(
         alloutlets: List<EntityAllOutletsList>
     )
 
+    @Query("SELECT * FROM modules")
+    fun fetchModules(): List<EntityModules>
+
     @Query("SELECT * FROM alloutlets")
     fun fetchEntityAllOutletsList(): List<EntityAllOutletsList>
+
+   /* @Query("insert into allcustomers (auto, employeeid, ecode, custcode, fullname, mode) values (:auto, :employeeid,:ecode,:custcode,:fullname, :mode)")
+    fun insertIntoAllcustomers(auto:Int, employeeid:Int, ecode:String, custcode:String, fullname:String, mode:String)
+
+    */
+
+    /*@Query("SELECT * FROM allcustomers")
+    fun fetchEntityAllCustomersList(): List<EntityAllCustomersList>
+     */
+
+
+
+
 
     @Query("SELECT * FROM spiners")
     fun fetchSpinners() : List<EntitySpiners>
@@ -59,9 +72,11 @@ interface AppDao {
     @Query("UPDATE salesentries SET orders=:orders, inventory=:inventory, pricing=:pricing, entrytime=:entry_time, orderrice=:salesprice, contorder=:contOrder, contprincing=:contPrincing, continventory=:contInventory, mtamt = mtcom * :orders where  productid=:product_id")
     fun updateDailySales(orders: Double, inventory: Double, pricing: Int, entry_time: String,  product_id: String, salesprice: Double, contOrder: String, contPrincing: String, contInventory: String)
 
-
     @Query("SELECT count(id) FROM salesentries WHERE contorder= '' OR contprincing = '' OR continventory = ''")
     fun validateSalesEntry() : Int
+
+    @Query("SELECT count(auto) from alloutlets")
+    fun naviBtwcustAndRep():Int
 
     @Query("SELECT * FROM salesentries order by seperator asc")
     fun fetchAllEntryPerDay(): List<EntityGetSalesEntry>

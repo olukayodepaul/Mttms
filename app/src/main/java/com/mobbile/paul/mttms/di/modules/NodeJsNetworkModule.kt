@@ -16,11 +16,11 @@ import com.mobbile.paul.mttms.BuildConfig
 
 @Module
 @Suppress("unused")
-class NetworkModule {
+class NodeJsNetworkModule {
 
     @Provides
     @Singleton
-    @Named("application_api")
+    @Named("nodejs_api")
     internal fun provideRetrofitInstance(application: Application): Retrofit {
 
         val okHttpClientBuilder = OkHttpClient.Builder()
@@ -35,7 +35,7 @@ class NetworkModule {
         }
 
         return Retrofit.Builder()
-            .baseUrl("http://www.mobiletraderapi.com")
+            .baseUrl("http://mtnodejsapi.com")
             .client(okHttpClientBuilder.build())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())

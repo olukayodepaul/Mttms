@@ -25,7 +25,6 @@ import com.mobbile.paul.mttms.BaseActivity
 import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.EntitySpiners
 import com.mobbile.paul.mttms.util.Util.showSomeDialog
-import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_INFORMATION
 import kotlinx.android.synthetic.main.activity_map_outlet.*
 import javax.inject.Inject
 
@@ -57,7 +56,6 @@ class MapOutlet : BaseActivity() {
         setContentView(R.layout.activity_map_outlet)
         vmodel = ViewModelProviders.of(this, modelFactory)[MapOutletViewModel::class.java]
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        preferencesByInfo = getSharedPreferences(CUSTOMERS_INFORMATION, Context.MODE_PRIVATE)
 
         backbtn.setOnClickListener {
             onBackPressed()

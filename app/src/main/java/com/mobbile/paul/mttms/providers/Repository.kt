@@ -12,10 +12,10 @@ import javax.inject.Singleton
 
 @Singleton
 class Repository @Inject
-constructor(private val appDao: AppDao, private val api: Api) {
+constructor(private val appDao: AppDao, private val api: Api, private val nodejsApi: NodejsApi) {
 
     fun userAuth(username: String, password: String, imei: String): Single<Response<UserAuth>> =
-        api.getUser(username, password, imei)
+        nodejsApi.getUser(username, password, imei)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {
@@ -27,17 +27,19 @@ constructor(private val appDao: AppDao, private val api: Api) {
     }.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
-    fun deleteRepList() = Observable.fromCallable {
+    /*fun deleteRepList() = Observable.fromCallable {
         appDao.deleteRepList()
     }.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
+
+     */
 
     fun deleteSpiners() = Observable.fromCallable {
         appDao.deleteSpiners()
     }.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
-    fun deleteAllcustomers() = Observable.fromCallable {
+    /*fun deleteAllcustomers() = Observable.fromCallable {
         appDao.deleteAllcustomers()
     }.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
@@ -45,7 +47,7 @@ constructor(private val appDao: AppDao, private val api: Api) {
     fun deleteAlloutlets() = Observable.fromCallable {
         appDao.deleteAlloutlets()
     }.subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
+        .observeOn(AndroidSchedulers.mainThread())*/
 
     fun saveModulesANDspiners(
         modules: List<EntityModules>,
@@ -63,25 +65,31 @@ constructor(private val appDao: AppDao, private val api: Api) {
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun fetchAllCustomers(depotid: Int, regionid: Int): Single<Response<InitAllCustomers>> =
-        api.fetchAllCustomers(depotid, regionid)
+    /*fun fetchAllCustomers(depotid: Int, regionid: Int): Single<Response<InitAllCustomers>> =
+        nodejsApi.fetchAllCustomers(depotid, regionid)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {
                 it
             }
 
-    fun insertIntoAllcustomers(auto:Int, employeeid:Int, ecode:String, custcode:String, fullname:String, mode:String) = Observable.fromCallable {
+     */
+
+    /*fun insertIntoAllcustomers(auto:Int, employeeid:Int, ecode:String, custcode:String, fullname:String, mode:String) = Observable.fromCallable {
         appDao.insertIntoAllcustomers(auto, employeeid, ecode, custcode, fullname, mode)
     }.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
+     */
 
-    fun fetchEntityAllCustomersList(): Single<List<EntityAllCustomersList>> =
+
+    /*fun fetchEntityAllCustomersList(): Single<List<EntityAllCustomersList>> =
         Single.fromCallable {
             appDao.fetchEntityAllCustomersList()
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+
+     */
 
     fun fetchAllOutlets(employeeid: Int, today: String): Single<Response<InitAllOutlets>> =
         api.fetchAllOutlets(employeeid,today)
@@ -182,7 +190,30 @@ constructor(private val appDao: AppDao, private val api: Api) {
             .observeOn(AndroidSchedulers.mainThread())
             .map {it}
 
+    //new adjustment
+    fun naviBtwcustAndRe(): Single<Int> =
+        Single.fromCallable{
+            appDao.naviBtwcustAndRep()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
 
+    fun tmreplist(depotid: Int, regionid: Int): Single<Response<SalesReps>> =
+        nodejsApi.fetchAllReps(depotid,regionid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map{it}
+
+    fun tmrepcustomer(repid: Int, tmid: Int): Single<Response<InitAllOutlets>> =
+        nodejsApi.fetchAllCustomers(repid,tmid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map{it}
+
+    fun fetchAllCustomers(): Single<List<EntityAllOutletsList>> =
+        Single.fromCallable {
+            appDao.fetchEntityAllOutletsList()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
 }
 
 

@@ -7,8 +7,7 @@ import com.mobbile.paul.mttms.models.*
 
 
 @Database(entities = [
-    EntityModules::class, EntityRepList::class, EntitySpiners::class,
-    EntityAllCustomersList::class, EntityAllOutletsList::class, EntityGetSalesEntry::class
+    EntityModules::class, EntitySpiners::class, EntityAllOutletsList::class,EntityGetSalesEntry::class
    ], version = 1)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {

@@ -17,9 +17,6 @@ import com.mobbile.paul.mttms.models.AllOutletsList
 import com.mobbile.paul.mttms.models.EntityAllOutletsList
 import com.mobbile.paul.mttms.ui.outlets.mapoutlet.MapOutlet
 import com.mobbile.paul.mttms.util.Util.showSomeDialog
-import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_INFORMATION
-import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_VISIT
-import com.mobbile.paul.mttms.util.Utils.Companion.LOCAL_AND_REMOTE_CUSTOMERS
 import com.mobbile.paul.mttms.util.Utils.Companion.USER_INFOS
 import kotlinx.android.synthetic.main.activity_outlets.*
 import kotlinx.android.synthetic.main.activity_outlets.backbtn
@@ -61,6 +58,7 @@ class Outlets : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_outlets)
+        /*
         vmodel = ViewModelProviders.of(this, modelFactory)[OutletViewmodel::class.java]
         preferencesByInfo = getSharedPreferences(CUSTOMERS_INFORMATION, Context.MODE_PRIVATE)
         preferencesByVisit = getSharedPreferences(CUSTOMERS_VISIT, Context.MODE_PRIVATE)
@@ -91,7 +89,10 @@ class Outlets : BaseActivity() {
             mapOutlets()
         }
         counts.text = SimpleDateFormat("EEE, MMM dd, ''yy").format(Date())
+
+         */
     }
+    /*
 
     private fun mapOutlets(){
         val intent = Intent(this, MapOutlet::class.java)
@@ -163,4 +164,6 @@ class Outlets : BaseActivity() {
     companion object{
         var TAG = "DODOS"
     }
+
+     */
 }

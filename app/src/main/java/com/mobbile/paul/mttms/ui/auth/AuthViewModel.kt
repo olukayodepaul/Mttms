@@ -1,38 +1,47 @@
 package com.mobbile.paul.mttms.ui.auth
 
+
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mobbile.paul.mttms.models.*
 import com.mobbile.paul.mttms.providers.Repository
+import com.mobbile.paul.mttms.util.Util.AuthbiData
 import javax.inject.Inject
 
 class AuthViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
     private lateinit var data: UserAuth
 
-    private var dataPasser = AuthObjectData()
+    private var responseData = MutableLiveData<AuthBiData>()
 
-    private var ObResult = MutableLiveData<AuthObjectData>()
-
-    fun authObservable(): MutableLiveData<AuthObjectData> {
-        return ObResult
+    fun authObservable(): MutableLiveData<AuthBiData> {
+        return responseData
     }
 
-    fun userAuth(username: String, password: String, imei: String, dateCheck: Boolean) {
+    fun userAuth(username: String, password: String, imei: String, appdate: String) {
         repository.userAuth(username, password, imei)
             .subscribe({
-                if (it.isSuccessful && it.body() != null && it.code() == 200 && it.body()!!.status == "OK") {
-                    data = it.body()!!
-                    if (!dateCheck) {
-                        deleteModules()
-                    } else {
-                        mSG(it.body()!!.msg, 200,1, it.body()!!.employee_id, it.body()!!.region_id, it.body()!!.depots_id)
+
+                data = it.body()!!
+
+                if(it.isSuccessful && it.body() != null && it.code() == 200 && it.body()!!.status==200) {
+                    if(data.modules!!.isEmpty() && data.spinners!!.isEmpty()) {
+                        AuthbiData(0,responseData,0,0,0,500,"Error, App Module and TM Rep is missing from the endpoint. Please contact developer")
+                    }else{
+                        if(appdate != data.dates) {
+                            Log.d(TAG, "${appdate} ${data.dates} 2")
+                            deleteModules()
+                        }else{
+                            Log.d(TAG, "${appdate} ${data.dates} 4")
+                            AuthbiData(2,responseData,data.depots_id,data.region_id,data.employee_id,data.status,data.notification)
+                        }
                     }
-                } else {
-                    mSG(it.body()!!.msg, 400, 0,0,0,0)
+                }else{
+                    AuthbiData(0,responseData,data.depots_id,data.region_id,data.employee_id,data.status,data.notification)
                 }
             }, {
-                mSG(it.message.toString(), 400, 0,0,0,0)
+                AuthbiData(0,responseData,0,0,0,500,it.message.toString())
             }).isDisposed
     }
 
@@ -40,45 +49,13 @@ class AuthViewModel @Inject constructor(private val repository: Repository) : Vi
         repository.deleteModules()
             .subscribe(
                 {
-                    deleteRepList()
-                }, {
-                    mSG(it.message.toString(), 400, 0,0,0,0)
-                }
-            ).isDisposed
-    }
-
-    private fun deleteRepList() {
-        repository.deleteRepList()
-            .subscribe(
-                {
-                    deleteAllcustomers()
-                }, {
-                    mSG(it.message.toString(), 400, 0,0,0,0)
-                }
-            ).isDisposed
-    }
-
-    private fun deleteAllcustomers() {
-        repository.deleteAllcustomers()
-            .subscribe(
-                {
-                    deleteAlloutlets()
-                }, {
-                    mSG(it.message.toString(), 400, 0,0,0,0)
-                }
-            ).isDisposed
-    }
-
-    private fun deleteAlloutlets() {
-        repository.deleteAlloutlets()
-            .subscribe(
-                {
                     deleteSpiners()
                 }, {
-                    mSG(it.message.toString(), 400, 0,0,0,0)
+                    AuthbiData(0,responseData,0,0,0,500,it.message.toString())
                 }
             ).isDisposed
     }
+
 
     private fun deleteSpiners() {
         repository.deleteSpiners()
@@ -86,30 +63,20 @@ class AuthViewModel @Inject constructor(private val repository: Repository) : Vi
                 {
                     inserIntoTable()
                 }, {
-                    mSG(it.message.toString(), 400, 0,0,0,0)
+                    AuthbiData(0,responseData,0,0,0,500,it.message.toString())
                 }
             ).isDisposed
     }
 
     private fun inserIntoTable() {
         repository.saveModulesANDspiners(
-            data.modules!!.map { it.toEntityModules()},
-            data.spinners!!.map { it.toEntitySpiners()}
+            data.modules!!.map{it.toEntityModules()},
+            data.spinners!!.map{it.toEntitySpiners()}
         ).subscribe({
-            mSG(data.msg, 200,2,data.employee_id, data.region_id, data.depots_id)
-        }, {
-            mSG(it.message.toString(), 400, 0,0,0,0)
+            AuthbiData(1,responseData,data.depots_id,data.region_id,data.employee_id,data.status,data.notification)
+        },{
+            AuthbiData(0,responseData,0,0,0,500,it.message.toString())
         }).isDisposed
-    }
-
-    private fun mSG(msg: String, status: Int,  setpref:Int, employeeid: Int, regionid: Int, depotid: Int) {
-        dataPasser.status = status
-        dataPasser.msg = msg
-        dataPasser.setpref = setpref
-        dataPasser.employeeid = employeeid
-        dataPasser.depots_id = depotid
-        dataPasser.region_id = regionid
-        ObResult.postValue(dataPasser)
     }
 
     companion object {

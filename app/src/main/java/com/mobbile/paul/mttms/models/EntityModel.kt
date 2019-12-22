@@ -14,17 +14,6 @@ data class EntityModules(
     var imageurl: String = ""
 )
 
-@Entity(tableName = "replist")
-data class EntityRepList(
-    @PrimaryKey(autoGenerate = false)
-    var auto: Int = 0,
-    var employeeid: Int = 0,
-    var edcode: String = "",
-    var custcode: String = "",
-    var fullname: String = "",
-    var mode: String = ""
-)
-
 @Entity(tableName = "spiners")
 data class EntitySpiners(
     @PrimaryKey(autoGenerate = false)
@@ -34,23 +23,12 @@ data class EntitySpiners(
     var sep: Int = 0
 )
 
-@Entity(tableName = "allcustomers")
-data class EntityAllCustomersList (
-    @PrimaryKey(autoGenerate = false)
-    var auto: Int = 0,
-    var employeeid: Int = 0,
-    var ecode: String = "",
-    var custcode: String = "",
-    var fullname: String = "",
-    var mode: String = ""
-)
-
 @Entity(tableName = "alloutlets")
 data class EntityAllOutletsList (
     @PrimaryKey(autoGenerate = false)
     var auto: Int = 0,
-    var id: Int = 0,
-    var urno: String = "" ,
+    var rep_id: Int = 0,
+    var urno: Int = 0,
     var customerno: String = "",
     var outletclassid: Int = 0,
     var outletlanguageid: Int = 0,
@@ -64,7 +42,14 @@ data class EntityAllOutletsList (
     var outlet_pic: String = "",
     var token: String = "",
     var defaulttoken: String = "",
-    var sequenceno: Int = 0
+    var sequenceno: Int = 0,
+    var mode:String="",
+    var tm_id: Int = 0,
+    var dates:String="",
+    var volumeclass:String="",
+    var rep_name:String="",
+    var sort: Int = 0,
+    var notice: String= ""
 )
 
 @Entity(tableName = "salesentries")

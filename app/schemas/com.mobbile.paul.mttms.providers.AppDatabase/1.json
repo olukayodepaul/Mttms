@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "32df18827f87d28ab8a7803a8d981787",
+    "identityHash": "7dcdcdf725ffc7dd6c578e875c0afb5c",
     "entities": [
       {
         "tableName": "modules",
@@ -35,56 +35,6 @@
           {
             "fieldPath": "imageurl",
             "columnName": "imageurl",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "auto"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
-        "tableName": "replist",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `employeeid` INTEGER NOT NULL, `edcode` TEXT NOT NULL, `custcode` TEXT NOT NULL, `fullname` TEXT NOT NULL, `mode` TEXT NOT NULL, PRIMARY KEY(`auto`))",
-        "fields": [
-          {
-            "fieldPath": "auto",
-            "columnName": "auto",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "employeeid",
-            "columnName": "employeeid",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "edcode",
-            "columnName": "edcode",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "custcode",
-            "columnName": "custcode",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "fullname",
-            "columnName": "fullname",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "mode",
-            "columnName": "mode",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -137,58 +87,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "allcustomers",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `employeeid` INTEGER NOT NULL, `ecode` TEXT NOT NULL, `custcode` TEXT NOT NULL, `fullname` TEXT NOT NULL, `mode` TEXT NOT NULL, PRIMARY KEY(`auto`))",
-        "fields": [
-          {
-            "fieldPath": "auto",
-            "columnName": "auto",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "employeeid",
-            "columnName": "employeeid",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "ecode",
-            "columnName": "ecode",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "custcode",
-            "columnName": "custcode",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "fullname",
-            "columnName": "fullname",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "mode",
-            "columnName": "mode",
-            "affinity": "TEXT",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "columnNames": [
-            "auto"
-          ],
-          "autoGenerate": false
-        },
-        "indices": [],
-        "foreignKeys": []
-      },
-      {
         "tableName": "alloutlets",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `id` INTEGER NOT NULL, `urno` TEXT NOT NULL, `customerno` TEXT NOT NULL, `outletclassid` INTEGER NOT NULL, `outletlanguageid` INTEGER NOT NULL, `outlettypeid` INTEGER NOT NULL, `outletname` TEXT NOT NULL, `outletaddress` TEXT NOT NULL, `contactname` TEXT NOT NULL, `contactphone` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `outlet_pic` TEXT NOT NULL, `token` TEXT NOT NULL, `defaulttoken` TEXT NOT NULL, `sequenceno` INTEGER NOT NULL, PRIMARY KEY(`auto`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `rep_id` INTEGER NOT NULL, `urno` INTEGER NOT NULL, `customerno` TEXT NOT NULL, `outletclassid` INTEGER NOT NULL, `outletlanguageid` INTEGER NOT NULL, `outlettypeid` INTEGER NOT NULL, `outletname` TEXT NOT NULL, `outletaddress` TEXT NOT NULL, `contactname` TEXT NOT NULL, `contactphone` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `outlet_pic` TEXT NOT NULL, `token` TEXT NOT NULL, `defaulttoken` TEXT NOT NULL, `sequenceno` INTEGER NOT NULL, `mode` TEXT NOT NULL, `tm_id` INTEGER NOT NULL, `dates` TEXT NOT NULL, `volumeclass` TEXT NOT NULL, `rep_name` TEXT NOT NULL, `sort` INTEGER NOT NULL, `notice` TEXT NOT NULL, PRIMARY KEY(`auto`))",
         "fields": [
           {
             "fieldPath": "auto",
@@ -197,15 +97,15 @@
             "notNull": true
           },
           {
-            "fieldPath": "id",
-            "columnName": "id",
+            "fieldPath": "rep_id",
+            "columnName": "rep_id",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "urno",
             "columnName": "urno",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -290,6 +190,48 @@
             "fieldPath": "sequenceno",
             "columnName": "sequenceno",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mode",
+            "columnName": "mode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tm_id",
+            "columnName": "tm_id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dates",
+            "columnName": "dates",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "volumeclass",
+            "columnName": "volumeclass",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "rep_name",
+            "columnName": "rep_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sort",
+            "columnName": "sort",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notice",
+            "columnName": "notice",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
@@ -428,7 +370,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"32df18827f87d28ab8a7803a8d981787\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"7dcdcdf725ffc7dd6c578e875c0afb5c\")"
     ]
   }
 }

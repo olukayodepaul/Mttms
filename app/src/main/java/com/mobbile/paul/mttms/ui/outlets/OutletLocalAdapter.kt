@@ -88,7 +88,7 @@ class OutletLocalAdapter(
 
             val passer = EntityAllOutletsList()
             passer.auto = item.auto
-            passer.id = item.id
+            passer.rep_id = item.rep_id
             passer.urno = item.urno
             passer.customerno = item.customerno
             passer.outletclassid = item.outletclassid
@@ -103,7 +103,7 @@ class OutletLocalAdapter(
             passer.outlet_pic = item.outlet_pic
 
             val intent = Intent(context, OutletUpdate::class.java)
-            intent.putExtra("extra_item", passer.toAllOutletsList())
+            //intent.putExtra("extra_item", passer.toAllOutletsList())
             context.startActivity(intent)
         }
 
@@ -120,7 +120,7 @@ class OutletLocalAdapter(
 
         private fun salesEntries(item: EntityAllOutletsList) {
             val intent = Intent(context, Entries::class.java)
-            intent.putExtra("outletid", item.id)
+            intent.putExtra("outletid", item.rep_id)
             intent.putExtra("passerUrno", item.urno)
             intent.putExtra("passerCustno", item.customerno)
             intent.putExtra("passerOutletname", item.outletname)
@@ -131,7 +131,7 @@ class OutletLocalAdapter(
             context.startActivity(intent)
         }
     }
-    companion object{
+    companion object {
         var TAG = "OutletLocalAdapter"
     }
 }

@@ -18,7 +18,6 @@ import com.mobbile.paul.mttms.models.setSalesEntry
 import com.mobbile.paul.mttms.providers.Repository
 import com.mobbile.paul.mttms.ui.outlets.sku.SkuActivity
 import com.mobbile.paul.mttms.util.Utils
-import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_INFORMATION
 import com.mobbile.paul.mttms.util.Utils.Companion.USER_INFOS
 import kotlinx.android.synthetic.main.activity_entries.*
 import javax.inject.Inject
@@ -51,6 +50,7 @@ class Entries : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entries)
+        /*
         vmodel = ViewModelProviders.of(this, modelFactory)[EntriesViewModel::class.java]
         preferencesByInfo = getSharedPreferences(CUSTOMERS_INFORMATION, Context.MODE_PRIVATE)
         preferences = getSharedPreferences(USER_INFOS, Context.MODE_PRIVATE)
@@ -78,7 +78,10 @@ class Entries : BaseActivity() {
 
         vmodel.comData().observe(this, observeComData)
         initViews()
+
+         */
     }
+    /*
 
     override fun onRestart() {
         super.onRestart()
@@ -147,5 +150,7 @@ class Entries : BaseActivity() {
     companion object{
         var TAG = "Entries"
     }
+    */
+
 }
 

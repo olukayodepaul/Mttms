@@ -8,20 +8,7 @@ import retrofit2.http.*
 
 interface Api {
 
-    @Headers("Connection:close")
-    @POST("/tm_login")
-    fun getUser(
-        @Query("username") username: String,
-        @Query("password") password: String,
-        @Query("imei") imei: String
-    ): Single<Response<UserAuth>>
 
-    @Headers("Connection:close")
-    @POST("/tm_reps")
-    fun fetchAllCustomers(
-        @Query("depotid") depotid: Int,
-        @Query("regionid") regionid: Int
-    ): Single<Response<InitAllCustomers>>
 
     @Headers("Connection:close")
     @POST("/tm_outlets")

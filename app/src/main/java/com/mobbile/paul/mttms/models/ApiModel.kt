@@ -6,27 +6,43 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 data class UserAuth(
+
     @SerializedName("status")
     @Expose
-    var status: String = "",
-    @SerializedName("msg")
+    var status: Int,
+
+    @SerializedName("massage")
     @Expose
-    var msg: String = "",
+    var massage: String = "",
+
+    @SerializedName("notification")
+    @Expose
+    var notification: String = "",
+
     @SerializedName("employee_id")
     @Expose
     var employee_id: Int,
+
     @SerializedName("depots_id")
     @Expose
     var depots_id: Int,
+
+    @SerializedName("dates")
+    @Expose
+    var dates: String,
+
     @SerializedName("region_id")
     @Expose
     var region_id: Int,
+
     @SerializedName("modules")
     @Expose
     var modules: List<UserModules>? = null,
+
     @SerializedName("reps")
     @Expose
     var reps: List<RepList>? = null,
+
     @SerializedName("spinners")
     @Expose
     var spinners: List<UserSpinners>? = null
@@ -86,19 +102,16 @@ data class UserSpinners(
     var sep: Int = 0
 )
 
-data class InitAllCustomers (
+data class SalesReps (
     @SerializedName("status")
     @Expose
-    var status: String? = null,
-    @SerializedName("counts")
-    @Expose
-    var counts: Int? = null,
+    var status: Int = 0,
     @SerializedName("allreps")
     @Expose
-    var allreps: List<AllCustomersList>? = null
+    var allreps: List<AllTheSalesRep>? = null
 )
 
-data class AllCustomersList (
+data class AllTheSalesRep (
     @SerializedName("auto")
     @Expose
     var auto: Int = 0,
@@ -122,10 +135,10 @@ data class AllCustomersList (
 data class InitAllOutlets (
     @SerializedName("status")
     @Expose
-    var status: String? = null,
-    @SerializedName("counts")
+    var status: Int = 0,
+    @SerializedName("notis")
     @Expose
-    var counts: Int? = null,
+    var notis: String = "",
     @SerializedName("alloutlets")
     @Expose
     var alloutlets: List<AllOutletsList>?=null
@@ -136,12 +149,12 @@ data class AllOutletsList (
     @SerializedName("auto")
     @Expose
     var auto: Int = 0,
-    @SerializedName("id")
+    @SerializedName("rep_id")
     @Expose
-    var id: Int = 0,
+    var rep_id: Int = 0,
     @SerializedName("urno")
     @Expose
-    var urno: String = "",
+    var urno: Int = 0,
     @SerializedName("customerno")
     @Expose
     var customerno: String = "",
@@ -183,7 +196,30 @@ data class AllOutletsList (
     var defaulttoken: String = "",
     @SerializedName("sequenceno")
     @Expose
-    var sequenceno: Int = 0
+    var sequenceno: Int = 0,
+    @SerializedName("mode")
+    @Expose
+    var mode:String="",
+    @SerializedName("tm_id")
+    @Expose
+    var tm_id: Int = 0,
+    @SerializedName("dates")
+    @Expose
+    var dates:String="",
+    @SerializedName("volumeclass")
+    @Expose
+    var volumeclass:String="",
+    @SerializedName("rep_name")
+    @Expose
+    var rep_name:String="",
+    @SerializedName("sort")
+    @Expose
+    var sort: Int= 0,
+    @SerializedName("notice")
+    @Expose
+    var notice: String= ""
+
+
 
 ): Parcelable
 

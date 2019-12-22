@@ -25,7 +25,6 @@ import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.AllOutletsList
 import com.mobbile.paul.mttms.models.EntitySpiners
 import com.mobbile.paul.mttms.util.Util.showSomeDialog
-import com.mobbile.paul.mttms.util.Utils.Companion.CUSTOMERS_INFORMATION
 import com.mobbile.paul.mttms.util.Utils.Companion.USER_INFOS
 import com.mobbile.paul.mttms.util.Utils.Companion.isInternetAvailable
 import kotlinx.android.synthetic.main.activity_update_outlets.*
@@ -64,10 +63,9 @@ class OutletUpdate : BaseActivity() {
         setContentView(R.layout.activity_update_outlets)
         vmodel = ViewModelProviders.of(this, modelFactory)[OutletUpdateViewModel::class.java]
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        preferencesByInfo = getSharedPreferences(CUSTOMERS_INFORMATION, Context.MODE_PRIVATE)
         preferences = getSharedPreferences(USER_INFOS, Context.MODE_PRIVATE)
 
-        customers = intent.extras!!.getParcelable("extra_item")!!
+        //customers = intent.extras!!.getParcelable("extra_item")!!
         customer_name_edit.setText(customers.outletname)
         contact_name_edit.setText(customers.contactname)
         address_edit.setText(customers.outletaddress)

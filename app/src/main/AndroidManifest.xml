@@ -22,19 +22,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.outlets.updateoutlets.AttachPhoto"></activity>
+        <activity android:name=".ui.StockReturn.StockReturn"></activity>
+        <activity android:name=".ui.banks.Banks" />
+        <activity android:name=".ui.attendant_basket.AttendantBasket" />
+        <activity android:name=".ui.outlets.updateoutlets.AttachPhoto" />
         <activity android:name=".ui.outlets.sku.SkuActivity" />
         <activity android:name=".ui.outlets.entries.Entries" />
         <activity android:name=".ui.outlets.mapoutlet.MapOutlet" />
         <activity android:name=".ui.outlets.mapoutlet.AttachPhotos" />
         <activity android:name=".ui.outlets.updateoutlets.OutletUpdate" />
         <activity android:name=".ui.outlets.Outlets" />
-        <activity android:name=".ui.customers.Customers" />
+        <activity
+            android:name=".ui.customers.Customers"
+            android:screenOrientation="portrait" />
         <activity android:name=".ui.messages.Messages" />
         <activity android:name=".ui.customerlist.CustomerListViwePager" />
         <activity android:name=".ui.replist.RepList" />
         <activity android:name=".ui.modules.Modules" />
-        <activity android:name=".ui.auth.Userauth">
+        <activity
+            android:name=".ui.auth.Userauth"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

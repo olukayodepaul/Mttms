@@ -87,7 +87,8 @@ class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
         private fun updateOutlets(item: AllOutletsList) {
             val passer = AllOutletsList(
                 item.auto,
-                item.id,item.urno,
+                item.rep_id,
+                item.urno,
                 item.customerno,
                 item.outletclassid,
                 item.outletlanguageid,
@@ -101,7 +102,7 @@ class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
                 item.outlet_pic
             )
             val intent = Intent(context, OutletUpdate::class.java)
-            intent.putExtra("extra_item", passer)
+            //intent.putExtra("extra_item", passer)
             context.startActivity(intent)
         }
 
@@ -118,7 +119,7 @@ class OutletRemoteAdapter(private var mItems: List<AllOutletsList>,
 
         private fun salesEntries(item: AllOutletsList) {
              val intent = Intent(context, Entries::class.java)
-             intent.putExtra("outletid", item.id)
+             intent.putExtra("outletid", item.rep_id)
              intent.putExtra("passerUrno", item.urno)
              intent.putExtra("passerCustno", item.customerno)
              intent.putExtra("passerOutletname", item.outletname)

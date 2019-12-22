@@ -1,65 +1,87 @@
 package com.mobbile.paul.mttms.ui.customers
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mobbile.paul.mttms.models.*
 import com.mobbile.paul.mttms.providers.Repository
+import com.mobbile.paul.mttms.util.Util.repCustdata
+import com.mobbile.paul.mttms.util.Util.salesRepCustdata
 import javax.inject.Inject
 
 class CustomersViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
+    private val emptyoutlet: List<EntityAllOutletsList> = emptyList()
 
-    fun persistAndFetchCustomers(
-        auto: Int,
-        employeeid: Int,
-        ecode: String?,
-        custcode: String?,
-        fullname: String?,
-        mode: String?
-    ): LiveData<List<EntityAllCustomersList>> {
-        var mResult = MutableLiveData<List<EntityAllCustomersList>>()
-        repository.insertIntoAllcustomers(auto, employeeid, ecode!!, custcode!!, fullname!!, mode!!)
-            .subscribe({
-                repository.fetchEntityAllCustomersList()
-                    .subscribe({
-                        mResult.postValue(it)
-                    }, {
+    private val emptyrep: List<AllTheSalesRep> = emptyList()
 
-                    }).isDisposed
-            }, {
-            }).isDisposed
-        return mResult
+    var repSelection = MutableLiveData<repAndCustomerData>()
+
+    fun selectAnyReps(): LiveData<repAndCustomerData> {
+        return repSelection
     }
 
-    fun fetchAllCustomers(depotid: Int, regionid: Int): LiveData<InitAllCustomers> {
-        var mResult = MutableLiveData<InitAllCustomers>()
-        repository.fetchAllCustomers(depotid, regionid)
-            .subscribe({
-                if (it.isSuccessful && it.body() != null && it.code() == 200 && it.body()!!.status == "OK") {
-                    Log.d(TAG, it.body().toString())
-                    mResult.postValue(it.body())
+    lateinit var  initData: InitAllOutlets
+
+    fun fetchsAllCustomers(depotid: Int, regionid: Int): LiveData<SalesRepAndCustomerData> {
+        val mResult = MutableLiveData<SalesRepAndCustomerData>()
+        repository.naviBtwcustAndRe()
+            .subscribe({ localData ->
+                if(localData==0){
+                    repository.tmreplist(depotid, regionid)
+                        .subscribe({apiData ->
+                            val  data: SalesReps = apiData.body()!!
+                            if (data.allreps!!.isEmpty()) {
+                                salesRepCustdata(mResult, 400, emptyrep, emptyoutlet)
+                            } else {
+                                salesRepCustdata(mResult, 200, data.allreps!!, emptyoutlet)
+                            }
+                        },{
+                            salesRepCustdata(mResult, 400, emptyrep, emptyoutlet)
+                        }).isDisposed
+                }else{
+                    repository.fetchAllCustomers()
+                        .subscribe({
+                            salesRepCustdata(mResult, 300, emptyrep, it)
+                        },{
+                            salesRepCustdata(mResult, 400, emptyrep, emptyoutlet)
+                        }).isDisposed
                 }
             }, {
-                Log.d(TAG, it.message.toString())
+                salesRepCustdata(mResult, 400, emptyrep, emptyoutlet)
             }).isDisposed
         return mResult
     }
 
-    fun fetchCustOnly(): LiveData<List<EntityAllCustomersList>> {
-        var mResult = MutableLiveData<List<EntityAllCustomersList>>()
-        repository.fetchEntityAllCustomersList()
-            .subscribe({
-                mResult.postValue(it)
-            }, {
-            }).isDisposed
-        return mResult
+    fun getAllCustomerReps(repid: Int, tmid:Int) {
+        repository.tmrepcustomer(repid,tmid)
+            .subscribe(
+                {
+                    initData  = it.body()!!
+                    if(initData.status==200) {
+                        inserIntoTable()
+                    }else {
+                        repCustdata(repSelection, initData.status, initData.notis)
+                    }
+                },
+                {
+                    repCustdata(repSelection, 401, "${it.message}")
+                }
+            ).isDisposed
     }
 
+    private fun inserIntoTable() {
+        repository.saveEntityAllOutletsList(
+            initData.alloutlets!!.map{ it.toEntityAllOutletsList()}
+        ).subscribe({
+            repCustdata(repSelection, initData.status, initData.notis)
+        },{
+            repCustdata(repSelection, 401, "${it.message}")
+        }).isDisposed
+    }
 
     companion object {
-        private val TAG = "CustomersViewModel"
+        private val TAG = "ALLTo"
     }
 }
