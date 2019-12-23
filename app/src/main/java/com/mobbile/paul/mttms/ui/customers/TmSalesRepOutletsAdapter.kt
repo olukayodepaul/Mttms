@@ -47,60 +47,60 @@ class TmSalesRepOutletsAdapter(
     inner class ViewHolder(override val containerView: View) :
         RecyclerView.ViewHolder(containerView),
         LayoutContainer {
-        @SuppressLint("DefaultLocale")
         fun bind(
             item: EntityAllOutletsList,
             itemClickListener: KFunction2<@ParameterName(name = "partItem") EntityAllOutletsList, @ParameterName(name = "separator") Int, Unit>
         ) {
-            val letter: String? = item.outletname.substring(0, 1).toUpperCase()
+            val letter: String? = item.outletname.substring(0, 1)
             val generator = ColorGenerator.MATERIAL
             val drawable = TextDrawable.builder()
                 .buildRound(letter, generator.getRandomColor())
             containerView.imageView.setImageDrawable(drawable)
 
-            containerView.tv_name.text = item.outletname.toLowerCase().capitalize()
-            containerView.tv_titles.text = ("${item.urno}, ${item.customerno}").toLowerCase().capitalize()
+            containerView.tv_name.text = item.outletname
+            containerView.tv_titles.text = ("${item.urno}, ${item.customerno}, ${item.volumeclass}")
             containerView.tv_sequence.text = "${item.sequenceno}"
 
             containerView.icons_images.setOnClickListener {
                 showPopup(containerView, item, itemClickListener)
             }
 
-            when(item.sort){
-                1->{
-                    containerView.icons_images.visibility = View.GONE
-                    containerView.tv_sequence.visibility = View.GONE
-                    containerView.tv_titles.text = item.notice.toLowerCase().capitalize()
-                }
-                3->{
-                    containerView.icons_images.visibility = View.GONE
-                    containerView.tv_sequence.visibility = View.GONE
-                    containerView.tv_titles.text = item.notice.toLowerCase().capitalize()
-                }
-                4->{
-                    containerView.icons_images.visibility = View.GONE
-                    containerView.tv_sequence.visibility = View.GONE
-                    containerView.tv_titles.text = item.notice.toLowerCase().capitalize()
-                }
+            if(item.sort==1){
+                containerView.icons_images.visibility = View.GONE
+                containerView.tv_sequence.visibility = View.GONE
+                containerView.tv_titles.text = item.notice
+            }
+
+            if(item.sort==3){
+                containerView.icons_images.visibility = View.GONE
+                containerView.tv_sequence.visibility = View.GONE
+                containerView.tv_titles.text = item.notice
+            }
+
+            if(item.sort==4){
+                containerView.icons_images.visibility = View.GONE
+                containerView.tv_sequence.visibility = View.GONE
+                containerView.tv_titles.text = item.notice
             }
 
             containerView.setOnClickListener {
-                var intent: Intent? = null
                 when(item.sort) {
                     1->{
-                        intent = Intent(context, AttendantBasket::class.java)
+                        val intent = Intent(context, AttendantBasket::class.java)
+                        context.startActivity(intent)
                     }
                     3->{
-                        intent = Intent(context, Banks::class.java)
+                        val intent = Intent(context, Banks::class.java)
+                        context.startActivity(intent)
                     }
                     4->{
-                        intent = Intent(context, StockReturn::class.java)
+                        val intent = Intent(context, StockReturn::class.java)
+                        context.startActivity(intent)
                     }
                 }
-                context.startActivity(intent)
+
             }
         }
-
 
         private fun showPopup(
             view: View, item: EntityAllOutletsList,

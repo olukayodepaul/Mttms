@@ -33,6 +33,7 @@ import com.mobbile.paul.mttms.models.AllTheSalesRep
 import com.mobbile.paul.mttms.models.EntityAllOutletsList
 import com.mobbile.paul.mttms.models.repAndCustomerData
 import com.mobbile.paul.mttms.util.Util.insideRadius
+import com.mobbile.paul.mttms.util.Util.showSomeDialog
 import kotlinx.android.synthetic.main.activity_customers.*
 import javax.inject.Inject
 
@@ -71,9 +72,9 @@ class Customers : BaseActivity() {
     }
 
     fun switchAdapters() {
-        _r_view_pager.setHasFixedSize(true)
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         _r_view_pager.layoutManager = layoutManager
+        _r_view_pager!!.setHasFixedSize(true)
 
         vmodel.fetchsAllCustomers(
             preferences!!.getInt("depot_id_user_preferences", 0),
@@ -109,6 +110,7 @@ class Customers : BaseActivity() {
             preferences!!.getInt("employee_id_user_preferences", 0)
         )
         mAdapter.notifyDataSetChanged()
+        _r_view_pager.setItemViewCacheSize(data.size)
         _r_view_pager.adapter = mAdapter
     }
 
@@ -116,6 +118,7 @@ class Customers : BaseActivity() {
         showProgressBar(false)
         nAdapter = TmSalesRepOutletsAdapter(data, this, this@Customers::partItemClicked)
         nAdapter.notifyDataSetChanged()
+        _r_view_pager.setItemViewCacheSize(data.size)
         _r_view_pager.adapter = nAdapter
     }
 
@@ -136,9 +139,7 @@ class Customers : BaseActivity() {
                 dataFromAdapter = partItem
                 startLocationUpdates(2)
             }
-            else->{
 
-            }
         }
     }
 
@@ -204,7 +205,7 @@ class Customers : BaseActivity() {
             )
 
             if (!checkCustomerOutlet) {
-                GoogleApiAvailRationaleAlert("You are not at the corresponding outlet. Thanks!","Location Error")
+                showSomeDialog(this,"You are not at the corresponding outlet. Thanks!","Location Error")
             } else {
 
             }
@@ -220,7 +221,7 @@ class Customers : BaseActivity() {
         val coarsePermissionStatus = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
         if (accessPermissionStatus == PackageManager.PERMISSION_GRANTED
             && coarsePermissionStatus == PackageManager.PERMISSION_GRANTED) {
-            GPSRationaleEnable()
+            gPSRationaleEnable()
         } else {
             requestLocationPermission()
         }
@@ -236,7 +237,7 @@ class Customers : BaseActivity() {
         when (requestCode) {
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
                 if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    GPSPermissionRationaleAlert()
+                    gPSPermissionRationaleAlert()
                 }else{
                     mLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
                     hasGps = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
@@ -273,15 +274,15 @@ class Customers : BaseActivity() {
                 switchAdapters()
             }
             available == ConnectionResult.API_UNAVAILABLE -> {
-                GoogleApiAvailRationaleAlert("Google Play Services is not Available on this device, please install", "Google Play Services")
+                showSomeDialog(this, "Google Play Services is not Available on this device, please install", "Google Play Services")
             }
             else -> {
-                GPSRationaleEnable()
+                gPSRationaleEnable()
             }
         }
     }
 
-    private fun GPSRationaleEnable() {
+    private fun gPSRationaleEnable() {
         mLocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         hasGps = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         if(!hasGps) {
@@ -301,7 +302,7 @@ class Customers : BaseActivity() {
         }
     }
 
-    private fun GPSPermissionRationaleAlert() {
+    private fun gPSPermissionRationaleAlert() {
         val builder = AlertDialog.Builder(this, R.style.AlertDialogDanger)
         builder.setMessage("Without allowing GPS permission, this application will not work for you")
             .setTitle("GPS Permission")
@@ -314,17 +315,6 @@ class Customers : BaseActivity() {
         dialog.show()
     }
 
-    private fun GoogleApiAvailRationaleAlert(msg:String, title:String) {
-        val builder = AlertDialog.Builder(this, R.style.AlertDialogDanger)
-        builder.setMessage(msg)
-            .setTitle(title)
-            .setIcon(R.drawable.icons8_google_alerts_100)
-            .setCancelable(false)
-            .setNegativeButton("OK") { _, _ ->
-            }
-        val dialog  = builder.create()
-        dialog.show()
-    }
 
     companion object {
         var TAG = "TYTYTYTYTTYYTTY"
