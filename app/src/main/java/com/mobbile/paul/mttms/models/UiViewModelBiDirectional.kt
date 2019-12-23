@@ -12,6 +12,7 @@ data class AuthBiData(
 
 data class SalesRepAndCustomerData (
     var status: Int = 0,
+    var msg:String="",
     var salesrepsList: List<AllTheSalesRep>? = null,
     var salesRepCustomersList: List<EntityAllOutletsList>? = null
 )

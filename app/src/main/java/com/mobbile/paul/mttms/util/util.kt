@@ -61,11 +61,13 @@ object Util {
     fun salesRepCustdata(
         data: MutableLiveData<SalesRepAndCustomerData>,
         status: Int,
+        msg:String="",
         replist: List<AllTheSalesRep>,
         repcust: List<EntityAllOutletsList>
     ) {
         val dataPasser = SalesRepAndCustomerData()
         dataPasser.status = status
+        dataPasser.msg = msg
         dataPasser.salesrepsList = replist
         dataPasser.salesRepCustomersList = repcust
         data.postValue(dataPasser)

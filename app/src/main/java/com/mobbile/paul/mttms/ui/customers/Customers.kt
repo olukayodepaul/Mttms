@@ -72,6 +72,11 @@ class Customers : BaseActivity() {
     }
 
     fun switchAdapters() {
+
+        backbtn.setOnClickListener {
+            onBackPressed()
+        }
+
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         _r_view_pager.layoutManager = layoutManager
         _r_view_pager!!.setHasFixedSize(true)
@@ -82,12 +87,13 @@ class Customers : BaseActivity() {
         ).observe(this, observers)
     }
 
-    //pick any rep
-    val observeSelectRep = Observer<repAndCustomerData> {
-
+    private val observeSelectRep = Observer<repAndCustomerData> {
+        var intent = Intent(this, Customers::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
     }
 
-    val observers = Observer<SalesRepAndCustomerData> {
+    private val observers = Observer<SalesRepAndCustomerData> {
         when (it.status) {
             200 -> {
                 TmSalesReps(it.salesrepsList!!)
@@ -96,27 +102,26 @@ class Customers : BaseActivity() {
                 TmSalesRepCustomer(it.salesRepCustomersList!!)
             }
             else -> {
-
+                showSomeDialog(this, it.msg, "Error")
             }
         }
     }
 
     fun TmSalesReps(data: List<AllTheSalesRep>) {
         showProgressBar(false)
-        mAdapter = TmSalesRepListAdapter(
-            data,
-            this,
-            vmodel,
-            preferences!!.getInt("employee_id_user_preferences", 0)
-        )
+        mAdapter = TmSalesRepListAdapter(data,::adapterItemClicked)
         mAdapter.notifyDataSetChanged()
         _r_view_pager.setItemViewCacheSize(data.size)
         _r_view_pager.adapter = mAdapter
     }
 
+    private fun adapterItemClicked(items : AllTheSalesRep) {
+        message(items.employeeid,  items.fullname)
+    }
+
     fun TmSalesRepCustomer(data: List<EntityAllOutletsList>) {
         showProgressBar(false)
-        nAdapter = TmSalesRepOutletsAdapter(data, this, this@Customers::partItemClicked)
+        nAdapter = TmSalesRepOutletsAdapter(data, this,::partItemClicked)
         nAdapter.notifyDataSetChanged()
         _r_view_pager.setItemViewCacheSize(data.size)
         _r_view_pager.adapter = nAdapter
@@ -139,7 +144,6 @@ class Customers : BaseActivity() {
                 dataFromAdapter = partItem
                 startLocationUpdates(2)
             }
-
         }
     }
 
@@ -315,6 +319,21 @@ class Customers : BaseActivity() {
         dialog.show()
     }
 
+    private fun message(repid: Int,  fullname:String) {
+        val builder = AlertDialog.Builder(this, R.style.AlertDialogDanger)
+        builder.setMessage("Are you sure you want to visit $fullname")
+            .setTitle("Customer Visit")
+            .setIcon(R.drawable.icons8_google_alerts_100)
+            .setCancelable(false)
+            .setNegativeButton("No") { _, _ ->
+            }
+            .setPositiveButton("Yes") { _, _ ->
+                showProgressBar(true)
+                vmodel.getAllCustomerReps(repid,preferences!!.getInt("employee_id_user_preferences", 0))
+            }
+        val dialog = builder.create()
+        dialog.show()
+    }
 
     companion object {
         var TAG = "TYTYTYTYTTYYTTY"

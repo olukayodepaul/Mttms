@@ -33,23 +33,23 @@ class CustomersViewModel @Inject constructor(private val repository: Repository)
                         .subscribe({apiData ->
                             val  data: SalesReps = apiData.body()!!
                             if (data.allreps!!.isEmpty()) {
-                                salesRepCustdata(mResult, 400, emptyrep, emptyoutlet)
+                                salesRepCustdata(mResult, 400,"Please TM, no rep is assign to you", emptyrep, emptyoutlet)
                             } else {
-                                salesRepCustdata(mResult, 200, data.allreps!!, emptyoutlet)
+                                salesRepCustdata(mResult, 200, "", data.allreps!!, emptyoutlet)
                             }
                         },{
-                            salesRepCustdata(mResult, 400, emptyrep, emptyoutlet)
+                            salesRepCustdata(mResult, 400, "${it.message}",emptyrep, emptyoutlet)
                         }).isDisposed
                 }else{
                     repository.fetchAllCustomers()
                         .subscribe({
-                            salesRepCustdata(mResult, 300, emptyrep, it)
+                            salesRepCustdata(mResult, 300, "", emptyrep, it)
                         },{
-                            salesRepCustdata(mResult, 400, emptyrep, emptyoutlet)
+                            salesRepCustdata(mResult, 400, "${it.message}",emptyrep, emptyoutlet)
                         }).isDisposed
                 }
             }, {
-                salesRepCustdata(mResult, 400, emptyrep, emptyoutlet)
+                salesRepCustdata(mResult, 400, "${it.message}",emptyrep, emptyoutlet)
             }).isDisposed
         return mResult
     }
