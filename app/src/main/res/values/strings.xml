@@ -10,4 +10,20 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_0">0</string>
+
+    <string name="ats">Attendant</string>
+    <string name="bnks">Payment Bank</string>
+    <string name="rcl">Depot Reconciliation</string>
+    <string name="rt">Resume</string>
+    <string name="ct">Clockout</string>
+
+    <string name="tv_sku">Sku</string>
+    <string name="tv_qty">Qty</string>
+    <string name="pproceed">Proceed to Sales</string>
+    <string name="pclose">Outlet Close</string>
+    <string name="cltn">Customer Location</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="c_order">Complete Order</string>
 </resources>

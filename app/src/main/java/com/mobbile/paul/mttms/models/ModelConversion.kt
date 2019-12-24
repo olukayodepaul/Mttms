@@ -17,7 +17,7 @@ fun AllOutletsList.toEntityAllOutletsList(): EntityAllOutletsList {
         auto,rep_id,urno,customerno,outletclassid,outletlanguageid,outlettypeid,
         outletname,outletaddress,contactname,contactphone,latitude,
         longitude,outlet_pic,token,defaulttoken,sequenceno,mode,tm_id,dates,
-        volumeclass,rep_name,sort,notice
+        volumeclass,rep_name,sort,notice,customer_code
     )
 }
 
@@ -26,7 +26,7 @@ fun EntityAllOutletsList.toAllOutletsList(): AllOutletsList {
         auto,rep_id,urno,customerno,outletclassid,outletlanguageid,outlettypeid,
         outletname,outletaddress,contactname,contactphone,latitude,
         longitude,outlet_pic,token,defaulttoken,sequenceno,mode,tm_id,dates,
-        volumeclass,rep_name,sort, notice
+        volumeclass,rep_name,sort, notice,customer_code
     )
 }
 

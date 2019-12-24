@@ -214,6 +214,12 @@ constructor(private val appDao: AppDao, private val api: Api, private val nodejs
             appDao.fetchEntityAllOutletsList()
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+
+    fun getCustomerNo(customerno: String): Single<Response<Basket>> =
+        nodejsApi.getCustomerNo(customerno)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map{it}
 }
 
 

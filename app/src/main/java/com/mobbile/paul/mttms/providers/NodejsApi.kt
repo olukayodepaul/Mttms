@@ -1,6 +1,7 @@
 package com.mobbile.paul.mttms.providers
 
 
+import com.mobbile.paul.mttms.models.Basket
 import com.mobbile.paul.mttms.models.InitAllOutlets
 import com.mobbile.paul.mttms.models.SalesReps
 import com.mobbile.paul.mttms.models.UserAuth
@@ -34,4 +35,9 @@ interface NodejsApi {
         @Query("tmid") tmid: Int
     ): Single<Response<InitAllOutlets>>
 
+    @Headers("Connection:close")
+    @POST("/api/tmrepbasket")
+    fun getCustomerNo(
+        @Query("customerno") customerno: String
+    ): Single<Response<Basket>>
 }

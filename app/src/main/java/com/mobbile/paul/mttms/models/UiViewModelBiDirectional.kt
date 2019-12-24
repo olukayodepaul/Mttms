@@ -28,3 +28,8 @@ data class EntryCallback (
     var data: List<setSalesEntry>? = null
 )
 
+data class ProductBiData (
+    var status: Int = 0,
+    var msg: String = "",
+    var list: List<Products>? = null
+)

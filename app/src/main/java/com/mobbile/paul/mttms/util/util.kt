@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.*
@@ -84,6 +85,22 @@ object Util {
         dataPasser.notice = notice
         data.postValue(dataPasser)
     }
+
+    fun repBaskets(
+        data: MutableLiveData<ProductBiData>,
+        status: Int,
+        msg: String,
+        list: List<Products>
+
+    ) {
+        val dataPasser = ProductBiData()
+        dataPasser.status = status
+        dataPasser.msg = msg
+        dataPasser.list = list
+        data.postValue(dataPasser)
+    }
+
+
 
     fun insideRadius(
         currentLat: Double, currentLng: Double,

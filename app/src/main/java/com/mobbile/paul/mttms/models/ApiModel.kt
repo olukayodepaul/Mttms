@@ -217,10 +217,10 @@ data class AllOutletsList (
     var sort: Int= 0,
     @SerializedName("notice")
     @Expose
-    var notice: String= ""
-
-
-
+    var notice: String= "",
+    @SerializedName("customer_code")
+    @Expose
+    var customer_code: String= ""
 ): Parcelable
 
 data class InitBbasket (
@@ -329,6 +329,29 @@ data class getCards (
     @Expose
     val status: String
 )
+
+//products as basket
+data class Basket (
+    @SerializedName("status")
+    @Expose
+    var status: Int = 0,
+    @SerializedName("notis")
+    @Expose
+    var notis: String = "",
+    @SerializedName("allrepsproducts")
+    @Expose
+    var allrepsproducts: List<Products>? = null
+)
+
+data class Products(
+    @SerializedName("productname")
+    @Expose
+    var productname: String = "",
+    @SerializedName("qty")
+    @Expose
+    var qty: String = ""
+)
+
 
 
 

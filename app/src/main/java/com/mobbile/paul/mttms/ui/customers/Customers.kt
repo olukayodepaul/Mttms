@@ -96,9 +96,11 @@ class Customers : BaseActivity() {
     private val observers = Observer<SalesRepAndCustomerData> {
         when (it.status) {
             200 -> {
+                titles.text = "SALES REP LIST"
                 TmSalesReps(it.salesrepsList!!)
             }
             300 -> {
+                titles.text = "CUSTOMERS"
                 TmSalesRepCustomer(it.salesRepCustomersList!!)
             }
             else -> {
@@ -121,6 +123,7 @@ class Customers : BaseActivity() {
 
     fun TmSalesRepCustomer(data: List<EntityAllOutletsList>) {
         showProgressBar(false)
+        title_name.text = data[2].rep_name
         nAdapter = TmSalesRepOutletsAdapter(data, this,::partItemClicked)
         nAdapter.notifyDataSetChanged()
         _r_view_pager.setItemViewCacheSize(data.size)

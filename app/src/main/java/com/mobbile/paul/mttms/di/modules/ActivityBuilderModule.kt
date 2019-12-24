@@ -3,6 +3,8 @@ package com.mobbile.paul.mttms.di.modules
 
 import com.mobbile.paul.mttms.di.fragmentbuilders.FragmentBuilder
 import com.mobbile.paul.mttms.di.fragmentbuilders.FragmentBuilderScope
+import com.mobbile.paul.mttms.di.subcomponent.attendant.AttendantModule
+import com.mobbile.paul.mttms.di.subcomponent.attendant.AttendantScope
 import com.mobbile.paul.mttms.di.subcomponent.auth.AuthModule
 import com.mobbile.paul.mttms.di.subcomponent.auth.AuthScope
 import com.mobbile.paul.mttms.di.subcomponent.customers.CustomersModule
@@ -23,6 +25,7 @@ import com.mobbile.paul.mttms.di.subcomponent.replist.ReplistModule
 import com.mobbile.paul.mttms.di.subcomponent.replist.ReplistScope
 import com.mobbile.paul.mttms.di.subcomponent.sku.SkuModule
 import com.mobbile.paul.mttms.di.subcomponent.sku.SkuScope
+import com.mobbile.paul.mttms.ui.attendant_basket.AttendantBasket
 import com.mobbile.paul.mttms.ui.auth.Userauth
 import com.mobbile.paul.mttms.ui.customerlist.CustomerListViwePager
 import com.mobbile.paul.mttms.ui.customers.Customers
@@ -139,4 +142,12 @@ abstract class ActivityBuilderModule {
         ]
     )
     abstract fun contributeAttachPhotoAndroidInjector(): AttachPhoto
+
+    @AttendantScope
+    @ContributesAndroidInjector(
+        modules = [
+            AttendantModule::class
+        ]
+    )
+    abstract fun contributeAttendantAndroidInjector(): AttendantBasket
 }

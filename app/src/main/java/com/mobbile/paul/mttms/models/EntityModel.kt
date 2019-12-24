@@ -49,7 +49,8 @@ data class EntityAllOutletsList (
     var volumeclass:String="",
     var rep_name:String="",
     var sort: Int = 0,
-    var notice: String= ""
+    var notice: String= "",
+    var customer_code: String= ""
 )
 
 @Entity(tableName = "salesentries")

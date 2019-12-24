@@ -1,6 +1,6 @@
 package com.mobbile.paul.mttms.ui.customers
 
-import android.annotation.SuppressLint
+
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -71,6 +71,10 @@ class TmSalesRepOutletsAdapter(
                 containerView.tv_titles.text = item.notice
             }
 
+            if(item.sort==2){
+                containerView.icons_image_d.visibility = View.GONE
+            }
+
             if(item.sort==3){
                 containerView.icons_images.visibility = View.GONE
                 containerView.tv_sequence.visibility = View.GONE
@@ -87,18 +91,23 @@ class TmSalesRepOutletsAdapter(
                 when(item.sort) {
                     1->{
                         val intent = Intent(context, AttendantBasket::class.java)
+                        intent.putExtra("customer_code",item.customer_code)
+                        intent.putExtra("tmid", item.tm_id)
                         context.startActivity(intent)
                     }
                     3->{
                         val intent = Intent(context, Banks::class.java)
+                        intent.putExtra("customer_code",item.customer_code)
+                        intent.putExtra("tmid", item.tm_id)
                         context.startActivity(intent)
                     }
                     4->{
                         val intent = Intent(context, StockReturn::class.java)
+                        intent.putExtra("customer_code",item.customer_code)
+                        intent.putExtra("tmid", item.tm_id)
                         context.startActivity(intent)
                     }
                 }
-
             }
         }
 

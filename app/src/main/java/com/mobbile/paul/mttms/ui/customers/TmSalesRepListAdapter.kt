@@ -1,5 +1,6 @@
 package com.mobbile.paul.mttms.ui.customers
 
+
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
@@ -39,17 +40,17 @@ class TmSalesRepListAdapter(private var mItems: List<AllTheSalesRep>,
 
     inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
         LayoutContainer {
-        @SuppressLint("DefaultLocale", "SetTextI18n")
+        @SuppressLint("SetTextI18n")
         fun bind(item: AllTheSalesRep, itemclickListener: (AllTheSalesRep) -> Unit) {
 
-            val letter: String? = item.fullname.substring(0, 1).toUpperCase()
+            val letter: String? = item.fullname.substring(0, 1)
             val generator = ColorGenerator.MATERIAL
             val drawable = TextDrawable.builder()
                 .buildRound(letter, generator.getRandomColor())
             containerView.imageView.setImageDrawable(drawable)
 
-            containerView.tv_name.text = item.fullname.toLowerCase().capitalize()
-            containerView.tv_titles.text = "${item.ecode.toUpperCase()}, ${item.custcode.toUpperCase()}"
+            containerView.tv_name.text = item.fullname
+            containerView.tv_titles.text = "${item.ecode}, ${item.custcode}"
             containerView.setOnClickListener { itemclickListener(item)}
         }
     }

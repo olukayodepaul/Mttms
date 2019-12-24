@@ -32,6 +32,7 @@ tools:context=".ui.customers.Customers">
                 android:layout_height="26dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
+                android:contentDescription="TODO"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/arrow"
@@ -42,11 +43,11 @@ tools:context=".ui.customers.Customers">
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginStart="65dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="100dp"
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="Sales Rep."
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="@dimen/fontSize"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -56,20 +57,21 @@ tools:context=".ui.customers.Customers">
                 tools:ignore="MissingConstraints" />
 
             <TextView
-                android:id="@+id/counts"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_marginTop="18dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
+                android:id="@+id/title_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="65dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginEnd="100dp"
                 android:fontFamily="@font/roboto_light"
-                android:text="0"
-                android:textAlignment="textEnd"
+                android:text=""
                 android:textColor="@color/white"
-                android:textSize="@dimen/fontSize"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="17sp"
+                app:layout_constraintEnd_toEndOf="@id/titles"
+                app:layout_constraintStart_toStartOf="parent"
+
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
