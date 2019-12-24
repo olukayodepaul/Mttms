@@ -2,7 +2,6 @@ package com.mobbile.paul.mttms.ui.attendant_basket
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -52,6 +51,14 @@ class AttendantBasket : BaseActivity()  {
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         view_pager.layoutManager = layoutManager
         view_pager!!.setHasFixedSize(true)
+
+        resumebtn.setOnClickListener {
+
+        }
+
+        clockoutbtn.setOnClickListener {
+
+        }
     }
 
     private val observebasket = Observer<ProductBiData> {
@@ -71,6 +78,7 @@ class AttendantBasket : BaseActivity()  {
             }
         }
     }
+
 
     companion object{
         var TAG = "AttendantBasket"
