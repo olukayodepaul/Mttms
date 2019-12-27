@@ -197,6 +197,12 @@ data class AllOutletsList (
     @SerializedName("sequenceno")
     @Expose
     var sequenceno: Int = 0,
+    @SerializedName("distance")
+    @Expose
+    var distance: String = "",
+    @SerializedName("duration")
+    @Expose
+    var duration: String = "",
     @SerializedName("mode")
     @Expose
     var mode:String="",
@@ -220,7 +226,10 @@ data class AllOutletsList (
     var notice: String= "",
     @SerializedName("customer_code")
     @Expose
-    var customer_code: String= ""
+    var customer_code: String= "",
+    @SerializedName("entry_time")
+    @Expose
+    var entry_time: String= ""
 ): Parcelable
 
 data class InitBbasket (
@@ -350,6 +359,15 @@ data class Products(
     @SerializedName("qty")
     @Expose
     var qty: String = ""
+)
+
+data class Attendant(
+    @SerializedName("status")
+    @Expose
+    var status: Int = 0,
+    @SerializedName("notis")
+    @Expose
+    var notis: String = ""
 )
 
 

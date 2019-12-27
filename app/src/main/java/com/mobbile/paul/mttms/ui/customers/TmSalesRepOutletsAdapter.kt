@@ -60,14 +60,14 @@ class TmSalesRepOutletsAdapter(
             containerView.tv_name.text = item.outletname
             containerView.tv_titles.text = ("${item.urno}, ${item.customerno}, ${item.volumeclass}")
             containerView.tv_sequence.text = "${item.sequenceno}"
+            containerView.timeago.text = item.entry_time
 
             containerView.icons_images.setOnClickListener {
                 showPopup(containerView, item, itemClickListener)
             }
 
-            if(item.sort==1){
+            if(item.sort==1) {
                 containerView.icons_images.visibility = View.GONE
-                containerView.tv_sequence.visibility = View.GONE
                 containerView.tv_titles.text = item.notice
             }
 
@@ -75,13 +75,13 @@ class TmSalesRepOutletsAdapter(
                 containerView.icons_image_d.visibility = View.GONE
             }
 
-            if(item.sort==3){
+            if(item.sort==3) {
                 containerView.icons_images.visibility = View.GONE
                 containerView.tv_sequence.visibility = View.GONE
                 containerView.tv_titles.text = item.notice
             }
 
-            if(item.sort==4){
+            if(item.sort==4) {
                 containerView.icons_images.visibility = View.GONE
                 containerView.tv_sequence.visibility = View.GONE
                 containerView.tv_titles.text = item.notice
@@ -93,12 +93,16 @@ class TmSalesRepOutletsAdapter(
                         val intent = Intent(context, AttendantBasket::class.java)
                         intent.putExtra("customer_code",item.customer_code)
                         intent.putExtra("tmid", item.tm_id)
+                        intent.putExtra("repid", item.rep_id)
+                        intent.putExtra("sortid",item.sort)
+                        intent.putExtra("sequenceno",item.sequenceno)
                         context.startActivity(intent)
                     }
                     3->{
                         val intent = Intent(context, Banks::class.java)
                         intent.putExtra("customer_code",item.customer_code)
                         intent.putExtra("tmid", item.tm_id)
+                        intent.putExtra("repid", item.rep_id)
                         context.startActivity(intent)
                     }
                     4->{

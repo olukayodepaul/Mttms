@@ -43,6 +43,8 @@ data class EntityAllOutletsList (
     var token: String = "",
     var defaulttoken: String = "",
     var sequenceno: Int = 0,
+    var distance: String = "",
+    var duration: String = "",
     var mode:String="",
     var tm_id: Int = 0,
     var dates:String="",
@@ -50,7 +52,16 @@ data class EntityAllOutletsList (
     var rep_name:String="",
     var sort: Int = 0,
     var notice: String= "",
-    var customer_code: String= ""
+    var customer_code: String= "",
+    var entry_time: String= ""
+)
+
+@Entity(tableName = "custometvisitsequence")
+data class EntityCustomerVisitSequence(
+    @PrimaryKey(autoGenerate = false)
+    val id: Int,
+    val nexts: Int = 0,
+    val self:String=""
 )
 
 @Entity(tableName = "salesentries")

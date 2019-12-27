@@ -220,6 +220,37 @@ constructor(private val appDao: AppDao, private val api: Api, private val nodejs
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map{it}
+
+    fun takeAttendant(tmid: Int, taskid:Int, repid:Int): Single<Response<Attendant>> =
+        nodejsApi.takeAttendant(tmid,taskid,repid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map{it}
+
+    fun setAttendantTime(time: String) =
+        Single.fromCallable{
+            appDao.setAttendantTime(time)
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+    fun SequencetManager(id: Int, nexts:Int, self:String) =
+        Single.fromCallable{
+            appDao.SequencetManager(id, nexts, self)
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+    fun ValidateSeque(id: Int): Single<EntityCustomerVisitSequence> =
+        Single.fromCallable{
+            appDao.ValidateSeque(id)
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+    fun UpdateSeque(id: Int,nexts:Int,self:String) =
+        Single.fromCallable{
+            appDao.UpdateSeque(id,nexts,self)
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
 }
+
 
 

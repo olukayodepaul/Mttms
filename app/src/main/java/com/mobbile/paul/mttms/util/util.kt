@@ -1,10 +1,10 @@
 package com.mobbile.paul.mttms.util
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.*
@@ -12,6 +12,8 @@ import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sqrt
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 object Util {
@@ -100,7 +102,35 @@ object Util {
         data.postValue(dataPasser)
     }
 
+    fun AttendanBiData(
+        data: MutableLiveData<AttendantData>,
+        status: Int,
+        notis: String
+    ){
+        val dataPasser = AttendantData()
+        dataPasser.status = status
+        dataPasser.notis = notis
+        data.postValue(dataPasser)
+    }
 
+    fun CloseAndOpenOutletBiData(
+        data: MutableLiveData<CloseAndOpenOutlet>,
+        status: Int,
+        lat: Double,
+        lng:Double,
+        nexts: Int,
+        self:String,
+        id:Int
+    ){
+        val dataPasser = CloseAndOpenOutlet()
+        dataPasser.status = status
+        dataPasser.lat = lat
+        dataPasser.lng = lng
+        dataPasser.nexts=nexts
+        dataPasser.self=self
+        dataPasser.id=id
+        data.postValue(dataPasser)
+    }
 
     fun insideRadius(
         currentLat: Double, currentLng: Double,
@@ -110,7 +140,17 @@ object Util {
         val kx = cos(PI * customerLat / 180.0) * ky
         val dx = abs(customerLng - currentLng) * kx
         val dy = abs(customerLat - currentLat) * ky
-        return sqrt(dx * dx + dy * dy) <= 5
+        return sqrt(dx * dx + dy * dy) <= 1
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun appTime(): String{
+        return SimpleDateFormat("HH:mm:ss").format(Date())
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun appDate(): String {
+        return SimpleDateFormat("yyyy-MM-dd").format(Date())
     }
 
 }

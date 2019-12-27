@@ -1,10 +1,7 @@
 package com.mobbile.paul.mttms.providers
 
 
-import com.mobbile.paul.mttms.models.Basket
-import com.mobbile.paul.mttms.models.InitAllOutlets
-import com.mobbile.paul.mttms.models.SalesReps
-import com.mobbile.paul.mttms.models.UserAuth
+import com.mobbile.paul.mttms.models.*
 import io.reactivex.Single
 import retrofit2.Response
 import retrofit2.http.Headers
@@ -40,4 +37,12 @@ interface NodejsApi {
     fun getCustomerNo(
         @Query("customerno") customerno: String
     ): Single<Response<Basket>>
+
+    @Headers("Connection:close")
+    @POST("/api/attendant")
+    fun takeAttendant(
+        @Query("tmid") tmid: Int,
+        @Query("taskid") taskid: Int,
+        @Query("repid") repid: Int
+    ): Single<Response<Attendant>>
 }

@@ -33,3 +33,19 @@ data class ProductBiData (
     var msg: String = "",
     var list: List<Products>? = null
 )
+
+data class AttendantData (
+    var status: Int = 0,
+    var notis: String = ""
+)
+
+data class CloseAndOpenOutlet (
+    var status: Int = 0,
+    var lat: Double = 0.0,
+    var lng:Double = 0.0,
+    var nexts: Int=0,
+    var self:String="",
+    var id:Int = 0
+)
+
+

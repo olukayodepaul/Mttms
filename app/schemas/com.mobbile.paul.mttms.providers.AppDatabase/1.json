@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "bdf005980d5f12edc79adf38f8579f41",
+    "identityHash": "bcd487117fc2060a21f0143fdce55b77",
     "entities": [
       {
         "tableName": "modules",
@@ -88,7 +88,7 @@
       },
       {
         "tableName": "alloutlets",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `rep_id` INTEGER NOT NULL, `urno` INTEGER NOT NULL, `customerno` TEXT NOT NULL, `outletclassid` INTEGER NOT NULL, `outletlanguageid` INTEGER NOT NULL, `outlettypeid` INTEGER NOT NULL, `outletname` TEXT NOT NULL, `outletaddress` TEXT NOT NULL, `contactname` TEXT NOT NULL, `contactphone` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `outlet_pic` TEXT NOT NULL, `token` TEXT NOT NULL, `defaulttoken` TEXT NOT NULL, `sequenceno` INTEGER NOT NULL, `mode` TEXT NOT NULL, `tm_id` INTEGER NOT NULL, `dates` TEXT NOT NULL, `volumeclass` TEXT NOT NULL, `rep_name` TEXT NOT NULL, `sort` INTEGER NOT NULL, `notice` TEXT NOT NULL, `customer_code` TEXT NOT NULL, PRIMARY KEY(`auto`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`auto` INTEGER NOT NULL, `rep_id` INTEGER NOT NULL, `urno` INTEGER NOT NULL, `customerno` TEXT NOT NULL, `outletclassid` INTEGER NOT NULL, `outletlanguageid` INTEGER NOT NULL, `outlettypeid` INTEGER NOT NULL, `outletname` TEXT NOT NULL, `outletaddress` TEXT NOT NULL, `contactname` TEXT NOT NULL, `contactphone` TEXT NOT NULL, `latitude` REAL NOT NULL, `longitude` REAL NOT NULL, `outlet_pic` TEXT NOT NULL, `token` TEXT NOT NULL, `defaulttoken` TEXT NOT NULL, `sequenceno` INTEGER NOT NULL, `distance` TEXT NOT NULL, `duration` TEXT NOT NULL, `mode` TEXT NOT NULL, `tm_id` INTEGER NOT NULL, `dates` TEXT NOT NULL, `volumeclass` TEXT NOT NULL, `rep_name` TEXT NOT NULL, `sort` INTEGER NOT NULL, `notice` TEXT NOT NULL, `customer_code` TEXT NOT NULL, `entry_time` TEXT NOT NULL, PRIMARY KEY(`auto`))",
         "fields": [
           {
             "fieldPath": "auto",
@@ -193,6 +193,18 @@
             "notNull": true
           },
           {
+            "fieldPath": "distance",
+            "columnName": "distance",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "duration",
+            "columnName": "duration",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "mode",
             "columnName": "mode",
             "affinity": "TEXT",
@@ -239,11 +251,49 @@
             "columnName": "customer_code",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "entry_time",
+            "columnName": "entry_time",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
           "columnNames": [
             "auto"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "custometvisitsequence",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `nexts` INTEGER NOT NULL, `self` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nexts",
+            "columnName": "nexts",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "self",
+            "columnName": "self",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
           ],
           "autoGenerate": false
         },
@@ -376,7 +426,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"bdf005980d5f12edc79adf38f8579f41\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"bcd487117fc2060a21f0143fdce55b77\")"
     ]
   }
 }

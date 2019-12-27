@@ -21,7 +21,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.mobbile.paul.mttms.BaseActivity
 import com.mobbile.paul.mttms.R
-import com.mobbile.paul.mttms.models.SalesRepAndCustomerData
 import com.mobbile.paul.mttms.util.Utils.Companion.USER_INFOS
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,9 +28,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.*
-import com.mobbile.paul.mttms.models.AllTheSalesRep
-import com.mobbile.paul.mttms.models.EntityAllOutletsList
-import com.mobbile.paul.mttms.models.repAndCustomerData
+import com.mobbile.paul.mttms.models.*
+import com.mobbile.paul.mttms.ui.outlets.entries.Entries
+import com.mobbile.paul.mttms.util.Util.appTime
 import com.mobbile.paul.mttms.util.Util.insideRadius
 import com.mobbile.paul.mttms.util.Util.showSomeDialog
 import kotlinx.android.synthetic.main.activity_customers.*
@@ -57,6 +56,8 @@ class Customers : BaseActivity() {
     lateinit var mLocationManager: LocationManager
 
     private var hasGps = false
+
+    private var mode = 0
 
     private lateinit var dataFromAdapter:  EntityAllOutletsList
 
@@ -133,19 +134,22 @@ class Customers : BaseActivity() {
     private fun partItemClicked(partItem : EntityAllOutletsList, separator: Int) {
         when(separator){
             100->{
-                Toast.makeText(this, "Clicked: ${partItem.outletname} ${separator}", Toast.LENGTH_LONG).show()
+                mode = 1
+                dataFromAdapter = partItem
+                startLocationUpdates()
             }
             200->{
-                val mode = partItem.mode.single()
+                val dmode = partItem.mode.single()
                 val destination = "${partItem.latitude},${partItem.longitude}"
-                startGoogleMapIntent(this, destination, mode, 't')
+                startGoogleMapIntent(this, destination, dmode, 't')
             }
             300->{
                 Toast.makeText(this, "Clicked: ${partItem.outletname} ${separator}", Toast.LENGTH_LONG).show()
             }
             400->{
+                mode = 2
                 dataFromAdapter = partItem
-                startLocationUpdates(2)
+                startLocationUpdates()
             }
         }
     }
@@ -161,7 +165,7 @@ class Customers : BaseActivity() {
             false
     }
 
-    fun startLocationUpdates(swictcher: Int) {
+    fun startLocationUpdates() {
 
         showProgressBar(true)
 
@@ -176,33 +180,29 @@ class Customers : BaseActivity() {
         val settingsClient = LocationServices.getSettingsClient(this)
         settingsClient.checkLocationSettings(builder.build())
 
-        when (swictcher) {
-            2 -> {
-                fusedLocationClient.requestLocationUpdates(
-                    locationRequest,
-                    callbackClose,
-                    Looper.myLooper()
-                )
-            }
-        }
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            callback,
+            Looper.myLooper()
+        )
     }
 
-    private val callbackClose = object : LocationCallback() {
+    private val callback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            onLocationChangedClose(locationResult.lastLocation)
+            onLocationChanged(locationResult.lastLocation)
         }
     }
 
-    fun onLocationChangedClose(location: Location) {
+    fun onLocationChanged(location: Location) {
         showProgressBar(false)
         if (location.latitude.isNaN() && location.longitude.isNaN()) {
             showProgressBar(false)
-            stoplocationClose()
-            startLocationUpdates(2)
+            stoplocation()
+            startLocationUpdates()
         } else {
 
             showProgressBar(false)
-            stoplocationClose()
+            stoplocation()
 
             val checkCustomerOutlet: Boolean = insideRadius(
                 location.latitude,
@@ -212,15 +212,81 @@ class Customers : BaseActivity() {
             )
 
             if (!checkCustomerOutlet) {
-                showSomeDialog(this,"You are not at the corresponding outlet. Thanks!","Location Error")
+                //showSomeDialog(this,"You are not at the corresponding outlet. Thanks!","Location Error")
+                vmodel.ValidateSeque(1, dataFromAdapter.sequenceno, location.latitude, location.longitude).observe(this,observeVisitSequence)
             } else {
-
+                vmodel.ValidateSeque(1, dataFromAdapter.sequenceno, location.latitude, location.longitude).observe(this,observeVisitSequence)
             }
         }
     }
 
-    private fun stoplocationClose() {
-        fusedLocationClient.removeLocationUpdates(callbackClose)
+    private val observeVisitSequence = Observer<CloseAndOpenOutlet> {
+        when(it.status) {
+            200->{
+                //pushing to server and update local db
+                when(mode) {
+                    1->{
+                        val intent = Intent(this, Entries::class.java)
+                        intent.putExtra("urno", dataFromAdapter.urno)
+                        intent.putExtra("token", dataFromAdapter.token)
+                        intent.putExtra("outletname", dataFromAdapter.outletname)
+                        intent.putExtra("defaulttoken", dataFromAdapter.defaulttoken)
+                        intent.putExtra("visit_sequence", dataFromAdapter.sequenceno)
+                        intent.putExtra("currentLat", it.lat)
+                        intent.putExtra("currentLng", it.lng)
+                        intent.putExtra("outletLat", dataFromAdapter.latitude)
+                        intent.putExtra("outletLng", dataFromAdapter.longitude)
+                        intent.putExtra("distance",dataFromAdapter.distance)
+                        intent.putExtra("durations", dataFromAdapter.duration)
+                        intent.putExtra("arivaltime", appTime())
+                        intent.putExtra("repname", dataFromAdapter.rep_name)
+                        intent.putExtra("repid", dataFromAdapter.rep_id)
+                        intent.putExtra("tmid", dataFromAdapter.tm_id)
+                        startActivity(intent)
+                    }
+                    2->{
+                        //update the local db and the remote db
+                        val self = "${it.self},${it.nexts}"
+                        vmodel.UpdateSeque(it.id, it.nexts+1, self)
+                    }
+                }
+            }
+            300->{
+                when(mode) {
+                    1->{
+                        val intent = Intent(this, Entries::class.java)
+                        intent.putExtra("urno", dataFromAdapter.urno)
+                        intent.putExtra("token", dataFromAdapter.token)
+                        intent.putExtra("outletname", dataFromAdapter.outletname)
+                        intent.putExtra("defaulttoken", dataFromAdapter.defaulttoken)
+                        intent.putExtra("visit_sequence", dataFromAdapter.sequenceno)
+                        intent.putExtra("clat", it.lat)
+                        intent.putExtra("clng", it.lng)
+                        intent.putExtra("arrivallat", it.lat)
+                        intent.putExtra("arrivalng", it.lng)
+                        intent.putExtra("distance",dataFromAdapter.distance)
+                        intent.putExtra("durations", dataFromAdapter.duration)
+                        intent.putExtra("arivaltime", appTime())
+                        intent.putExtra("repname", dataFromAdapter.rep_name)
+                        intent.putExtra("repid", dataFromAdapter.rep_id)
+                        intent.putExtra("tmid", dataFromAdapter.tm_id)
+                        startActivity(intent)
+                    }
+                    2->{
+                        //dont update the local db. just make a remote call
+                    }
+                }
+            }
+            400->{
+                showSomeDialog(this,"Please follow the outlet visit sequence. Thanks!","Visit Error")
+            }else->{
+                showSomeDialog(this,"Please resume and clock out before you proceed. Thanks!","Attendant Error")
+            }
+        }
+    }
+
+    private fun stoplocation() {
+        fusedLocationClient.removeLocationUpdates(callback)
     }
 
     fun checkLocationPermission() {

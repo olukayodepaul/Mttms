@@ -15,6 +15,7 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.telephony.TelephonyManager
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
@@ -74,7 +75,7 @@ class Userauth : BaseActivity() {
         val validateDates = preferences!!.getString("today_date_preferences", "")
 
         if (permit == PackageManager.PERMISSION_GRANTED) {
-            vmodel.userAuth("soji.o@mt3.com", "4714", "353529110541464", validateDates!!)
+            vmodel.userAuth("muhammad.i@mt3.com", "1417", "356750108496043", validateDates!!)
             /*vmodel.userAuth(
                 username,
                 password,
@@ -127,6 +128,7 @@ class Userauth : BaseActivity() {
 
     private fun saveUserInfoInSharePref(auths: AuthBiData) {
         if(auths.setpref==1) {
+            Log.d(TAG, "${auths.employeeid}")
             preferences!!.edit().apply()
             val editor = preferences!!.edit()
             editor.clear()

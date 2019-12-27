@@ -24,14 +24,20 @@ import javax.inject.Inject
 
 class Entries : BaseActivity() {
 
-    var custName: String = ""
-    var custUrno: String = ""
-    var custNo: String = ""
-    var custLatitude: Double = 0.0
-    var custLongitude: Double = 0.0
-    var custToken: String = ""
-    var defaultCustToken: String = ""
-    var custids: Int = 0
+
+    var urno:Int = 0
+    var outletname:String = ""
+    var defaulttoken:String = ""
+    var visit_sequence:Int = 0
+    var currentLat:Double = 0.0
+    var currentLng:Double = 0.0
+    var outletLat:Double = 0.0
+    var outletLng:Double = 0.0
+    var distance:String = ""
+    var durations:String = ""
+    var arivaltime:String = ""
+    var repname:String = ""
+
 
     @Inject
     internal lateinit var modelFactory: ViewModelProvider.Factory
@@ -43,34 +49,23 @@ class Entries : BaseActivity() {
 
     private lateinit var mAdapter: EntriesAdapter
 
-    private var preferencesByInfo: SharedPreferences? = null
-
     private var preferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_entries)
-        /*
+
         vmodel = ViewModelProviders.of(this, modelFactory)[EntriesViewModel::class.java]
-        preferencesByInfo = getSharedPreferences(CUSTOMERS_INFORMATION, Context.MODE_PRIVATE)
-        preferences = getSharedPreferences(USER_INFOS, Context.MODE_PRIVATE)
-
-        custName = intent.getStringExtra("passerOutletname")!!
-        custNo = intent.getStringExtra("passerCustno")!!
-        custUrno = intent.getStringExtra("passerUrno")!!
-        custLatitude = intent.getDoubleExtra("passerLat",0.0)
-        custLongitude = intent.getDoubleExtra("passerLng",0.0)
-        custToken = intent.getStringExtra("passerToken")!!
-        defaultCustToken = intent.getStringExtra("passerDtoken")!!
-        custids = intent.getIntExtra("outletid",0)
-
-        tv_outlet_name.text = custName
+        repname = intent.getStringExtra("repname")!!
+        outletname = intent.getStringExtra("outletname")!!
+        tv_outlet_name.text = repname
+        tv_modules.text = "Customer: $outletname"
 
         back_btn.setOnClickListener {
             onBackPressed()
         }
 
-        Log.d(TAG, "$custLatitude $custLongitude")
+        /*
 
         vmodel.fetchSales(preferencesByInfo!!.getInt("specific_rep_id",0),
             preferencesByInfo!!.getString("specific_customer_id","")!!,
@@ -78,7 +73,6 @@ class Entries : BaseActivity() {
 
         vmodel.comData().observe(this, observeComData)
         initViews()
-
          */
     }
     /*

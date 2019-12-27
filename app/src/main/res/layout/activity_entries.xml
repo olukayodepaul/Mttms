@@ -43,7 +43,7 @@ android:orientation="vertical">
                     android:id="@+id/tv_modules"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sales Entries"
+                    android:text=""
                     android:fontFamily="@font/roboto_bold"
                     android:textSize="@dimen/fontSize"
                     android:textColor="@color/white"/>
@@ -52,12 +52,13 @@ android:orientation="vertical">
                     android:id="@+id/tv_outlet_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Moma TomiLola"
+                    android:text=""
                     android:layout_below="@+id/tv_modules"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/fontSSize"
-                    android:fontFamily="@font/montserrat_bold"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/roboto_light"
                     />
+
             </RelativeLayout>
             <ImageView
                 android:layout_width="26dp"
