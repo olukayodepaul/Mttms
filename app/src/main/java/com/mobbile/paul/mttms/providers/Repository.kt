@@ -120,12 +120,6 @@ constructor(private val appDao: AppDao, private val api: Api, private val nodejs
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun getbasket(employee_id: Int, customer: String, urno: String): Single<Response<InitBbasket>> =
-        api.getbasket(employee_id, customer, urno )
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .map {it}
-
     fun deleteEntityGetSalesEntry() = Observable.fromCallable {
         appDao.deleteEntityGetSalesEntry()
     }.subscribeOn(Schedulers.io())
@@ -138,7 +132,7 @@ constructor(private val appDao: AppDao, private val api: Api, private val nodejs
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun updateDailySales(orders: Double, inventory: Double, pricing: Int, entry_time: String,  product_id: String,
+    /*fun updateDailySales(orders: Double, inventory: Double, pricing: Int, entry_time: String,  product_id: String,
                          salesprice: Double, contOrder: String, contPrincing: String, contInventory: String)  =
         Observable.fromCallable {
             appDao.updateDailySales(orders, inventory, pricing, entry_time,  product_id,
@@ -152,17 +146,21 @@ constructor(private val appDao: AppDao, private val api: Api, private val nodejs
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
+    fun sumAllSalesEntry(): Observable<SumSales> =
+        Observable.fromCallable {
+            appDao.sumAllSalesEntry()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())*/
+
+
+
     fun fetchAllEntryPerDaily(): Observable<List<EntityGetSalesEntry>> =
         Observable.fromCallable {
             appDao.fetchAllEntryPerDay()
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    fun sumAllSalesEntry(): Observable<SumSales> =
-        Observable.fromCallable {
-            appDao.sumAllSalesEntry()
-        }.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+
 
     fun updateCards(employee_id: Int, urno: String, outletclassid:Int, outletlanguageid: Int, outlettypeid:Int,
                  outletname:String, outletaddress:String, contactname: String, contactphone:String, latitude:String,
@@ -250,6 +248,28 @@ constructor(private val appDao: AppDao, private val api: Api, private val nodejs
             appDao.UpdateSeque(id,nexts,self)
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+
+    fun CloseOutlets(repid: Int, tmid: Int, currentlat: String, currentlng: String,
+                     outletlat: String, outletlng: String, arrivaltime: String,
+                     visitsequence: String, distance: String, duration: String, urno: Int): Single<Response<Attendant>> =
+        nodejsApi.CloseOutlets(repid,tmid,currentlat,currentlng,outletlat, outletlng,arrivaltime, visitsequence,distance,duration,urno)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map{it}
+
+    fun setEntryTime(time: String, auto:Int) =
+        Single.fromCallable{
+            appDao.setEntryTime(time, auto)
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+    fun getbasket(customerno: String, customer_code: String, repid: Int): Single<Response<InitBbasket>> =
+        nodejsApi.getbasket(customerno, customer_code, repid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {it}
+
+
 }
 
 

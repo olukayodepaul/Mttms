@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "bcd487117fc2060a21f0143fdce55b77",
+    "identityHash": "bb92676c8676768bdbc5e85a97a4a1a4",
     "entities": [
       {
         "tableName": "modules",
@@ -302,7 +302,7 @@
       },
       {
         "tableName": "salesentries",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `productid` TEXT NOT NULL, `soq` TEXT NOT NULL, `productname` TEXT NOT NULL, `qty` TEXT NOT NULL, `price` TEXT NOT NULL, `seperator` TEXT NOT NULL, `seperatorname` TEXT NOT NULL, `orders` TEXT NOT NULL, `inventory` TEXT NOT NULL, `pricing` TEXT NOT NULL, `entrytime` TEXT NOT NULL, `orderrice` TEXT NOT NULL, `mtcom` TEXT NOT NULL, `mtamt` TEXT NOT NULL, `contorder` TEXT NOT NULL, `contprincing` TEXT NOT NULL, `continventory` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `product_id` TEXT NOT NULL, `product_code` TEXT NOT NULL, `product_name` TEXT NOT NULL, `soq` TEXT NOT NULL, `seperator` TEXT NOT NULL, `seperatorname` TEXT NOT NULL, `pricing` TEXT NOT NULL, `inventory` TEXT NOT NULL, `entry_time` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -311,32 +311,26 @@
             "notNull": true
           },
           {
-            "fieldPath": "productid",
-            "columnName": "productid",
+            "fieldPath": "product_id",
+            "columnName": "product_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "product_code",
+            "columnName": "product_code",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "product_name",
+            "columnName": "product_name",
             "affinity": "TEXT",
             "notNull": true
           },
           {
             "fieldPath": "soq",
             "columnName": "soq",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "productname",
-            "columnName": "productname",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "qty",
-            "columnName": "qty",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "price",
-            "columnName": "price",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -353,8 +347,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "orders",
-            "columnName": "orders",
+            "fieldPath": "pricing",
+            "columnName": "pricing",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -365,50 +359,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "pricing",
-            "columnName": "pricing",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "entrytime",
-            "columnName": "entrytime",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "orderrice",
-            "columnName": "orderrice",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "mtcom",
-            "columnName": "mtcom",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "mtamt",
-            "columnName": "mtamt",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "contorder",
-            "columnName": "contorder",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "contprincing",
-            "columnName": "contprincing",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "continventory",
-            "columnName": "continventory",
+            "fieldPath": "entry_time",
+            "columnName": "entry_time",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -426,7 +378,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"bcd487117fc2060a21f0143fdce55b77\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"bb92676c8676768bdbc5e85a97a4a1a4\")"
     ]
   }
 }

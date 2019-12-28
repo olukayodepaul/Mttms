@@ -28,13 +28,13 @@ class SkuViewmodel @Inject constructor(private var repository: Repository): View
 
         var mResult = MutableLiveData<SumSales>()
 
-        repository.sumAllSalesEntry()
+       /* repository.sumAllSalesEntry()
             .subscribe({
                 mResult.postValue(it)
             },{
                 mResult.postValue(null)
             }).isDisposed
-
+     */
         return mResult
     }
 }

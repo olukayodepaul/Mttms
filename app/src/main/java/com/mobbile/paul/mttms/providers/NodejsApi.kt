@@ -45,4 +45,28 @@ interface NodejsApi {
         @Query("taskid") taskid: Int,
         @Query("repid") repid: Int
     ): Single<Response<Attendant>>
+
+    @Headers("Connection:close")
+    @POST("/api/closetmoutlet")
+    fun CloseOutlets(
+        @Query("repid") repid: Int,
+        @Query("tmid") tmid: Int,
+        @Query("currentlat") currentlat: String,
+        @Query("currentlng") currentlng: String,
+        @Query("outletlat") outletlat: String,
+        @Query("outletlng") outletlng: String,
+        @Query("arrivaltime") arrivaltime: String,
+        @Query("visitsequence") visitsequence: String,
+        @Query("distance") distance: String,
+        @Query("duration") duration: String,
+        @Query("urno") urno: Int
+    ): Single<Response<Attendant>>
+
+    @Headers("Connection:close")
+    @POST("api/dailysalesentry")
+    fun getbasket(
+        @Query("customerno") customerno: String,
+        @Query("customer_code") customer_code: String,
+        @Query("repid") repid: Int
+    ): Single<Response<InitBbasket>>
 }

@@ -32,8 +32,9 @@ fun EntityAllOutletsList.toAllOutletsList(): AllOutletsList {
 
 fun getSalesEntry.toEntityGetSalesEntry(): EntityGetSalesEntry {
     return EntityGetSalesEntry(
-        id, productid, soq, productname, qty, price, seperator, seperatorname, orders, inventory,
-        pricing, entrytime, orderrice, mtcom, mtamt, contorder, contprincing, continventory
+       id,product_id, product_code,product_name, soq, seperator,seperatorname, pricing, inventory,
+        entry_time,controlpricing,controlinventory
     )
 }
+
 

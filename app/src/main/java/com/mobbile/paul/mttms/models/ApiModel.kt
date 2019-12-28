@@ -251,79 +251,57 @@ data class setSalesEntry (
     @SerializedName("product_id")
     @Expose
     var product_id: String = "",
+    @SerializedName("product_code")
+    @Expose
+    var product_code: String = "",
     @SerializedName("product_name")
     @Expose
     var product_name: String = "",
     @SerializedName("soq")
     @Expose
     var soq: String = "",
-    @SerializedName("qty")
-    @Expose
-    var qty: Int = 0,
-    @SerializedName("price")
-    @Expose
-    var price: String = "",
     @SerializedName("seperator")
     @Expose
     var seperator: String = ""
 )
 
 data class getSalesEntry (
-
     @SerializedName("id")
     @Expose
-    val id: Int,
-    @SerializedName("productid")
+    var id: Int = 0,
+    @SerializedName("product_id")
     @Expose
-    val productid: String,
+    var product_id: String = "",
+    @SerializedName("product_code")
+    @Expose
+    var product_code: String = "",
+    @SerializedName("product_name")
+    @Expose
+    var product_name: String = "",
     @SerializedName("soq")
     @Expose
-    val soq: String,
-    @SerializedName("productname")
-    @Expose
-    val productname: String,
-    @SerializedName("qty")
-    @Expose
-    val qty: String,
-    @SerializedName("price")
-    @Expose
-    val price: String,
+    var soq: String = "",
     @SerializedName("seperator")
     @Expose
-    val seperator: String,
+    var seperator: String = "",
     @SerializedName("seperatorname")
     @Expose
-    val seperatorname: String,
-    @SerializedName("orders")
-    @Expose
-    val orders: String,
-    @SerializedName("inventory")
-    @Expose
-    val inventory: String,
+    var seperatorname: String = "",
     @SerializedName("pricing")
     @Expose
-    val pricing: String,
-    @SerializedName("entrytime")
+    var pricing: String = "",
+    @SerializedName("inventory")
     @Expose
-    val entrytime: String,
-    @SerializedName("orderrice")
+    var inventory: String = "",
+    @SerializedName("entry_time")
     @Expose
-    val orderrice: String,
-    @SerializedName("mtcom")
+    var entry_time: String = "",
+    @SerializedName("controlpricing")
     @Expose
-    val mtcom: String,
-    @SerializedName("mtamt")
+    var controlpricing: String = "",
+    @SerializedName("controlinventory")
     @Expose
-    val mtamt: String,
-    @SerializedName("contorder")
-    @Expose
-    val contorder: String,
-    @SerializedName("contprincing")
-    @Expose
-    val contprincing: String,
-    @SerializedName("continventory")
-    @Expose
-    val continventory: String
+    var controlinventory: String = ""
 )
 
 data class SumSales(

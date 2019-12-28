@@ -32,6 +32,7 @@ import com.mobbile.paul.mttms.models.*
 import com.mobbile.paul.mttms.ui.outlets.entries.Entries
 import com.mobbile.paul.mttms.util.Util.appTime
 import com.mobbile.paul.mttms.util.Util.insideRadius
+import com.mobbile.paul.mttms.util.Util.showMsgDialog
 import com.mobbile.paul.mttms.util.Util.showSomeDialog
 import kotlinx.android.synthetic.main.activity_customers.*
 import javax.inject.Inject
@@ -70,6 +71,7 @@ class Customers : BaseActivity() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         checkLocationPermission()
         vmodel.selectAnyReps().observe(this, observeSelectRep)
+        vmodel.closeOutletMutable().observe(this, observeCloseOutlets)
     }
 
     fun switchAdapters() {
@@ -92,6 +94,18 @@ class Customers : BaseActivity() {
         var intent = Intent(this, Customers::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
+    }
+
+    private val observeCloseOutlets = Observer<AttendantData> {
+       when(it.status){
+        200->{
+            showProgressBar(false)
+            showMsgDialog(Customers(), this, "Successful",it.notis)
+        }else->{
+           showProgressBar(false)
+           showSomeDialog(this,it.notis,"Outlet Close Error")
+        }
+       }
     }
 
     private val observers = Observer<SalesRepAndCustomerData> {
@@ -134,6 +148,7 @@ class Customers : BaseActivity() {
     private fun partItemClicked(partItem : EntityAllOutletsList, separator: Int) {
         when(separator){
             100->{
+                showProgressBar(true)
                 mode = 1
                 dataFromAdapter = partItem
                 startLocationUpdates()
@@ -147,6 +162,7 @@ class Customers : BaseActivity() {
                 Toast.makeText(this, "Clicked: ${partItem.outletname} ${separator}", Toast.LENGTH_LONG).show()
             }
             400->{
+                showProgressBar(true)
                 mode = 2
                 dataFromAdapter = partItem
                 startLocationUpdates()
@@ -166,8 +182,6 @@ class Customers : BaseActivity() {
     }
 
     fun startLocationUpdates() {
-
-        showProgressBar(true)
 
         locationRequest = LocationRequest()
 
@@ -194,14 +208,11 @@ class Customers : BaseActivity() {
     }
 
     fun onLocationChanged(location: Location) {
-        showProgressBar(false)
         if (location.latitude.isNaN() && location.longitude.isNaN()) {
             showProgressBar(false)
             stoplocation()
             startLocationUpdates()
         } else {
-
-            showProgressBar(false)
             stoplocation()
 
             val checkCustomerOutlet: Boolean = insideRadius(
@@ -212,6 +223,7 @@ class Customers : BaseActivity() {
             )
 
             if (!checkCustomerOutlet) {
+                //showProgressBar(false)
                 //showSomeDialog(this,"You are not at the corresponding outlet. Thanks!","Location Error")
                 vmodel.ValidateSeque(1, dataFromAdapter.sequenceno, location.latitude, location.longitude).observe(this,observeVisitSequence)
             } else {
@@ -226,34 +238,7 @@ class Customers : BaseActivity() {
                 //pushing to server and update local db
                 when(mode) {
                     1->{
-                        val intent = Intent(this, Entries::class.java)
-                        intent.putExtra("urno", dataFromAdapter.urno)
-                        intent.putExtra("token", dataFromAdapter.token)
-                        intent.putExtra("outletname", dataFromAdapter.outletname)
-                        intent.putExtra("defaulttoken", dataFromAdapter.defaulttoken)
-                        intent.putExtra("visit_sequence", dataFromAdapter.sequenceno)
-                        intent.putExtra("currentLat", it.lat)
-                        intent.putExtra("currentLng", it.lng)
-                        intent.putExtra("outletLat", dataFromAdapter.latitude)
-                        intent.putExtra("outletLng", dataFromAdapter.longitude)
-                        intent.putExtra("distance",dataFromAdapter.distance)
-                        intent.putExtra("durations", dataFromAdapter.duration)
-                        intent.putExtra("arivaltime", appTime())
-                        intent.putExtra("repname", dataFromAdapter.rep_name)
-                        intent.putExtra("repid", dataFromAdapter.rep_id)
-                        intent.putExtra("tmid", dataFromAdapter.tm_id)
-                        startActivity(intent)
-                    }
-                    2->{
-                        //update the local db and the remote db
-                        val self = "${it.self},${it.nexts}"
-                        vmodel.UpdateSeque(it.id, it.nexts+1, self)
-                    }
-                }
-            }
-            300->{
-                when(mode) {
-                    1->{
+                        showProgressBar(false)
                         val intent = Intent(this, Entries::class.java)
                         intent.putExtra("urno", dataFromAdapter.urno)
                         intent.putExtra("token", dataFromAdapter.token)
@@ -270,16 +255,57 @@ class Customers : BaseActivity() {
                         intent.putExtra("repname", dataFromAdapter.rep_name)
                         intent.putExtra("repid", dataFromAdapter.rep_id)
                         intent.putExtra("tmid", dataFromAdapter.tm_id)
+                        intent.putExtra("auto", dataFromAdapter.auto)
+                        intent.putExtra("customerno", dataFromAdapter.customerno)
+                        intent.putExtra("customer_code", dataFromAdapter.customer_code)
                         startActivity(intent)
                     }
                     2->{
-                        //dont update the local db. just make a remote call
+                        vmodel.CloseOutlets(dataFromAdapter.rep_id, dataFromAdapter.tm_id, it.lat.toString(), it.lng.toString(),
+                            dataFromAdapter.latitude.toString(), dataFromAdapter.longitude.toString(), appTime(),
+                            dataFromAdapter.sequenceno.toString(),dataFromAdapter.distance, dataFromAdapter.duration, dataFromAdapter.urno,
+                            it.id, it.nexts+1, "${it.self},${it.nexts}",1, dataFromAdapter.auto)
+                    }
+                }
+            }
+            300->{
+                //push to server without update local db
+                when(mode) {
+                    1->{
+                        showProgressBar(false)
+                        val intent = Intent(this, Entries::class.java)
+                        intent.putExtra("urno", dataFromAdapter.urno)
+                        intent.putExtra("token", dataFromAdapter.token)
+                        intent.putExtra("outletname", dataFromAdapter.outletname)
+                        intent.putExtra("defaulttoken", dataFromAdapter.defaulttoken)
+                        intent.putExtra("visit_sequence", dataFromAdapter.sequenceno)
+                        intent.putExtra("clat", it.lat)
+                        intent.putExtra("clng", it.lng)
+                        intent.putExtra("arrivallat", it.lat)
+                        intent.putExtra("arrivalng", it.lng)
+                        intent.putExtra("distance",dataFromAdapter.distance)
+                        intent.putExtra("durations", dataFromAdapter.duration)
+                        intent.putExtra("arivaltime", appTime())
+                        intent.putExtra("repname", dataFromAdapter.rep_name)
+                        intent.putExtra("repid", dataFromAdapter.rep_id)
+                        intent.putExtra("tmid", dataFromAdapter.tm_id)
+                        intent.putExtra("auto", dataFromAdapter.auto)
+                        intent.putExtra("customerno", dataFromAdapter.customer_code)
+                        startActivity(intent)
+                    }
+                    2->{
+                        vmodel.CloseOutlets(dataFromAdapter.rep_id, dataFromAdapter.tm_id, it.lat.toString(), it.lng.toString(),
+                            dataFromAdapter.latitude.toString(), dataFromAdapter.longitude.toString(), appTime(),
+                            dataFromAdapter.sequenceno.toString(),dataFromAdapter.distance, dataFromAdapter.duration, dataFromAdapter.urno,
+                            it.id, it.nexts+1, "${it.self},${it.nexts}",2, dataFromAdapter.auto)
                     }
                 }
             }
             400->{
+                showProgressBar(false)
                 showSomeDialog(this,"Please follow the outlet visit sequence. Thanks!","Visit Error")
             }else->{
+                showProgressBar(false)
                 showSomeDialog(this,"Please resume and clock out before you proceed. Thanks!","Attendant Error")
             }
         }

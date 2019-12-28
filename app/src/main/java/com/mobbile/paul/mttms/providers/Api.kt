@@ -8,8 +8,6 @@ import retrofit2.http.*
 
 interface Api {
 
-
-
     @Headers("Connection:close")
     @POST("/tm_outlets")
     fun fetchAllOutlets(
@@ -17,13 +15,6 @@ interface Api {
         @Query("today") today: String
     ): Single<Response<InitAllOutlets>>
 
-    @Headers("Connection:close")
-    @POST("/tm_basket")
-    fun getbasket(
-        @Query("employeeid") employeeid: Int,
-        @Query("custno") custno: String,
-        @Query("urno") urno: String
-    ): Single<Response<InitBbasket>>
 
     @Headers("Connection:close")
     @Multipart

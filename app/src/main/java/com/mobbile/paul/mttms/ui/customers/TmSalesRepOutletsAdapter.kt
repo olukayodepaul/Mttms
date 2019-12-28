@@ -59,7 +59,7 @@ class TmSalesRepOutletsAdapter(
 
             containerView.tv_name.text = item.outletname
             containerView.tv_titles.text = ("${item.urno}, ${item.customerno}, ${item.volumeclass}")
-            containerView.tv_sequence.text = "${item.sequenceno}"
+            containerView.tv_sequence.text = "${item.sequenceno - 1}"
             containerView.timeago.text = item.entry_time
 
             containerView.icons_images.setOnClickListener {
@@ -69,6 +69,7 @@ class TmSalesRepOutletsAdapter(
             if(item.sort==1) {
                 containerView.icons_images.visibility = View.GONE
                 containerView.tv_titles.text = item.notice
+                containerView.tv_sequence.visibility = View.GONE
             }
 
             if(item.sort==2){

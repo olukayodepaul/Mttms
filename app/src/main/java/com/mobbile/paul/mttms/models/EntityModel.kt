@@ -67,23 +67,17 @@ data class EntityCustomerVisitSequence(
 @Entity(tableName = "salesentries")
 data class EntityGetSalesEntry (
     @PrimaryKey(autoGenerate = false)
-    val id: Int,
-    val productid: String,
-    val soq: String,
-    val productname: String,
-    val qty: String,
-    val price: String,
-    val seperator: String,
-    val seperatorname: String,
-    val orders: String,
-    val inventory: String,
-    val pricing: String,
-    val entrytime: String,
-    val orderrice: String,
-    val mtcom: String,
-    val mtamt: String,
-    val contorder: String,
-    val contprincing: String,
-    val continventory: String
+    var id: Int = 0,
+    var product_id: String = "",
+    var product_code: String = "",
+    var product_name: String = "",
+    var soq: String = "",
+    var seperator: String = "",
+    var seperatorname: String = "",
+    var pricing: String = "",
+    var inventory: String = "",
+    var entry_time: String = "",
+    var controlpricing: String = "",
+    var controlinventory: String = ""
 
 )

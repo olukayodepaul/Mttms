@@ -1,13 +1,14 @@
 package com.mobbile.paul.mttms.ui.customers
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mobbile.paul.mttms.models.*
 import com.mobbile.paul.mttms.providers.Repository
+import com.mobbile.paul.mttms.util.Util.AttendanBiData
 import com.mobbile.paul.mttms.util.Util.CloseAndOpenOutletBiData
+import com.mobbile.paul.mttms.util.Util.appTime
 import com.mobbile.paul.mttms.util.Util.repCustdata
 import com.mobbile.paul.mttms.util.Util.salesRepCustdata
 import javax.inject.Inject
@@ -24,6 +25,14 @@ class CustomersViewModel @Inject constructor(private val repository: Repository)
     fun selectAnyReps(): LiveData<repAndCustomerData> {
         return repSelection
     }
+
+    private val attendantData = MutableLiveData<AttendantData>()
+
+    fun closeOutletMutable(): LiveData<AttendantData> {
+        return attendantData
+    }
+
+    lateinit var  outletClose: Attendant
 
     lateinit var initData: InitAllOutlets
 
@@ -117,11 +126,40 @@ class CustomersViewModel @Inject constructor(private val repository: Repository)
         return nInt
     }
 
-    fun UpdateSeque(id: Int,nexts:Int,self:String) {
+    fun CloseOutlets(repid: Int, tmid: Int, currentlat: String, currentlng: String,
+                     outletlat: String, outletlng: String, arrivaltime: String,
+                     visitsequence: String, distance: String, duration: String, urno: Int, id: Int, nexts:Int, self:String, sep:Int,
+                     auto:Int)  {
+
+        repository.CloseOutlets(repid,tmid,currentlat,currentlng,outletlat, outletlng,arrivaltime, visitsequence,distance,duration,urno)
+            .subscribe({
+                outletClose = it.body()!!
+                when(sep) {
+                    1->{
+                        UpdateSeque(id, nexts, self, auto)
+                    }
+                    2->{
+                        AttendanBiData(attendantData, outletClose.status, outletClose.notis)
+                    }
+                }
+            },{
+                AttendanBiData(attendantData, 300, it.message.toString())
+            }).isDisposed
+    }
+
+    fun UpdateSeque(id: Int,nexts:Int,self:String,auto:Int) {
         repository.UpdateSeque(id,nexts,self).subscribe({
-
+            setEntryTime(auto)
         },{
+            AttendanBiData(attendantData, 300, it.message.toString())
+        }).isDisposed
+    }
 
+    fun setEntryTime(auto:Int){
+        repository.setEntryTime(appTime(), auto).subscribe({
+            AttendanBiData(attendantData, outletClose.status, outletClose.notis)
+        },{
+            AttendanBiData(attendantData, 300, it.message.toString())
         }).isDisposed
     }
 
