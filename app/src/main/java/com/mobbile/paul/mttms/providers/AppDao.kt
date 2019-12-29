@@ -25,16 +25,6 @@ interface AppDao {
     fun fetchEntityAllCustomersList(): List<EntityAllCustomersList>
     */
 
-   /*@Query("UPDATE salesentries SET orders=:orders, inventory=:inventory, pricing=:pricing, entrytime=:entry_time, orderrice=:salesprice, contorder=:contOrder, contprincing=:contPrincing, continventory=:contInventory, mtamt = mtcom * :orders where  productid=:product_id")
-    fun updateDailySales(orders: Double, inventory: Double, pricing: Int, entry_time: String,  product_id: String, salesprice: Double, contOrder: String, contPrincing: String, contInventory: String)
-
-    @Query("SELECT count(id) FROM salesentries WHERE contorder= '' OR contprincing = '' OR continventory = ''")
-    fun validateSalesEntry() : Int
-
-    @Query("SELECT SUM(orders) AS sorder, SUM(inventory) AS sinventory, SUM(pricing) AS spricing, SUM(price*orders) AS stotalsum  FROM salesentries")
-    fun sumAllSalesEntry(): SumSales
-    */
-
     @Query("DELETE FROM modules")
     fun deleteModules()
 
@@ -92,6 +82,19 @@ interface AppDao {
     fun saveSalesEntry(
         salesen: List<EntityGetSalesEntry>
     )
+
+    @Query("UPDATE salesentries SET inventory=:inventory, pricing=:pricing, entry_time=:entry_time, controlpricing=:controlpricing, controlinventory = :controlinventory where  product_code=:product_code")
+    fun updateDailySales(inventory: Double, pricing: Int, entry_time: String, controlpricing:String, controlinventory:String, product_code:String)
+
+    @Query("SELECT count(id) FROM salesentries WHERE   controlpricing = '' OR controlinventory = ''")
+    fun validateSalesEntry() : Int
+
+    @Query("SELECT  SUM(inventory) AS sinventory, SUM(pricing) AS spricing FROM salesentries")
+    fun sumAllSalesEntry(): SumSales
+
+    @Query("SELECT * FROM salesentries")
+    fun pullAllSalesEntry() : List<EntityGetSalesEntry>
+
 }
 
 

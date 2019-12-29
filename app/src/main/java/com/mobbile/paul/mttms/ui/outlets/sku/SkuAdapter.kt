@@ -41,15 +41,12 @@ class SkuAdapter(private var mItems: List<EntityGetSalesEntry>):
             val df = DecimalFormat("#.#")
 
             df.roundingMode = RoundingMode.FLOOR
-            //containerView.mt_sku_id_tv.text = item.productname.toLowerCase().capitalize()
+            containerView.mt_sku_id_tv.text = item.product_name.toLowerCase().capitalize()
             containerView.mt_inventory_id_tv.text = item.inventory
             containerView.mt_pricing_id_tv.text = item.pricing
-            //containerView.mt_order_id_tv.text = item.orders
-            //containerView.mt_amount_id_tv.text = String.format("%,.1f",(df.format(item.price.toDouble() *item.orders.toDouble()).toDouble()))
             if(item.seperator.equals("3")){
                 containerView.mt_sku_id_tv.setTextColor(Color.parseColor("#01579B"))
             }
-
         }
     }
 }

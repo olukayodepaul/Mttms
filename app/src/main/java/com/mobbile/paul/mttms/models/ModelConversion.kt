@@ -21,12 +21,10 @@ fun AllOutletsList.toEntityAllOutletsList(): EntityAllOutletsList {
     )
 }
 
-fun EntityAllOutletsList.toAllOutletsList(): AllOutletsList {
-    return AllOutletsList(
-        auto,rep_id,urno,customerno,outletclassid,outletlanguageid,outlettypeid,
-        outletname,outletaddress,contactname,contactphone,latitude,
-        longitude,outlet_pic,token,defaulttoken,sequenceno,distance,duration,mode,tm_id,dates,
-        volumeclass,rep_name,sort, notice,customer_code,entry_time
+fun EntityGetSalesEntry.toAllOutletsList(): getSalesEntry {
+    return getSalesEntry(
+        id,product_id, product_code,product_name, soq, seperator,seperatorname, pricing, inventory,
+        entry_time,controlpricing,controlinventory
     )
 }
 

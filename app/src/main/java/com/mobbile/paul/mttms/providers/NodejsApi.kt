@@ -4,6 +4,7 @@ package com.mobbile.paul.mttms.providers
 import com.mobbile.paul.mttms.models.*
 import io.reactivex.Single
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -69,4 +70,10 @@ interface NodejsApi {
         @Query("customer_code") customer_code: String,
         @Query("repid") repid: Int
     ): Single<Response<InitBbasket>>
+
+    @Headers("Connection:close")
+    @POST("/mobiletrader/postsales")
+    fun postSales(
+        @Body datas: postToServer
+    ): Single<Response<Exchange>>
 }

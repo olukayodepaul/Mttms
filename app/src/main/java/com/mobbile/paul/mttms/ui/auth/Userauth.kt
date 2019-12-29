@@ -48,7 +48,7 @@ class Userauth : BaseActivity() {
         setContentView(R.layout.activity_main)
         vmodel = ViewModelProviders.of(this, modelFactory)[AuthViewModel::class.java]
         preferences = getSharedPreferences(USER_INFOS, Context.MODE_PRIVATE)
-        todayDates = SimpleDateFormat("yyyy-MM-dd").format(Date())
+        todayDates = "2019-12-"//SimpleDateFormat("yyyy-MM-dd").format(Date())
         showProgressBar(false)
 
         btn_login.setOnClickListener {

@@ -12,19 +12,22 @@ android:background="@color/ballReleasegb">
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:theme="@style/ToolbarThemes"
     tools:ignore="MissingConstraints"
-    android:elevation="4dp">
+    android:elevation="4dp"
+    android:background="@color/blue_nblac"
+    >
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:elevation="4dp">
+        android:elevation="4dp"
+        >
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/blue_nblac">
 
             <RelativeLayout
                 android:id="@+id/textView"
@@ -45,8 +48,8 @@ android:background="@color/ballReleasegb">
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Sales History"
-                    android:textColor="@color/bg_black"
+                    android:text=""
+                    android:textColor="@color/white"
                     android:textSize="@dimen/fontSize" />
 
                 <TextView
@@ -54,10 +57,10 @@ android:background="@color/ballReleasegb">
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tv_modules"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Moma TomiLola"
-                    android:textColor="@color/bg_black"
-                    android:textSize="13sp" />
+                    android:fontFamily="@font/roboto_medium"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="15sp" />
             </RelativeLayout>
 
             <ImageView
@@ -72,7 +75,7 @@ android:background="@color/ballReleasegb">
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/ic_clear_black_24dp"
+                app:srcCompat="@drawable/ic_delete_forever_black_24dp"
                 tools:ignore="MissingConstraints" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
@@ -97,7 +100,7 @@ android:background="@color/ballReleasegb">
             android:id="@+id/parent_lay_outs"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:background="@color/jet"
+            android:background="@color/blue_nblac"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints">
 
@@ -107,13 +110,13 @@ android:background="@color/ballReleasegb">
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="240dp"
+                android:layout_marginEnd="140dp"
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:text="SKU"
                 android:textAlignment="textStart"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +127,7 @@ android:background="@color/ballReleasegb">
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="177dp"
+                android:layout_marginEnd="70dp"
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:text="Inventory"
@@ -140,7 +143,7 @@ android:background="@color/ballReleasegb">
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="123dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="15dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:text="Pricing"
@@ -151,37 +154,6 @@ android:background="@color/ballReleasegb">
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/mt_order_id_tv"
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="72dp"
-                android:layout_marginBottom="15dp"
-                android:fontFamily="@font/montserrat_semi_bold"
-                android:text="Order"
-                android:textAlignment="textEnd"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/mt_amount_id_tv"
-                android:layout_width="65dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="15dp"
-                android:fontFamily="@font/montserrat_semi_bold"
-                android:text="Amount"
-                android:textAlignment="textEnd"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
@@ -206,7 +178,7 @@ android:background="@color/ballReleasegb">
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="240dp"
+                android:layout_marginEnd="140dp"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:text="TOTAL ENTRIES"
@@ -220,43 +192,11 @@ android:background="@color/ballReleasegb">
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/s_s_amount"
-                android:layout_width="65dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/montserrat_semi_bold"
-                android:text="000,0"
-                android:textAlignment="textEnd"
-                android:textColor="@color/white"
-                android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/s_s_order"
-                android:layout_width="48dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="72dp"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/montserrat_semi_bold"
-                android:text="0,0"
-                android:textAlignment="textEnd"
-                android:textColor="@color/white"
-                android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/s_s_pricing"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="123dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:text="00"
@@ -272,7 +212,7 @@ android:background="@color/ballReleasegb">
                 android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="177dp"
+                android:layout_marginEnd="70dp"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:text="000,0"
@@ -298,7 +238,7 @@ android:background="@color/ballReleasegb">
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_light"
                 android:text="Enter customer verification {code}"
-                android:textColor="@color/bg_black"
+                android:textColor="@color/blue_nblac"
                 android:textSize="15sp"
                 android:layout_marginEnd="30dp"
                 android:layout_marginStart="30dp"

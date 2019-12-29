@@ -52,7 +52,15 @@ class EntriesViewModel @Inject constructor(private var repository: Repository) :
             }).isDisposed
     }
 
-    /*fun validateEntryStatus(): MutableLiveData<Int> {
+    fun updateDailySales(inventory: Double, pricing: Int, entry_time: String, controlpricing:String, controlinventory:String, product_code:String){
+        repository.updateDailySales(inventory,pricing,entry_time,controlpricing,controlinventory,product_code)
+            .subscribe({
+            },{
+
+            }).isDisposed
+    }
+
+    fun validateEntryStatus(): MutableLiveData<Int> {
         var mResult = MutableLiveData<Int>()
         repository.validateSalesEntry()
             .subscribe({
@@ -63,7 +71,7 @@ class EntriesViewModel @Inject constructor(private var repository: Repository) :
                 mResult.postValue(null)
             }).isDisposed
         return mResult
-    }*/
+    }
 
     companion object {
         var TAG = "EntriesViewModel"

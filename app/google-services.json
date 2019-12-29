@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "63307572927",
+    "firebase_url": "https://steadfast-fold-260214.firebaseio.com",
+    "project_id": "steadfast-fold-260214",
+    "storage_bucket": "steadfast-fold-260214.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63307572927:android:681de43a980e65f94a480a",
+        "android_client_info": {
+          "package_name": "com.mobbile.paul.mttms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "63307572927-lk77r8epig0aspj0djgclg8a9jtheq4m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3-LFTBf6Icw-g8VNsBk7QF3s9a1wywiU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "63307572927-lk77r8epig0aspj0djgclg8a9jtheq4m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

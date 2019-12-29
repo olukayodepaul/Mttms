@@ -10,39 +10,30 @@ data class UserAuth(
     @SerializedName("status")
     @Expose
     var status: Int,
-
     @SerializedName("massage")
     @Expose
     var massage: String = "",
-
     @SerializedName("notification")
     @Expose
     var notification: String = "",
-
     @SerializedName("employee_id")
     @Expose
     var employee_id: Int,
-
     @SerializedName("depots_id")
     @Expose
     var depots_id: Int,
-
     @SerializedName("dates")
     @Expose
     var dates: String,
-
     @SerializedName("region_id")
     @Expose
     var region_id: Int,
-
     @SerializedName("modules")
     @Expose
     var modules: List<UserModules>? = null,
-
     @SerializedName("reps")
     @Expose
     var reps: List<RepList>? = null,
-
     @SerializedName("spinners")
     @Expose
     var spinners: List<UserSpinners>? = null
@@ -305,10 +296,8 @@ data class getSalesEntry (
 )
 
 data class SumSales(
-    var sorder: Double = 0.0,
     var spricing: Int = 0,
-    var sinventory: Double = 0.0,
-    var stotalsum: Double = 0.0
+    var sinventory: Double = 0.0
 )
 
 data class getCards (
@@ -348,8 +337,53 @@ data class Attendant(
     var notis: String = ""
 )
 
+data class postToServer(
+    @SerializedName("repid")
+    @Expose
+    var repid: Int = 0,
+    @SerializedName("tmid")
+    @Expose
+    var tmid: Int = 0,
+    @SerializedName("currentlat")
+    @Expose
+    var currentlat: String = "",
+    @SerializedName("currentlng")
+    @Expose
+    var currentlng: String = "",
+    @SerializedName("outletlat")
+    @Expose
+    var outletlat: String = "",
+    @SerializedName("outletlng")
+    @Expose
+    var outletlng: String = "",
+    @SerializedName("arrivaltime")
+    @Expose
+    var arrivaltime: String = "",
+    @SerializedName("visitsequence")
+    @Expose
+    var visitsequence: String = "",
+    @SerializedName("distance")
+    @Expose
+    var distance: String = "",
+    @SerializedName("duration")
+    @Expose
+    var duration: String = "",
+    @SerializedName("urno")
+    @Expose
+    var urno: Int = 0,
+    @SerializedName("saleslist")
+    @Expose
+    var entry: List<getSalesEntry>? = null
+)
 
-
+data class Exchange(
+    @SerializedName("status")
+    @Expose
+    var status: Int = 0,
+    @SerializedName("notis")
+    @Expose
+    var notis: String = ""
+)
 
 
 

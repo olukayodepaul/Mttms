@@ -139,18 +139,7 @@ constructor(private val appDao: AppDao, private val api: Api, private val nodejs
                 salesprice, contOrder, contPrincing, contInventory )
         }.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-
-    fun validateSalesEntry(): Observable<Int> =
-        Observable.fromCallable {
-            appDao.validateSalesEntry()
-        }.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-
-    fun sumAllSalesEntry(): Observable<SumSales> =
-        Observable.fromCallable {
-            appDao.sumAllSalesEntry()
-        }.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())*/
+    */
 
 
 
@@ -265,6 +254,37 @@ constructor(private val appDao: AppDao, private val api: Api, private val nodejs
 
     fun getbasket(customerno: String, customer_code: String, repid: Int): Single<Response<InitBbasket>> =
         nodejsApi.getbasket(customerno, customer_code, repid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {it}
+
+    fun updateDailySales(inventory: Double, pricing: Int, entry_time: String, controlpricing:String, controlinventory:String, product_code:String) =
+        Single.fromCallable{
+            appDao.updateDailySales(inventory,pricing,entry_time,controlpricing,controlinventory,product_code)
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+    fun validateSalesEntry(): Observable<Int> =
+        Observable.fromCallable {
+            appDao.validateSalesEntry()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+    fun sumAllSalesEntry(): Observable<SumSales> =
+        Observable.fromCallable {
+            appDao.sumAllSalesEntry()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+
+    fun pullAllSalesEntry(): Single<List<EntityGetSalesEntry>> =
+        Single.fromCallable {
+            appDao.pullAllSalesEntry()
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+    fun fetchPostSales(data: postToServer): Single<Response<Exchange>> =
+        nodejsApi.postSales(data)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {it}

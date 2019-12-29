@@ -14,6 +14,7 @@ import com.mobbile.paul.mttms.BaseActivity
 import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.EntityGetSalesEntry
 import com.mobbile.paul.mttms.models.SumSales
+import com.mobbile.paul.mttms.util.Util.showSomeDialog
 import kotlinx.android.synthetic.main.activity_sku.*
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -28,42 +29,80 @@ class SkuActivity : BaseActivity() {
 
     private lateinit var mAdapter: SkuAdapter
 
-    var token: String? = null
-
-    var urno: String? = null
-
-    var defaulttoken: String? = null
-
-    var outletid: Int? = null
-
-    var repid: Int? = null
-
-    var tmid: Int? = null
-
-    var lat: Double? = null
-
-    var lng: Double? = null
+    var repid: Int = 0
+    var tmid: Int = 0
+    var currentlat: String = "0.0"
+    var currentlng: String = "0.0"
+    var outletlat: String = "0.0"
+    var outletlng: String = "0.0"
+    var distance: String = "0 km"
+    var durations: String = "0 MS"
+    var urno: Int = 0
+    var sequenceno: Int = 0
+    var token: String = ""
+    var outletname: String = ""
+    var defaulttoken: String = ""
+    var repname: String = ""
+    var arivaltime: String = ""
+    var auto: Int = 0
+    var customerno: String = ""
+    var customer_code: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sku)
         vmodel = ViewModelProviders.of(this, modelFactory)[SkuViewmodel::class.java]
+
+        repid = intent.getIntExtra("repid", 0)
+        tmid = intent.getIntExtra("tmid", 0)
+        currentlat = intent.getStringExtra("currentlat")!!
+        currentlng = intent.getStringExtra("currentlng")!!
+        outletlat = intent.getStringExtra("outletlat")!!
+        outletlng = intent.getStringExtra("outletlng")!!
+        distance = intent.getStringExtra("distance")!!
+        durations = intent.getStringExtra("durations")!!
+        urno = intent.getIntExtra("urno", 0)
+        sequenceno = intent.getIntExtra("sequenceno", 0)
+        token = intent.getStringExtra("token")!!
+        outletname = intent.getStringExtra("outletname")!!
+        defaulttoken = intent.getStringExtra("defaulttoken")!!
+        repname = intent.getStringExtra("repname")!!
+        arivaltime = intent.getStringExtra("arivaltime")!!
+        auto = intent.getIntExtra("auto", 0)
+        customerno = intent.getStringExtra("customerno")!!
+        customer_code = intent.getStringExtra("customer_code")!!
+
         vmodel.fetch().observe(this, observerOfSalesEntry)
         IntAdapter()
-        urno = intent.getStringExtra("urno")
-        token = intent.getStringExtra("token")
-        defaulttoken = intent.getStringExtra("dtoken")
-        outletid = intent.getIntExtra("outletids",0)
-        repid = intent.getIntExtra("rep_employee_id",0)
-        tmid = intent.getIntExtra("tm_employee_id",0)
-        lat = intent.getDoubleExtra("passerLat",0.0)
-        lng = intent.getDoubleExtra("passerLng",0.0)
 
         back_btn.setOnClickListener {
             onBackPressed()
         }
+    }
 
-        Log.d(TAG, "1$token 2$defaulttoken 3$repid 4$tmid 5$outletid 6$urno $lat $lng")
+    fun IntAdapter() {
+
+        tv_outlet_name.text= repname
+        tv_modules.text = "Entry History (${outletname})"
+
+        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
+        recycler_view_complete!!.setHasFixedSize(true)
+        recycler_view_complete.layoutManager = layoutManager
+
+
+        btn_complete.setOnClickListener {
+            when {
+                token.equals(token_form.text.toString().trim()) -> {
+                    showProgressBar(true)
+                    btn_complete.visibility = View.INVISIBLE
+                }
+                defaulttoken.equals(token_form.text.toString().trim()) -> {
+                    showProgressBar(true)
+                    btn_complete.visibility = View.INVISIBLE
+                }
+                else -> showSomeDialog(this,  "Invalid Customer Verification code", "Error")
+            }
+        }
     }
 
     private val observerOfSalesEntry = Observer<List<EntityGetSalesEntry>> {
@@ -77,29 +116,6 @@ class SkuActivity : BaseActivity() {
         showProgressBar(false)
     }
 
-    fun IntAdapter() {
-
-        val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
-        recycler_view_complete.layoutManager = layoutManager
-        recycler_view_complete!!.setHasFixedSize(true)
-
-        btn_complete.setOnClickListener {
-            when {
-                token.equals(token_form.text.toString().trim()) -> {
-                    showProgressBar(true)
-                    btn_complete.visibility = View.INVISIBLE
-                    //vmodel.pullAllSalesEntry().observe(this, obervePullinSalesData)
-                }
-                defaulttoken.equals(token_form.text.toString().trim()) -> {
-                    showProgressBar(true)
-                    btn_complete.visibility = View.INVISIBLE
-                    //vmodel.pullAllSalesEntry().observe(this, obervePullinSalesData)
-                }
-                else -> tokenVerify(2, "Error",  "Invalid Customer Verification code")
-            }
-        }
-    }
-
     private fun loadTotalSales() {
         vmodel.sumAllSalesEntry().observe(this, obserTotal)
     }
@@ -108,27 +124,11 @@ class SkuActivity : BaseActivity() {
         if (it != null) {
             val df = DecimalFormat("#.#")
             df.roundingMode = RoundingMode.FLOOR
-            s_s_amount.text = String.format("%,.1f",(df.format(it.stotalsum).toDouble()))
-            s_s_order.text = String.format("%,.1f",(df.format(it.sorder).toDouble()))
             s_s_pricing.text = String.format("%,.1f",(df.format(it.spricing).toDouble()))
             s_s_invetory.text = String.format("%,.1f",(df.format(it.sinventory).toDouble()))
         }
     }
 
-    private fun tokenVerify(status: Int, title: String, msg: String) {
-        val builder = AlertDialog.Builder(this, R.style.AlertDialogDanger)
-        builder.setMessage(msg)
-            .setTitle(title)
-            .setIcon(R.drawable.icons8_google_alerts_100)
-            .setCancelable(false)
-            .setPositiveButton("Ok") { _, _ ->
-                if(status==1) {
-
-                }
-            }
-        val dialog = builder.create()
-        dialog.show()
-    }
 
     companion object{
         var TAG = "SkuActivity"
