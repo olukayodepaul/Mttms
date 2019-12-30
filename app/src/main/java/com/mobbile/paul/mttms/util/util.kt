@@ -153,5 +153,16 @@ object Util {
         return SimpleDateFormat("yyyy-MM-dd").format(Date())
     }
 
+    fun ResponsesBiData(
+        data: MutableLiveData<Responses>,
+        status: Int,
+        notis: String
+    ){
+        val dataPasser = Responses()
+        dataPasser.status = status
+        dataPasser.notis = notis
+        data.postValue(dataPasser)
+    }
+
 }
 

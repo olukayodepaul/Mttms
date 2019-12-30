@@ -2,6 +2,7 @@ package com.mobbile.paul.mttms.ui.outlets.sku
 
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobbile.paul.mttms.BaseActivity
 import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.EntityGetSalesEntry
+import com.mobbile.paul.mttms.models.Responses
 import com.mobbile.paul.mttms.models.SumSales
+import com.mobbile.paul.mttms.ui.customers.Customers
 import com.mobbile.paul.mttms.util.Util.showSomeDialog
 import kotlinx.android.synthetic.main.activity_sku.*
 import java.math.RoundingMode
@@ -47,6 +50,11 @@ class SkuActivity : BaseActivity() {
     var auto: Int = 0
     var customerno: String = ""
     var customer_code: String = ""
+    var id: Int = 0
+    var self: String = ""
+    var nexts: Int = 0
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +70,7 @@ class SkuActivity : BaseActivity() {
         distance = intent.getStringExtra("distance")!!
         durations = intent.getStringExtra("durations")!!
         urno = intent.getIntExtra("urno", 0)
-        sequenceno = intent.getIntExtra("sequenceno", 0)
+        sequenceno = intent.getIntExtra("visit_sequence", 0)
         token = intent.getStringExtra("token")!!
         outletname = intent.getStringExtra("outletname")!!
         defaulttoken = intent.getStringExtra("defaulttoken")!!
@@ -71,13 +79,17 @@ class SkuActivity : BaseActivity() {
         auto = intent.getIntExtra("auto", 0)
         customerno = intent.getStringExtra("customerno")!!
         customer_code = intent.getStringExtra("customer_code")!!
+        id = intent.getIntExtra("id", 0)
+        self = intent.getStringExtra("self")!!
+        nexts = intent.getIntExtra("nexts", 0)
 
-        vmodel.fetch().observe(this, observerOfSalesEntry)
         IntAdapter()
 
         back_btn.setOnClickListener {
             onBackPressed()
         }
+        vmodel.fetch().observe(this, observerOfSalesEntry)
+        vmodel.DataResponseMethod().observe(this, _OfSalesEntry)
     }
 
     fun IntAdapter() {
@@ -95,13 +107,27 @@ class SkuActivity : BaseActivity() {
                 token.equals(token_form.text.toString().trim()) -> {
                     showProgressBar(true)
                     btn_complete.visibility = View.INVISIBLE
+                    vmodel.pullAllSalesEntry(repid, tmid, currentlat, currentlng, outletlat, outletlng,
+                        arivaltime, sequenceno.toString(), distance,  durations, urno, id, nexts, self, auto)
+
                 }
                 defaulttoken.equals(token_form.text.toString().trim()) -> {
                     showProgressBar(true)
                     btn_complete.visibility = View.INVISIBLE
+                    vmodel.pullAllSalesEntry(repid, tmid, currentlat, currentlng, outletlat, outletlng,
+                        arivaltime, sequenceno.toString(), distance,  durations, urno, id, nexts, self, auto)
                 }
                 else -> showSomeDialog(this,  "Invalid Customer Verification code", "Error")
             }
+        }
+    }
+
+    private val _OfSalesEntry = Observer<Responses> {
+        if(it.status==200){
+            val intent = Intent(this, Customers::class.java)
+            startActivity(intent)
+        }else{
+            showSomeDialog(this, it.notis,"Server Error")
         }
     }
 

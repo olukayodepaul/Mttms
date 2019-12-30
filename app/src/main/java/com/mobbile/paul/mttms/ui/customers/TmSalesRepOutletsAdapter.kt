@@ -139,6 +139,9 @@ class TmSalesRepOutletsAdapter(
                     R.id.close_outlet -> {
                         itemClickListener(item,400)
                     }
+                    R.id.async -> {
+                        itemClickListener(item,500)
+                    }
                 }
                 true
             }

@@ -26,7 +26,6 @@ class EntriesViewModel @Inject constructor(private var repository: Repository) :
             .subscribe(
                 {
                     dataValues = it.body()!!
-                    Log.d(TAG, "${dataValues!!.entry.toString()}")
                     deleteEntityGetSalesEntry()
                 }
             ) {

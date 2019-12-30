@@ -25,6 +25,8 @@ import com.mobbile.paul.mttms.BaseActivity
 import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.EntitySpiners
 import com.mobbile.paul.mttms.util.Util.showSomeDialog
+import com.mobbile.paul.mttms.util.Utils.Companion.USER_INFOS
+import com.mobbile.paul.mttms.util.Utils.Companion.isInternetAvailable
 import kotlinx.android.synthetic.main.activity_map_outlet.*
 import javax.inject.Inject
 
@@ -49,20 +51,39 @@ class MapOutlet : BaseActivity() {
 
     lateinit var locationRequest: LocationRequest
 
-    private var preferencesByInfo: SharedPreferences? = null
+    private var preferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map_outlet)
         vmodel = ViewModelProviders.of(this, modelFactory)[MapOutletViewModel::class.java]
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        preferences = getSharedPreferences(USER_INFOS, Context.MODE_PRIVATE)
 
         backbtn.setOnClickListener {
             onBackPressed()
         }
 
         registerBtn.setOnClickListener {
-            getGps()
+            if (!isInternetAvailable(this)) {
+                showSomeDialog(this, "No Internet Connection, Thanks!", "Network Error")
+            } else {
+                when {
+                    customer_name_edit.text.toString() == "" -> {
+                        showSomeDialog(this, "Please Enter Customer Name", "Entering Error")
+                    }
+                    contact_name_edit.text.toString() == "" -> {
+                        showSomeDialog(this, "Please Enter Contact Name", "Entering Error")
+                    }
+                    address_edit.text.toString() == "" -> {
+                        showSomeDialog(this, "Please Enter Address", "Entering Error")
+                    }
+                    else -> {
+                        showProgressBar(true)
+                        getGps()
+                    }
+                }
+            }
         }
 
         customerClassAdapter = CustomerClassSpinnerAdapter()
@@ -104,11 +125,13 @@ class MapOutlet : BaseActivity() {
                     }
                 }
             }
-            val mOutletClass = ArrayAdapter(this, android.R.layout.simple_spinner_item, outletClassList)
+            val mOutletClass =
+                ArrayAdapter(this, android.R.layout.simple_spinner_item, outletClassList)
             mOutletClass.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             custClass!!.adapter = mOutletClass
 
-            val mPreferedLang = ArrayAdapter(this, android.R.layout.simple_spinner_item, preLangsList)
+            val mPreferedLang =
+                ArrayAdapter(this, android.R.layout.simple_spinner_item, preLangsList)
             mPreferedLang.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             preflang!!.adapter = mPreferedLang
 
@@ -220,14 +243,12 @@ class MapOutlet : BaseActivity() {
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
     fun onLocationChangedForClose(location: Location) {
 
-        Log.d(TAG,"2-2")
-        if(location.latitude.isNaN() && location.longitude.isNaN()) {
-            Log.d(TAG,"2-2")
+        if (location.latitude.isNaN() && location.longitude.isNaN()) {
             stoplocationUpdates()
             startLocationUpdates()
 
-        }else{
-            Log.d(TAG,"2-2")
+        } else {
+            stoplocationUpdates()
             val outletName = customer_name_edit.text.toString()
             val contactName = contact_name_edit.text.toString()
             val address = address_edit.text.toString()
@@ -235,23 +256,19 @@ class MapOutlet : BaseActivity() {
             val outletClass = customerClassAdapter.getValueId(custClass.selectedItem.toString())
             val prefLang = preferedLangAdapter.getValueId(preflang.selectedItem.toString())
             val outletTypeId = outletTypeAdapter.getValueId(outlettypeedit.selectedItem.toString())
-            val repid = preferencesByInfo!!.getInt("specific_rep_id", 0)
-
-            stoplocationUpdates()
-
-            val intent = Intent(this, AttachPhotos::class.java)
-            intent.putExtra("outletName", outletName)
-            intent.putExtra("contactName", contactName)
-            intent.putExtra("address", address)
-            intent.putExtra("phones", phones)
-            intent.putExtra("outletClass", outletClass)
-            intent.putExtra("prefLang", prefLang)
-            intent.putExtra("outletTypeId", outletTypeId)
-            intent.putExtra("repid", repid)
-            intent.putExtra("lat", location.latitude.toString())
-            intent.putExtra("lng", location.longitude.toString())
-            startActivity(intent)
-
+            val tmid = preferences!!.getInt("employee_id_user_preferences", 0)
+            vmodel.mapOutlet(
+                tmid,
+                location.latitude,
+                location.longitude,
+                outletName,
+                contactName,
+                address,
+                phones,
+                outletClass,
+                prefLang,
+                outletTypeId
+            )
         }
     }
 

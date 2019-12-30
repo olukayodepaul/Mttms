@@ -15,27 +15,6 @@ interface Api {
         @Query("today") today: String
     ): Single<Response<InitAllOutlets>>
 
-
-    @Headers("Connection:close")
-    @Multipart
-    @POST("/tm_card")
-    fun updateCards(
-        @Query("employee_id") employee_id: Int,
-        @Query("urno") urno: String,
-        @Query("outletclassid") outletclassid: Int,
-        @Query("outletlanguageid") outletlanguageid: Int,
-        @Query("outlettypeid") outlettypeid: Int,
-        @Query("outletname") outletname: String,
-        @Query("outletaddress") outletaddress: String,
-        @Query("contactname") contactname: String,
-        @Query("contactphone") contactphone: String,
-        @Query("latitude") latitude: String,
-        @Query("longitude") longitude: String,
-        @PartMap map: Map<String, @JvmSuppressWildcards RequestBody>,
-        @Query("entry_date_time") entry_date_time: String,
-        @Query("entry_date") entry_date: String
-    ): Single<Response<getCards>>
-
     @Headers("Connection:close")
     @Multipart
     @POST("/mapoutlets")

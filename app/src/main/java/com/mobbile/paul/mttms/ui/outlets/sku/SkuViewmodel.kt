@@ -5,21 +5,27 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mobbile.paul.mttms.models.*
 import com.mobbile.paul.mttms.providers.Repository
+import com.mobbile.paul.mttms.util.Util.ResponsesBiData
+import com.mobbile.paul.mttms.util.Util.appTime
 import javax.inject.Inject
 
 class SkuViewmodel @Inject constructor(private var repository: Repository) : ViewModel() {
 
+
+    private val DataResponse = MutableLiveData<Responses>()
+
+    fun DataResponseMethod(): LiveData<Responses> {
+        return DataResponse
+    }
+
     fun fetch(): LiveData<List<EntityGetSalesEntry>> {
-
         var mResult = MutableLiveData<List<EntityGetSalesEntry>>()
-
         repository.fetchAllEntryPerDaily()
             .subscribe({
                 mResult.postValue(it)
             }, {
                 mResult.postValue(null)
             }).isDisposed
-
         return mResult
     }
 
@@ -49,9 +55,9 @@ class SkuViewmodel @Inject constructor(private var repository: Repository) : Vie
         entry: List<getSalesEntry>,
         id: Int,
         nexts: Int,
-        self: String
+        self: String,
+        auto: Int
     ) {
-
         val list = postToServer()
         list.repid = repid
         list.tmid = tmid
@@ -67,15 +73,13 @@ class SkuViewmodel @Inject constructor(private var repository: Repository) : Vie
         list.entry = entry
         repository.fetchPostSales(list)
             .subscribe({
-                if (it != null) {
-                    if (it.body()!!.status == 200) {
-                        UpdateSeque(id,nexts,self)
-                    } else {
-
-                    }
+                if (it.body()!!.status == 200) {
+                    UpdateSeque(id,nexts,self,auto)
+                } else {
+                    ResponsesBiData(DataResponse, 400, "${it.body()!!.notis}")
                 }
             }, {
-
+                ResponsesBiData(DataResponse, 400, "${it.message}")
             }).isDisposed
     }
 
@@ -83,8 +87,8 @@ class SkuViewmodel @Inject constructor(private var repository: Repository) : Vie
         repid: Int, tmid: Int, currentlat: String, currentlng: String,
         outletlat: String, outletlng: String, arrivaltime: String,
         visitsequence: String, distance: String, duration: String, urno: Int,
-        id: Int, nexts: Int, self: String
-    ): LiveData<String> {
+        id: Int, nexts: Int, self: String, auto: Int
+    ) {
 
         var mResult = MutableLiveData<String>()
         repository.pullAllSalesEntry()
@@ -104,20 +108,28 @@ class SkuViewmodel @Inject constructor(private var repository: Repository) : Vie
                     data.map{it.toAllOutletsList()},
                     id,
                     nexts,
-                    self
+                    self,
+                    auto
                 )
-            }, {
-
+            },{
+                ResponsesBiData(DataResponse, 400, "${it.message}")
             }).isDisposed
-
-        return mResult
     }
 
-    fun UpdateSeque(id: Int,nexts:Int,self:String) {
+
+    fun UpdateSeque(id: Int,nexts:Int,self:String,auto:Int) {
         repository.UpdateSeque(id,nexts,self).subscribe({
-
+            setEntryTime(auto)
         },{
+            ResponsesBiData(DataResponse, 400, "${it.message}")
+        }).isDisposed
+    }
 
+    fun setEntryTime(auto:Int) {
+        repository.setEntryTime(appTime(), auto).subscribe({
+            ResponsesBiData(DataResponse, 200, "Entry Successfully Push to Server")
+        },{
+            ResponsesBiData(DataResponse, 400, "${it.message}")
         }).isDisposed
     }
 

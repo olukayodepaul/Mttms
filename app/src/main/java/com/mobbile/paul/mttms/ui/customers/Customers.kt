@@ -30,6 +30,8 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.*
 import com.mobbile.paul.mttms.models.*
 import com.mobbile.paul.mttms.ui.outlets.entries.Entries
+import com.mobbile.paul.mttms.ui.outlets.mapoutlet.MapOutlet
+import com.mobbile.paul.mttms.ui.outlets.updateoutlets.OutletUpdate
 import com.mobbile.paul.mttms.util.Util.appTime
 import com.mobbile.paul.mttms.util.Util.insideRadius
 import com.mobbile.paul.mttms.util.Util.showMsgDialog
@@ -78,6 +80,11 @@ class Customers : BaseActivity() {
 
         backbtn.setOnClickListener {
             onBackPressed()
+        }
+
+        fab.setOnClickListener {
+            val intent = Intent(this, MapOutlet::class.java)
+            startActivity(intent)
         }
 
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
@@ -160,13 +167,32 @@ class Customers : BaseActivity() {
                 startGoogleMapIntent(this, destination, dmode, 't')
             }
             300->{
-                Toast.makeText(this, "Clicked: ${partItem.outletname} ${separator}", Toast.LENGTH_LONG).show()
+                //update outlets
+                dataFromAdapter = partItem
+                val intent = Intent(this, OutletUpdate::class.java)
+                intent.putExtra("repid", dataFromAdapter.rep_id)
+                intent.putExtra("tmid", dataFromAdapter.tm_id)
+                intent.putExtra("outletname", dataFromAdapter.outletname)
+                intent.putExtra("contactname", dataFromAdapter.contactname)
+                intent.putExtra("contactphone", dataFromAdapter.contactphone)
+                intent.putExtra("outletaddress", dataFromAdapter.outletaddress)
+                intent.putExtra("outletclassid", dataFromAdapter.outletclassid)
+                intent.putExtra("outletlanguageid", dataFromAdapter.outletlanguageid)
+                intent.putExtra("outlettypeid", dataFromAdapter.outlettypeid)
+                startActivity(intent)
             }
             400->{
                 showProgressBar(true)
                 mode = 2
                 dataFromAdapter = partItem
                 startLocationUpdates()
+            }
+            500-> {
+                dataFromAdapter = partItem
+                val asyncRepId = dataFromAdapter.rep_id
+                val asyncTmId = dataFromAdapter.tm_id
+                var asyncTmAuto = dataFromAdapter.auto
+                vmodel.AsynData(asyncRepId, asyncTmId, asyncTmAuto) //update the local db
             }
         }
     }
@@ -256,9 +282,12 @@ class Customers : BaseActivity() {
                         intent.putExtra("defaulttoken", dataFromAdapter.defaulttoken)
                         intent.putExtra("arivaltime", appTime())
                         intent.putExtra("repname", dataFromAdapter.rep_name)
-                        intent.putExtra("auto", dataFromAdapter.auto)
                         intent.putExtra("customerno", dataFromAdapter.customerno)
                         intent.putExtra("customer_code", dataFromAdapter.customer_code)
+                        intent.putExtra("auto", dataFromAdapter.auto)
+                        intent.putExtra("id", it.id)
+                        intent.putExtra("self", it.self)
+                        intent.putExtra("nexts", it.nexts)
                         startActivity(intent)
                     }
                     2->{
@@ -290,9 +319,12 @@ class Customers : BaseActivity() {
                         intent.putExtra("defaulttoken", dataFromAdapter.defaulttoken)
                         intent.putExtra("arivaltime", appTime())
                         intent.putExtra("repname", dataFromAdapter.rep_name)
-                        intent.putExtra("auto", dataFromAdapter.auto)
                         intent.putExtra("customerno", dataFromAdapter.customerno)
                         intent.putExtra("customer_code", dataFromAdapter.customer_code)
+                        intent.putExtra("auto", dataFromAdapter.auto)
+                        intent.putExtra("id", it.id)
+                        intent.putExtra("self", it.self)
+                        intent.putExtra("nexts", it.nexts)
                         startActivity(intent)
                     }
                     2->{

@@ -27,27 +27,17 @@ class OutletUpdateViewModel @Inject constructor(private var repository: Reposito
         return mResult
     }
 
-    fun updateCards(employee_id: Int, urno: String, outletclassid: Int, outletlanguageid: Int, outlettypeid: Int,
-        outletname: String, outletaddress: String, contactname: String, contactphone: String, latitude: String,
-        longitude: String, outlet_pic: String, entry_date_time: String, entry_date: String
-    ) : LiveData<String> {
-
-        var mResult = MutableLiveData<String>()
-
-        val map = HashMap<String, RequestBody>()
-        val file = File(outlet_pic)
-        val requestBody = RequestBody.create(MediaType.parse("*/*"), file)
-        map["map\"; filename=\"" + file.name + "\""] = requestBody
-
-        repository.updateCards(employee_id, urno, outletclassid, outletlanguageid, outlettypeid, outletname, outletaddress, contactname,
-            contactphone, latitude, longitude, entry_date_time, entry_date, map)
+    fun updateOutlet(repid:Int, tmid: Int, lat: Double, lng: Double, customername: String, contactname: String,
+                  address: String, phonenumber: String, outletclass: Int, outletlanguage: Int,outlettype: Int) {
+        repository.updateOutlet(repid, tmid,lat,lng,customername,contactname,address,phonenumber,outletclass,outletlanguage,outlettype)
             .subscribe({
-                mResult.postValue(it.body()!!.status)
+
             },{
-                mResult.postValue(it.message)
+
             }).isDisposed
 
-        return mResult
     }
+
+
 
 }

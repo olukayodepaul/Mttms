@@ -5,13 +5,13 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
+import android.util.Log
 import android.widget.ArrayAdapter
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
@@ -22,10 +22,8 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.*
 import com.mobbile.paul.mttms.BaseActivity
 import com.mobbile.paul.mttms.R
-import com.mobbile.paul.mttms.models.AllOutletsList
 import com.mobbile.paul.mttms.models.EntitySpiners
 import com.mobbile.paul.mttms.util.Util.showSomeDialog
-import com.mobbile.paul.mttms.util.Utils.Companion.USER_INFOS
 import com.mobbile.paul.mttms.util.Utils.Companion.isInternetAvailable
 import kotlinx.android.synthetic.main.activity_update_outlets.*
 import javax.inject.Inject
@@ -44,8 +42,6 @@ class OutletUpdate : BaseActivity() {
 
     lateinit var outletTypeAdapter: OutletTypeSpinnerAdapter
 
-    private lateinit var customers: AllOutletsList
-
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     private var hasGps = false
@@ -54,22 +50,37 @@ class OutletUpdate : BaseActivity() {
 
     lateinit var locationRequest: LocationRequest
 
-    private var preferencesByInfo: SharedPreferences? = null
+    var repid: Int = 0
+    var tmid: Int = 0
+    var outletname: String = ""
+    var contactname: String = ""
+    var contactphone: String = ""
+    var outletaddress: String = ""
+    var outletclassid: Int = 0
+    var outletlanguageid: Int = 0
+    var outlettypeid: Int = 0
 
-    private var preferences: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_update_outlets)
         vmodel = ViewModelProviders.of(this, modelFactory)[OutletUpdateViewModel::class.java]
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        preferences = getSharedPreferences(USER_INFOS, Context.MODE_PRIVATE)
 
-        //customers = intent.extras!!.getParcelable("extra_item")!!
-        customer_name_edit.setText(customers.outletname)
-        contact_name_edit.setText(customers.contactname)
-        address_edit.setText(customers.outletaddress)
-        phone_number_edit.setText(customers.contactphone)
+        repid = intent.getIntExtra("repid", 0)
+        tmid = intent.getIntExtra("tmid", 0)
+        outletname = intent.getStringExtra("outletname")!!
+        contactname = intent.getStringExtra("contactname")!!
+        contactphone = intent.getStringExtra("contactphone")!!
+        outletaddress = intent.getStringExtra("outletaddress")!!
+        outletclassid = intent.getIntExtra("outletclassid", 0)
+        outletlanguageid = intent.getIntExtra("outletlanguageid", 0)
+        outlettypeid = intent.getIntExtra("outlettypeid", 0)
+
+        customer_name_edit.setText(outletname)
+        contact_name_edit.setText(contactname)
+        address_edit.setText(outletaddress)
+        phone_number_edit.setText(contactphone)
 
         customerClassAdapter = CustomerClassSpinnerAdapter()
         preferedLangAdapter = PreferedLanguageSpinnerAdapter()
@@ -85,8 +96,21 @@ class OutletUpdate : BaseActivity() {
             if (!isInternetAvailable(this)) {
                 showSomeDialog(this, "No Internet Connection, Thanks!", "Network Error")
             } else {
-                showProgressBar(true)
-                getGps()
+                when {
+                    customer_name_edit.text.toString() == "" -> {
+                        showSomeDialog(this, "Please Enter Customer Name","Entering Error")
+                    }
+                    contact_name_edit.text.toString()=="" -> {
+                        showSomeDialog(this, "Please Enter Contact Name","Entering Error")
+                    }
+                    address_edit.text.toString()=="" -> {
+                        showSomeDialog(this, "Please Enter Address","Entering Error")
+                    }
+                    else -> {
+                        showProgressBar(true)
+                        getGps()
+                    }
+                }
             }
         }
     }
@@ -125,17 +149,17 @@ class OutletUpdate : BaseActivity() {
             val mOutletClass = ArrayAdapter(this, android.R.layout.simple_spinner_item, outletClassList)
             mOutletClass.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             custClass!!.adapter = mOutletClass
-            custClass!!.setSelection(customerClassAdapter.getIndexById(customers.outletclassid))
+            custClass!!.setSelection(customerClassAdapter.getIndexById(outletclassid))
 
             val mPreferedLang = ArrayAdapter(this, android.R.layout.simple_spinner_item, preLangsList)
             mPreferedLang.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             preflang!!.adapter = mPreferedLang
-            preflang!!.setSelection(preferedLangAdapter.getIndexById(customers.outletlanguageid))
+            preflang!!.setSelection(preferedLangAdapter.getIndexById(outletlanguageid))
 
             val mOutletType = ArrayAdapter(this, android.R.layout.simple_spinner_item, outletTypeList)
             mOutletType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             outlettypeedit!!.adapter = mOutletType
-            outlettypeedit!!.setSelection(outletTypeAdapter.getIndexById(customers.outlettypeid))
+            outlettypeedit!!.setSelection(outletTypeAdapter.getIndexById(outlettypeid))
             showProgressBar(false)
         }
     }
@@ -255,6 +279,8 @@ class OutletUpdate : BaseActivity() {
             startLocationUpdates()
 
         }else{
+
+            stoplocationUpdates()
             val outletName = customer_name_edit.text.toString()
             val contactName = contact_name_edit.text.toString()
             val address = address_edit.text.toString()
@@ -262,23 +288,9 @@ class OutletUpdate : BaseActivity() {
             val outletClass = customerClassAdapter.getValueId(custClass.selectedItem.toString())
             val prefLang = preferedLangAdapter.getValueId(preflang.selectedItem.toString())
             val outletTypeId = outletTypeAdapter.getValueId(outlettypeedit.selectedItem.toString())
-            val tmid = preferences!!.getInt("employee_id_user_preferences", 0)
-
-            stoplocationUpdates()
-
-            val intent = Intent(this, AttachPhoto::class.java)
-            intent.putExtra("outletName", outletName)
-            intent.putExtra("contactName", contactName)
-            intent.putExtra("address", address)
-            intent.putExtra("phones", phones)
-            intent.putExtra("outletClass", outletClass)
-            intent.putExtra("prefLang", prefLang)
-            intent.putExtra("outletTypeId", outletTypeId)
-            intent.putExtra("tmid", tmid)
-            intent.putExtra("urno", customers.urno)
-            intent.putExtra("lat", location.latitude.toString())
-            intent.putExtra("lng", location.longitude.toString())
-            startActivity(intent)
+            val tmid = tmid
+            val repid = repid
+            vmodel.updateOutlet(repid, tmid, location.latitude, location.longitude, outletName, contactName, address, phones, outletClass, prefLang, outletTypeId)
         }
     }
 

@@ -3,6 +3,7 @@ package com.mobbile.paul.mttms.ui.outlets.entries
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -42,6 +43,9 @@ class Entries : BaseActivity() {
     var auto: Int = 0
     var customerno: String = ""
     var customer_code: String = ""
+    var id: Int = 0
+    var self: String = ""
+    var nexts: Int = 0
 
     @Inject
     internal lateinit var modelFactory: ViewModelProvider.Factory
@@ -69,7 +73,7 @@ class Entries : BaseActivity() {
         distance = intent.getStringExtra("distance")!!
         durations = intent.getStringExtra("durations")!!
         urno = intent.getIntExtra("urno", 0)
-        sequenceno = intent.getIntExtra("sequenceno", 0)
+        sequenceno = intent.getIntExtra("visit_sequence", 0)
         token = intent.getStringExtra("token")!!
         outletname = intent.getStringExtra("outletname")!!
         defaulttoken = intent.getStringExtra("defaulttoken")!!
@@ -78,6 +82,11 @@ class Entries : BaseActivity() {
         auto = intent.getIntExtra("auto", 0)
         customerno = intent.getStringExtra("customerno")!!
         customer_code = intent.getStringExtra("customer_code")!!
+        id = intent.getIntExtra("id", 0)
+        self = intent.getStringExtra("self")!!
+        nexts = intent.getIntExtra("nexts", 0)
+
+        Log.d(TAG, "$sequenceno")
 
         tv_outlet_name.text = repname
         tv_modules.text = "Customer ($outletname)"
@@ -127,6 +136,9 @@ class Entries : BaseActivity() {
             intent.putExtra("auto", auto)
             intent.putExtra("customerno", customerno)
             intent.putExtra("customer_code", customer_code)
+            intent.putExtra("id", id)
+            intent.putExtra("self", self)
+            intent.putExtra("nexts", nexts)
             startActivity(intent)
         }else {
             showProgressBar(false)
@@ -136,7 +148,7 @@ class Entries : BaseActivity() {
 
     private val observeComData = Observer<EntryCallback> {
         showProgressBar(false)
-        var list: List<setSalesEntry> = it.data!!
+        val list: List<setSalesEntry> = it.data!!
         mAdapter = EntriesAdapter(list, ::partItemClicked)
         mAdapter.notifyDataSetChanged()
         _sales_entry_recycler.setItemViewCacheSize(list.size)

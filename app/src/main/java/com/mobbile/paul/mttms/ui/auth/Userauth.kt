@@ -25,6 +25,7 @@ import com.mobbile.paul.mttms.util.Utils.Companion.isInternetAvailable
 import androidx.lifecycle.Observer
 import com.mobbile.paul.mttms.models.AuthBiData
 import com.mobbile.paul.mttms.ui.modules.Modules
+import com.mobbile.paul.mttms.util.Util.appDate
 import com.mobbile.paul.mttms.util.Utils.Companion.USER_INFOS
 import java.text.SimpleDateFormat
 import java.util.*
@@ -48,7 +49,7 @@ class Userauth : BaseActivity() {
         setContentView(R.layout.activity_main)
         vmodel = ViewModelProviders.of(this, modelFactory)[AuthViewModel::class.java]
         preferences = getSharedPreferences(USER_INFOS, Context.MODE_PRIVATE)
-        todayDates = "2019-12-"//SimpleDateFormat("yyyy-MM-dd").format(Date())
+        todayDates = appDate()
         showProgressBar(false)
 
         btn_login.setOnClickListener {

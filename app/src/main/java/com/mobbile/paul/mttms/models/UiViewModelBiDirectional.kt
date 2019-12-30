@@ -48,4 +48,8 @@ data class CloseAndOpenOutlet (
     var id:Int = 0
 )
 
+data class Responses (
+    var status: Int = 0,
+    var notis: String = ""
+)
 

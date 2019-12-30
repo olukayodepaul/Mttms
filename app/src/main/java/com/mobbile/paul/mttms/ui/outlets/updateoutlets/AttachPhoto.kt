@@ -135,10 +135,7 @@ class AttachPhoto : BaseActivity(), View.OnClickListener {
                     if (!postPath.isNullOrBlank()) {
                         showProgressBar(true)
                         save_pics.visibility = View.INVISIBLE
-                        vmodel.updateCards(
-                            tmid!!, urno!!, outletClass!!, prefLang!!, outletTypeId!!, custName!!, address!!, contactName!!, phones!!, lat!!, lng!!,
-                            postPath!!, SimpleDateFormat("yyyy-MM-dd HH:MM:ss").format(Date()), SimpleDateFormat("yyyy-MM-dd").format(Date())
-                        ).observe(this, ObserveImage)
+
                     }
                 }
             }

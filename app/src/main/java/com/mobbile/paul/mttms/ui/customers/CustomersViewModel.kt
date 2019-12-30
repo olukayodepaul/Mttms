@@ -32,7 +32,7 @@ class CustomersViewModel @Inject constructor(private val repository: Repository)
         return attendantData
     }
 
-    lateinit var  outletClose: Attendant
+    lateinit var outletClose: Attendant
 
     lateinit var initData: InitAllOutlets
 
@@ -99,68 +99,101 @@ class CustomersViewModel @Inject constructor(private val repository: Repository)
         }).isDisposed
     }
 
-    fun ValidateSeque(id: Int, nexts: Int, lat:Double, lng:Double):LiveData<CloseAndOpenOutlet> {
-
+    fun ValidateSeque(id: Int, nexts: Int, lat: Double, lng: Double): LiveData<CloseAndOpenOutlet> {
         val nInt = MutableLiveData<CloseAndOpenOutlet>()
-
         repository.ValidateSeque(id)
             .subscribe(
                 {
                     val intArray = nexts in it.self.split(",").map { it.toInt() }
-
                     when {
-                        nexts==it.nexts -> {
-                            CloseAndOpenOutletBiData(nInt,200, lat,lng, it.nexts, it.self, it.id)
+                        nexts == it.nexts -> {
+                            CloseAndOpenOutletBiData(nInt, 200, lat, lng, it.nexts, it.self, it.id)
                         }
                         intArray -> {
-                            CloseAndOpenOutletBiData(nInt,300, lat,lng, it.nexts, it.self, it.id)
+                            CloseAndOpenOutletBiData(nInt, 300, lat, lng, it.nexts, it.self, it.id)
                         }
                         else -> {
-                            CloseAndOpenOutletBiData(nInt,400, lat,lng, it.nexts, it.self, it.id)
+                            CloseAndOpenOutletBiData(nInt, 400, lat, lng, it.nexts, it.self, it.id)
                         }
                     }
                 }, {
-                    CloseAndOpenOutletBiData(nInt,500, 0.0,0.0, 0, "0", 0)
+                    CloseAndOpenOutletBiData(nInt, 500, 0.0, 0.0, 0, "0", 0)
                 }).isDisposed
 
         return nInt
     }
 
-    fun CloseOutlets(repid: Int, tmid: Int, currentlat: String, currentlng: String,
-                     outletlat: String, outletlng: String, arrivaltime: String,
-                     visitsequence: String, distance: String, duration: String, urno: Int, id: Int, nexts:Int, self:String, sep:Int,
-                     auto:Int)  {
-
-        repository.CloseOutlets(repid,tmid,currentlat,currentlng,outletlat, outletlng,arrivaltime, visitsequence,distance,duration,urno)
+    fun CloseOutlets(
+        repid: Int,
+        tmid: Int,
+        currentlat: String,
+        currentlng: String,
+        outletlat: String,
+        outletlng: String,
+        arrivaltime: String,
+        visitsequence: String,
+        distance: String,
+        duration: String,
+        urno: Int,
+        id: Int,
+        nexts: Int,
+        self: String,
+        sep: Int,
+        auto: Int
+    ) {
+        repository.CloseOutlets(
+            repid,
+            tmid,
+            currentlat,
+            currentlng,
+            outletlat,
+            outletlng,
+            arrivaltime,
+            visitsequence,
+            distance,
+            duration,
+            urno
+        )
             .subscribe({
                 outletClose = it.body()!!
-                when(sep) {
-                    1->{
+                when (sep) {
+                    1 -> {
                         UpdateSeque(id, nexts, self, auto)
                     }
-                    2->{
+                    2 -> {
                         AttendanBiData(attendantData, outletClose.status, outletClose.notis)
                     }
                 }
-            },{
+            }, {
                 AttendanBiData(attendantData, 300, it.message.toString())
             }).isDisposed
     }
 
-    fun UpdateSeque(id: Int,nexts:Int,self:String,auto:Int) {
-        repository.UpdateSeque(id,nexts,self).subscribe({
+    fun UpdateSeque(id: Int, nexts: Int, self: String, auto: Int) {
+        repository.UpdateSeque(id, nexts, self).subscribe({
             setEntryTime(auto)
-        },{
+        }, {
             AttendanBiData(attendantData, 300, it.message.toString())
         }).isDisposed
     }
 
-    fun setEntryTime(auto:Int){
+    fun setEntryTime(auto: Int) {
         repository.setEntryTime(appTime(), auto).subscribe({
             AttendanBiData(attendantData, outletClose.status, outletClose.notis)
-        },{
+        }, {
             AttendanBiData(attendantData, 300, it.message.toString())
         }).isDisposed
+    }
+
+
+    fun AsynData(repid:Int, tmid:Int, auto:Int) {
+        repository.AsynData(repid,tmid).subscribe(
+            {
+
+            },{
+
+            }
+        ).isDisposed
     }
 
     companion object {

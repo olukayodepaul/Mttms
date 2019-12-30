@@ -150,17 +150,6 @@ constructor(private val appDao: AppDao, private val api: Api, private val nodejs
             .observeOn(AndroidSchedulers.mainThread())
 
 
-
-    fun updateCards(employee_id: Int, urno: String, outletclassid:Int, outletlanguageid: Int, outlettypeid:Int,
-                 outletname:String, outletaddress:String, contactname: String, contactphone:String, latitude:String,
-                 longitude:String,  entry_date_time:String, entry_date:String, outlet_pic: Map<String, RequestBody>): Single<Response<getCards>> =
-        api.updateCards(employee_id, urno, outletclassid, outletlanguageid, outlettypeid,
-            outletname, outletaddress, contactname, contactphone, latitude,
-            longitude, outlet_pic, entry_date_time, entry_date)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .map {it}
-
     fun createNewCards(employee_id: Int, outletclassid:Int, outletlanguageid: Int, outlettypeid:Int,
                  outletname:String, outletaddress:String, contactname: String, contactphone:String, latitude:String,
                  longitude:String,  entry_date_time:String, entry_date:String, outlet_pic: Map<String, RequestBody>): Single<Response<getCards>> =
@@ -285,6 +274,27 @@ constructor(private val appDao: AppDao, private val api: Api, private val nodejs
 
     fun fetchPostSales(data: postToServer): Single<Response<Exchange>> =
         nodejsApi.postSales(data)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {it}
+
+    fun AsynData(repid:Int, tmid:Int): Single<Response<Exchange>> =
+        nodejsApi.AsynData(repid, tmid)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {it}
+
+    fun updateOutlet(repid: Int, tmid: Int, lat: Double, lng: Double, customername: String, contactname: String,
+                     address: String, phonenumber: String, outletclass: Int, outletlanguage: Int,
+                     outlettype: Int): Single<Response<Exchange>> =
+        nodejsApi.updateOutlet(repid,tmid,lat,lng,customername,contactname,address,phonenumber,outletclass,outletlanguage,outlettype)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {it}
+
+    fun mapOutlet(tmid: Int, lat: Double, lng: Double, customername: String, contactname: String,
+                     address: String, phonenumber: String, outletclass: Int, outletlanguage: Int,outlettype: Int): Single<Response<Exchange>> =
+        nodejsApi.mapOutlet(tmid,lat,lng,customername,contactname,address,phonenumber,outletclass,outletlanguage,outlettype)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {it}

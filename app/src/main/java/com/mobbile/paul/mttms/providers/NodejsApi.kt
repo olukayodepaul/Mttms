@@ -71,9 +71,48 @@ interface NodejsApi {
         @Query("repid") repid: Int
     ): Single<Response<InitBbasket>>
 
+    //working on this four
     @Headers("Connection:close")
-    @POST("/mobiletrader/postsales")
+    @POST("/api/tm_sales_visit")
     fun postSales(
         @Body datas: postToServer
+    ): Single<Response<Exchange>>
+
+    @Headers("Connection:close")
+    @POST("/api/tm_outlet_async")
+    fun AsynData(
+        @Query("repid") repid: Int,
+        @Query("tmid") tmid: Int
+    ): Single<Response<Exchange>>
+
+    @Headers("Connection:close")
+    @POST("/api/tm_update_outlet")
+    fun updateOutlet(
+        @Query("repid") repid: Int,
+        @Query("tmid") tmid: Int,
+        @Query("lat") lat: Double,
+        @Query("lng") lng: Double,
+        @Query("customername") customername: String,
+        @Query("contactname") contactname: String,
+        @Query("address") address: String,
+        @Query("phonenumber") phonenumber: String,
+        @Query("outletclass") outletclass: Int,
+        @Query("outletlanguage") outletlanguage: Int,
+        @Query("outlettype") outlettype: Int
+    ): Single<Response<Exchange>>
+
+    @Headers("Connection:close")
+    @POST("/api/tm_map_outlet")
+    fun mapOutlet(
+        @Query("tmid") tmid: Int,
+        @Query("lat") lat: Double,
+        @Query("lng") lng: Double,
+        @Query("customername") customername: String,
+        @Query("contactname") contactname: String,
+        @Query("address") address: String,
+        @Query("phonenumber") phonenumber: String,
+        @Query("outletclass") outletclass: Int,
+        @Query("outletlanguage") outletlanguage: Int,
+        @Query("outlettype") outlettype: Int
     ): Single<Response<Exchange>>
 }
