@@ -86,7 +86,10 @@ class Entries : BaseActivity() {
         self = intent.getStringExtra("self")!!
         nexts = intent.getIntExtra("nexts", 0)
 
-        Log.d(TAG, "$sequenceno")
+
+        Log.d(TAG,"$sequenceno $nexts $sequenceno")
+
+
 
         tv_outlet_name.text = repname
         tv_modules.text = "Customer ($outletname)"

@@ -371,6 +371,9 @@ data class postToServer(
     @SerializedName("urno")
     @Expose
     var urno: Int = 0,
+    @SerializedName("token")
+    @Expose
+    var token: String = "",
     @SerializedName("saleslist")
     @Expose
     var entry: List<getSalesEntry>? = null
@@ -384,6 +387,66 @@ data class Exchange(
     @Expose
     var notis: String = ""
 )
+
+
+data class OutletAsyn(
+    @SerializedName("status")
+    @Expose
+    var status: Int = 0,
+    @SerializedName("outletclassid")
+    @Expose
+    var outletclassid: Int = 0,
+    @SerializedName("outletlanguageid")
+    @Expose
+    var outletlanguageid: Int = 0,
+    @SerializedName("outlettypeid")
+    @Expose
+    var outlettypeid: Int = 0,
+    @SerializedName("outletname")
+    @Expose
+    var outletname: String = "",
+    @SerializedName("outletaddress")
+    @Expose
+    var outletaddress: String = "",
+    @SerializedName("contactname")
+    @Expose
+    var contactname: String = "",
+    @SerializedName("contactphone")
+    @Expose
+    var contactphone: String = "",
+    @SerializedName("longitude")
+    @Expose
+    var longitude: String = "",
+    @SerializedName("latitude")
+    @Expose
+    var latitude: String = ""
+)
+
+data class Details(
+    @SerializedName("data")
+    @Expose
+    var data: List<DetailsList>? = null
+)
+
+data class DetailsList(
+    @SerializedName("sku")
+    @Expose
+    var sku: String = "",
+    @SerializedName("princing")
+    @Expose
+    var princing: String = "",
+    @SerializedName("inventory")
+    @Expose
+    var inventory: String = "",
+    @SerializedName("category")
+    @Expose
+    var category: String = ""
+)
+
+
+
+
+
 
 
 

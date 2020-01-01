@@ -17,6 +17,7 @@ import com.mobbile.paul.mttms.models.EntityGetSalesEntry
 import com.mobbile.paul.mttms.models.Responses
 import com.mobbile.paul.mttms.models.SumSales
 import com.mobbile.paul.mttms.ui.customers.Customers
+import com.mobbile.paul.mttms.util.Util.showMsgDialog
 import com.mobbile.paul.mttms.util.Util.showSomeDialog
 import kotlinx.android.synthetic.main.activity_sku.*
 import java.math.RoundingMode
@@ -108,14 +109,14 @@ class SkuActivity : BaseActivity() {
                     showProgressBar(true)
                     btn_complete.visibility = View.INVISIBLE
                     vmodel.pullAllSalesEntry(repid, tmid, currentlat, currentlng, outletlat, outletlng,
-                        arivaltime, sequenceno.toString(), distance,  durations, urno, id, nexts, self, auto)
+                        arivaltime, sequenceno.toString(), distance,  durations, urno, id, sequenceno, self, auto, token_form.text.toString().trim())
 
                 }
                 defaulttoken.equals(token_form.text.toString().trim()) -> {
                     showProgressBar(true)
                     btn_complete.visibility = View.INVISIBLE
                     vmodel.pullAllSalesEntry(repid, tmid, currentlat, currentlng, outletlat, outletlng,
-                        arivaltime, sequenceno.toString(), distance,  durations, urno, id, nexts, self, auto)
+                        arivaltime, sequenceno.toString(), distance,  durations, urno, id, nexts, self, auto, token_form.text.toString().trim())
                 }
                 else -> showSomeDialog(this,  "Invalid Customer Verification code", "Error")
             }
@@ -123,9 +124,8 @@ class SkuActivity : BaseActivity() {
     }
 
     private val _OfSalesEntry = Observer<Responses> {
-        if(it.status==200){
-            val intent = Intent(this, Customers::class.java)
-            startActivity(intent)
+        if(it.status==200) {
+            showMsgDialog(Customers(), this, "SUCCESSFUL", it.notis)
         }else{
             showSomeDialog(this, it.notis,"Server Error")
         }

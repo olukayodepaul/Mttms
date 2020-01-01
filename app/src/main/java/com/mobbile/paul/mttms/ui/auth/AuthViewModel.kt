@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import com.mobbile.paul.mttms.models.*
 import com.mobbile.paul.mttms.providers.Repository
 import com.mobbile.paul.mttms.util.Util.AuthbiData
+import com.mobbile.paul.mttms.util.Util.appDate
+import com.mobbile.paul.mttms.util.Util.appTime
 import javax.inject.Inject
 
 class AuthViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
@@ -29,11 +31,11 @@ class AuthViewModel @Inject constructor(private val repository: Repository) : Vi
                     if(data.modules!!.isEmpty() && data.spinners!!.isEmpty()) {
                         AuthbiData(0,responseData,0,0,0,500,"Error, App Module and TM Rep is missing from the endpoint. Please contact developer")
                     }else{
-                        if(appdate != data.dates) {
-                            Log.d(TAG, "${appdate} ${data.dates} 2")
+                        if(appdate != appDate()) {
+                            Log.d(TAG, "${appdate} ${appTime()} 2")
                             deleteModules()
                         }else{
-                            Log.d(TAG, "${appdate} ${data.dates} 4")
+                            Log.d(TAG, "${appdate} ${appTime()} 4")
                             AuthbiData(2,responseData,data.depots_id,data.region_id,data.employee_id,data.status,data.notification)
                         }
                     }
@@ -56,9 +58,29 @@ class AuthViewModel @Inject constructor(private val repository: Repository) : Vi
             ).isDisposed
     }
 
-
     private fun deleteSpiners() {
         repository.deleteSpiners()
+            .subscribe(
+                {
+                    custometvisitsequence()
+                }, {
+                    AuthbiData(0,responseData,0,0,0,500,it.message.toString())
+                }
+            ).isDisposed
+    }
+
+    private fun custometvisitsequence() {
+        repository.custometvisitsequence().subscribe(
+            {
+                deleteAlloutlets()
+            },{
+                AuthbiData(0,responseData,0,0,0,500,it.message.toString())
+            }
+        ).isDisposed
+    }
+
+    private fun deleteAlloutlets(){
+        repository.deleteAlloutlets()
             .subscribe(
                 {
                     inserIntoTable()

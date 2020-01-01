@@ -92,11 +92,15 @@ class TmSalesRepOutletsAdapter(
                 when(item.sort) {
                     1->{
                         val intent = Intent(context, AttendantBasket::class.java)
-                        intent.putExtra("customer_code",item.customer_code)
                         intent.putExtra("tmid", item.tm_id)
                         intent.putExtra("repid", item.rep_id)
-                        intent.putExtra("sortid",item.sort)
-                        intent.putExtra("sequenceno",item.sequenceno)
+                        intent.putExtra("outletlat", item.latitude)
+                        intent.putExtra("outletlng", item.longitude)
+                        intent.putExtra("sequenceno", item.sequenceno)
+                        intent.putExtra("distance",item.distance)
+                        intent.putExtra("duration",item.duration)
+                        intent.putExtra("customer_code",item.customer_code)
+                        intent.putExtra("sort",item.sort)
                         context.startActivity(intent)
                     }
                     3->{
@@ -108,8 +112,15 @@ class TmSalesRepOutletsAdapter(
                     }
                     4->{
                         val intent = Intent(context, StockReturn::class.java)
-                        intent.putExtra("customer_code",item.customer_code)
                         intent.putExtra("tmid", item.tm_id)
+                        intent.putExtra("repid", item.rep_id)
+                        intent.putExtra("outletlat", item.latitude)
+                        intent.putExtra("outletlng", item.longitude)
+                        intent.putExtra("sequenceno", item.sequenceno)
+                        intent.putExtra("distance",item.distance)
+                        intent.putExtra("duration",item.duration)
+                        intent.putExtra("customer_code",item.customer_code)
+                        intent.putExtra("sort",item.sort)
                         context.startActivity(intent)
                     }
                 }
@@ -141,6 +152,9 @@ class TmSalesRepOutletsAdapter(
                     }
                     R.id.async -> {
                         itemClickListener(item,500)
+                    }
+                    R.id.details -> {
+                        itemClickListener(item,600)
                     }
                 }
                 true

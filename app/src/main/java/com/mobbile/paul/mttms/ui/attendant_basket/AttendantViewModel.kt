@@ -40,12 +40,12 @@ class AttendantViewModel @Inject constructor(private val repository: Repository)
         return mResult
     }
 
-    fun takeAttendant(tmid: Int, taskid: Int, repid: Int,sortid:Int,sequenceno:String) {
-        repository.takeAttendant(tmid, taskid, repid)
+    fun takeAttendant(tmid: Int, taskid: Int, repid: Int,sortid:Int, outletlat:Double, outletlng:Double, currentLat:Double,
+                      currentLng:Double, distance:String, duration:String, sequenceno:String, arrivaltime:String) {
+        repository.takeAttendant(tmid, taskid, repid, outletlat, outletlng, currentLat, currentLng, distance, duration, sequenceno, arrivaltime)
             .subscribe({
                  at_Data = it.body()!!
                 if (at_Data.status == 200 && taskid == 2) {
-                    //generate time here from the application.
                     setAttendantTime(appTime(), sortid, sequenceno)
                 } else {
                     AttendanBiData(attendantData, at_Data.status, at_Data.notis)
@@ -65,7 +65,7 @@ class AttendantViewModel @Inject constructor(private val repository: Repository)
     }
 
     fun SequencetManager(sortid:Int,sequenceno:String) {
-        repository.SequencetManager(sortid, sequenceno.toInt()+1, "0,${sequenceno}")
+        repository.SequencetManager(1, sequenceno.toInt()+1, "0,${sequenceno}")
             .subscribe({
                 AttendanBiData(attendantData, at_Data.status, at_Data.notis)
             },{

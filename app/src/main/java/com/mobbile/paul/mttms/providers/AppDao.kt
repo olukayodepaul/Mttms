@@ -34,6 +34,9 @@ interface AppDao {
     @Query("DELETE FROM alloutlets")
     fun deleteAlloutlets()
 
+    @Query("DELETE FROM custometvisitsequence")
+    fun custometvisitsequence()
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveModulesANDspiners(
         modules: List<EntityModules>,
@@ -63,7 +66,7 @@ interface AppDao {
     @Query("select * from custometvisitsequence where id=:id limit 1")
     fun ValidateSeque(id: Int): EntityCustomerVisitSequence
 
-    @Query("update custometvisitsequence set nexts=:nexts,self=:self where id=:id")
+    @Query("update custometvisitsequence set nexts=:nexts,self = (self || :self) where id = :id")
     fun UpdateSeque(id: Int,nexts:Int,self:String)
 
     @Query("Update alloutlets set entry_time =:time WHERE auto = :auto")
@@ -94,6 +97,10 @@ interface AppDao {
 
     @Query("SELECT * FROM salesentries")
     fun pullAllSalesEntry() : List<EntityGetSalesEntry>
+
+    @Query("UPDATE alloutlets SET outletclassid=:outletclassid, outletlanguageid=:outletlanguageid, outlettypeid=:outlettypeid, outletname=:outletname, outletaddress=:outletaddress, contactname=:contactname, contactphone=:contactphone, latitude=:latitude, longitude=:longitude where auto=:auto")
+    fun updateIndividualCustomer(outletclassid:Int, outletlanguageid:Int, outlettypeid:Int, outletname:String, outletaddress:String, contactname:String, contactphone:String, latitude:Double, longitude:Double,auto:Int)
+
 
 }
 

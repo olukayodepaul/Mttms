@@ -22,23 +22,24 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.StockReturn.StockReturn"></activity>
-        <activity android:name=".ui.banks.Banks" />
-        <activity android:name=".ui.attendant_basket.AttendantBasket" />
-        <activity android:name=".ui.outlets.updateoutlets.AttachPhoto" />
-        <activity android:name=".ui.outlets.sku.SkuActivity" />
-        <activity android:name=".ui.outlets.entries.Entries" />
-        <activity android:name=".ui.outlets.mapoutlet.MapOutlet" />
-        <activity android:name=".ui.outlets.mapoutlet.AttachPhotos" />
-        <activity android:name=".ui.outlets.updateoutlets.OutletUpdate" />
+        <activity android:name=".ui.outlets.details.Details" android:screenOrientation="portrait"></activity>
+        <activity android:name=".ui.StockReturn.StockReturn" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.banks.Banks" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.attendant_basket.AttendantBasket" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.outlets.updateoutlets.AttachPhoto" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.outlets.sku.SkuActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.outlets.entries.Entries" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.outlets.mapoutlet.MapOutlet" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.outlets.mapoutlet.AttachPhotos" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.outlets.updateoutlets.OutletUpdate" android:screenOrientation="portrait"/>
         <activity android:name=".ui.outlets.Outlets" />
         <activity
             android:name=".ui.customers.Customers"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.messages.Messages" />
-        <activity android:name=".ui.customerlist.CustomerListViwePager" />
-        <activity android:name=".ui.replist.RepList" />
-        <activity android:name=".ui.modules.Modules" />
+        <activity android:name=".ui.messages.Messages" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.customerlist.CustomerListViwePager" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.replist.RepList" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.modules.Modules" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.auth.Userauth"
             android:screenOrientation="portrait">

@@ -27,8 +27,6 @@ import com.mobbile.paul.mttms.models.AuthBiData
 import com.mobbile.paul.mttms.ui.modules.Modules
 import com.mobbile.paul.mttms.util.Util.appDate
 import com.mobbile.paul.mttms.util.Utils.Companion.USER_INFOS
-import java.text.SimpleDateFormat
-import java.util.*
 
 class Userauth : BaseActivity() {
 
@@ -76,13 +74,13 @@ class Userauth : BaseActivity() {
         val validateDates = preferences!!.getString("today_date_preferences", "")
 
         if (permit == PackageManager.PERMISSION_GRANTED) {
-            vmodel.userAuth("muhammad.i@mt3.com", "1417", "356750108496043", validateDates!!)
-            /*vmodel.userAuth(
+            //vmodel.userAuth("muhammad.i@mt3.com", "1417", "356750108496043", validateDates!!)
+            vmodel.userAuth(
                 username,
                 password,
-                "351736103273508",
-                validateDates.equals(todayDates)
-            )*/
+                tel.getImei(0),
+                validateDates!!
+            )
         } else {
             makeRequest()
         }
@@ -143,7 +141,6 @@ class Userauth : BaseActivity() {
             callModuleIntent()
         }
     }
-
 
     private fun callModuleIntent() {
         val intent = Intent(this, Modules::class.java)

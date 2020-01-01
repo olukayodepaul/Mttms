@@ -29,6 +29,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.*
 import com.mobbile.paul.mttms.models.*
+import com.mobbile.paul.mttms.ui.outlets.details.Details
 import com.mobbile.paul.mttms.ui.outlets.entries.Entries
 import com.mobbile.paul.mttms.ui.outlets.mapoutlet.MapOutlet
 import com.mobbile.paul.mttms.ui.outlets.updateoutlets.OutletUpdate
@@ -72,8 +73,10 @@ class Customers : BaseActivity() {
         preferences = getSharedPreferences(USER_INFOS, Context.MODE_PRIVATE)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         checkLocationPermission()
+
         vmodel.selectAnyReps().observe(this, observeSelectRep)
         vmodel.closeOutletMutable().observe(this, observeCloseOutlets)
+        vmodel.responds().observe(this, observeDetailsChange)
     }
 
     fun switchAdapters() {
@@ -103,6 +106,16 @@ class Customers : BaseActivity() {
         startActivity(intent)
     }
 
+    private val observeDetailsChange = Observer<Responses> {
+        if(it.status==200){
+            showProgressBar(false)
+            showMsgDialog(Customers(), this, "Successful","Customer data successfully synchronise")
+        }else{
+            showProgressBar(false)
+            showSomeDialog(this,"Customer data fail to synchronise","Outlet Close Error")
+        }
+    }
+
     private val observeCloseOutlets = Observer<AttendantData> {
        when(it.status){
         200->{
@@ -115,6 +128,7 @@ class Customers : BaseActivity() {
        }
     }
 
+    @SuppressLint("SetTextI18n")
     private val observers = Observer<SalesRepAndCustomerData> {
         when (it.status) {
             200 -> {
@@ -170,7 +184,6 @@ class Customers : BaseActivity() {
                 //update outlets
                 dataFromAdapter = partItem
                 val intent = Intent(this, OutletUpdate::class.java)
-                intent.putExtra("repid", dataFromAdapter.rep_id)
                 intent.putExtra("tmid", dataFromAdapter.tm_id)
                 intent.putExtra("outletname", dataFromAdapter.outletname)
                 intent.putExtra("contactname", dataFromAdapter.contactname)
@@ -179,6 +192,7 @@ class Customers : BaseActivity() {
                 intent.putExtra("outletclassid", dataFromAdapter.outletclassid)
                 intent.putExtra("outletlanguageid", dataFromAdapter.outletlanguageid)
                 intent.putExtra("outlettypeid", dataFromAdapter.outlettypeid)
+                intent.putExtra("urno", dataFromAdapter.urno)
                 startActivity(intent)
             }
             400->{
@@ -188,13 +202,21 @@ class Customers : BaseActivity() {
                 startLocationUpdates()
             }
             500-> {
+                showProgressBar(true)
                 dataFromAdapter = partItem
-                val asyncRepId = dataFromAdapter.rep_id
-                val asyncTmId = dataFromAdapter.tm_id
-                var asyncTmAuto = dataFromAdapter.auto
-                vmodel.AsynData(asyncRepId, asyncTmId, asyncTmAuto) //update the local db
+                OutletAsyncUpdate()
+            }
+            600->{
+                dataFromAdapter = partItem
+                val intent = Intent(this, Details::class.java)
+                intent.putExtra("urno", dataFromAdapter.urno)
+                startActivity(intent)
             }
         }
+    }
+
+    fun OutletAsyncUpdate() {
+        vmodel.CustometInfoAsync(dataFromAdapter.urno,dataFromAdapter.auto)
     }
 
     fun startGoogleMapIntent(ctx: Context, ads: String, mode: Char, avoid: Char): Any {
@@ -250,9 +272,9 @@ class Customers : BaseActivity() {
             )
 
             if (!checkCustomerOutlet) {
-                //showProgressBar(false)
-                //showSomeDialog(this,"You are not at the corresponding outlet. Thanks!","Location Error")
-                vmodel.ValidateSeque(1, dataFromAdapter.sequenceno, location.latitude, location.longitude).observe(this,observeVisitSequence)
+                showProgressBar(false)
+                showSomeDialog(this,"You are not at the corresponding outlet. Thanks!","Location Error")
+                //vmodel.ValidateSeque(1, dataFromAdapter.sequenceno, location.latitude, location.longitude).observe(this,observeVisitSequence)
             } else {
                 vmodel.ValidateSeque(1, dataFromAdapter.sequenceno, location.latitude, location.longitude).observe(this,observeVisitSequence)
             }
@@ -288,6 +310,7 @@ class Customers : BaseActivity() {
                         intent.putExtra("id", it.id)
                         intent.putExtra("self", it.self)
                         intent.putExtra("nexts", it.nexts)
+                        intent.putExtra("specifier", 1)
                         startActivity(intent)
                     }
                     2->{
@@ -467,7 +490,6 @@ class Customers : BaseActivity() {
     companion object {
         var TAG = "TYTYTYTYTTYYTTY"
         const val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1235
-        var ENABLE_GPS = 1000
         private const val INTERVAL: Long = 1 * 1000
         private const val FASTEST_INTERVAL: Long = 1 * 1000
         const val RC_ENABLE_LOCATION = 1

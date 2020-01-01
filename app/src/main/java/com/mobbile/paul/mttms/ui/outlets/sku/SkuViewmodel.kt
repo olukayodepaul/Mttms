@@ -56,7 +56,8 @@ class SkuViewmodel @Inject constructor(private var repository: Repository) : Vie
         id: Int,
         nexts: Int,
         self: String,
-        auto: Int
+        auto: Int,
+        token: String
     ) {
         val list = postToServer()
         list.repid = repid
@@ -71,10 +72,11 @@ class SkuViewmodel @Inject constructor(private var repository: Repository) : Vie
         list.duration = duration
         list.urno = urno
         list.entry = entry
+        list.token = token
         repository.fetchPostSales(list)
             .subscribe({
                 if (it.body()!!.status == 200) {
-                    UpdateSeque(id,nexts,self,auto)
+                    UpdateSeque(1,visitsequence.toInt()+1,",$visitsequence",auto)
                 } else {
                     ResponsesBiData(DataResponse, 400, "${it.body()!!.notis}")
                 }
@@ -87,7 +89,7 @@ class SkuViewmodel @Inject constructor(private var repository: Repository) : Vie
         repid: Int, tmid: Int, currentlat: String, currentlng: String,
         outletlat: String, outletlng: String, arrivaltime: String,
         visitsequence: String, distance: String, duration: String, urno: Int,
-        id: Int, nexts: Int, self: String, auto: Int
+        id: Int, nexts: Int, self: String, auto: Int, token: String
     ) {
 
         var mResult = MutableLiveData<String>()
@@ -109,7 +111,8 @@ class SkuViewmodel @Inject constructor(private var repository: Repository) : Vie
                     id,
                     nexts,
                     self,
-                    auto
+                    auto,
+                    token
                 )
             },{
                 ResponsesBiData(DataResponse, 400, "${it.message}")

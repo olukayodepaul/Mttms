@@ -39,6 +39,17 @@ constructor(private val appDao: AppDao, private val api: Api, private val nodejs
     }.subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
+    fun custometvisitsequence() = Observable.fromCallable {
+        appDao.custometvisitsequence()
+    }.subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
+    fun deleteAlloutlets() = Observable.fromCallable {
+        appDao.deleteAlloutlets()
+    }.subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+
+
     /*fun deleteAllcustomers() = Observable.fromCallable {
         appDao.deleteAllcustomers()
     }.subscribeOn(Schedulers.io())
@@ -197,8 +208,9 @@ constructor(private val appDao: AppDao, private val api: Api, private val nodejs
             .observeOn(AndroidSchedulers.mainThread())
             .map{it}
 
-    fun takeAttendant(tmid: Int, taskid:Int, repid:Int): Single<Response<Attendant>> =
-        nodejsApi.takeAttendant(tmid,taskid,repid)
+    fun takeAttendant(tmid: Int, taskid: Int, repid: Int, outletlat:Double, outletlng:Double, currentLat:Double,
+                      currentLng:Double, distance:String, duration:String, sequenceno:String, arrivaltime:String): Single<Response<Attendant>> =
+        nodejsApi.takeAttendant(tmid, taskid, repid, outletlat, outletlng, currentLat, currentLng, distance, duration, sequenceno, arrivaltime)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map{it}
@@ -278,29 +290,40 @@ constructor(private val appDao: AppDao, private val api: Api, private val nodejs
             .observeOn(AndroidSchedulers.mainThread())
             .map {it}
 
-    fun AsynData(repid:Int, tmid:Int): Single<Response<Exchange>> =
-        nodejsApi.AsynData(repid, tmid)
+    fun CustometInfoAsync(urno:Int): Single<Response<OutletAsyn>> =
+        nodejsApi.CustometInfoAsync(urno)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {it}
 
-    fun updateOutlet(repid: Int, tmid: Int, lat: Double, lng: Double, customername: String, contactname: String,
-                     address: String, phonenumber: String, outletclass: Int, outletlanguage: Int,
-                     outlettype: Int): Single<Response<Exchange>> =
-        nodejsApi.updateOutlet(repid,tmid,lat,lng,customername,contactname,address,phonenumber,outletclass,outletlanguage,outlettype)
+    fun updateOutlet(tmid: Int, urno: Int, latitude: Double, longitude: Double, outletname: String, contactname: String,
+                     outletaddress: String, contactphone: String, outletclassid: Int, outletlanguage: Int,
+                     outlettypeid: Int): Single<Response<Exchange>> =
+        nodejsApi.updateOutlet(tmid,urno,latitude,longitude,outletname,contactname,outletaddress,contactphone,outletclassid,outletlanguage,outlettypeid)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {it}
 
-    fun mapOutlet(tmid: Int, lat: Double, lng: Double, customername: String, contactname: String,
-                     address: String, phonenumber: String, outletclass: Int, outletlanguage: Int,outlettype: Int): Single<Response<Exchange>> =
-        nodejsApi.mapOutlet(tmid,lat,lng,customername,contactname,address,phonenumber,outletclass,outletlanguage,outlettype)
+    fun mapOutlet(repid: Int, tmid: Int, urno: Int, latitude: Double, longitude: Double, outletname: String, contactname: String,
+                  outletaddress: String, contactphone: String, outletclassid: Int, outletlanguage: Int,
+                  outlettypeid: Int): Single<Response<Exchange>> =
+        nodejsApi.mapOutlet(repid,tmid,urno,latitude,longitude,outletname,contactname,outletaddress,contactphone,outletclassid,outletlanguage,outlettypeid)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .map {it}
 
+    fun updateIndividualCustomer(outletclassid:Int, outletlanguageid:Int, outlettypeid:Int, outletname:String, outletaddress:String, contactname:String, contactphone:String, latitude:Double, longitude:Double,auto:Int) =
+        Single.fromCallable{
+            appDao.updateIndividualCustomer(outletclassid, outletlanguageid, outlettypeid, outletname, outletaddress, contactname, contactphone, latitude, longitude,auto)
+        }.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+
+
+    fun getEntryDetails(urno: Int): Single<Response<Details>> =
+        nodejsApi.getEntryDetails(urno)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .map {it}
 
 }
-
-
 

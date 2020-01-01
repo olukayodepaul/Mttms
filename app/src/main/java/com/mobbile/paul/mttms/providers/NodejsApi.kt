@@ -44,7 +44,16 @@ interface NodejsApi {
     fun takeAttendant(
         @Query("tmid") tmid: Int,
         @Query("taskid") taskid: Int,
-        @Query("repid") repid: Int
+        @Query("repid") repid: Int,
+        @Query("outletlat") outletlat: Double,
+        @Query("outletlng") outletlng: Double,
+        @Query("currentLat") currentLat: Double,
+        @Query("currentLng") currentLng: Double,
+        @Query("distance") distance: String,
+        @Query("duration") duration: String,
+        @Query("sequenceno") sequenceno: String,
+        @Query("arrivaltime") arrivaltime: String
+
     ): Single<Response<Attendant>>
 
     @Headers("Connection:close")
@@ -79,40 +88,48 @@ interface NodejsApi {
     ): Single<Response<Exchange>>
 
     @Headers("Connection:close")
-    @POST("/api/tm_outlet_async")
-    fun AsynData(
-        @Query("repid") repid: Int,
-        @Query("tmid") tmid: Int
-    ): Single<Response<Exchange>>
+    @POST("/api/tm_outlet_info_async")
+    fun CustometInfoAsync(
+        @Query("urno") urno: Int
+    ): Single<Response<OutletAsyn>>
 
     @Headers("Connection:close")
     @POST("/api/tm_update_outlet")
     fun updateOutlet(
-        @Query("repid") repid: Int,
         @Query("tmid") tmid: Int,
-        @Query("lat") lat: Double,
-        @Query("lng") lng: Double,
-        @Query("customername") customername: String,
+        @Query("urno") urno: Int,
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double,
+        @Query("outletname") outletname: String,
         @Query("contactname") contactname: String,
-        @Query("address") address: String,
-        @Query("phonenumber") phonenumber: String,
-        @Query("outletclass") outletclass: Int,
-        @Query("outletlanguage") outletlanguage: Int,
-        @Query("outlettype") outlettype: Int
+        @Query("outletaddress") outletaddress: String,
+        @Query("contactphone") contactphone: String,
+        @Query("outletclassid") outletclassid: Int,
+        @Query("outletlanguageid") outletlanguageid: Int,
+        @Query("outlettypeid") outlettypeid: Int
     ): Single<Response<Exchange>>
 
     @Headers("Connection:close")
     @POST("/api/tm_map_outlet")
     fun mapOutlet(
+        @Query("repid") repid: Int,
         @Query("tmid") tmid: Int,
-        @Query("lat") lat: Double,
-        @Query("lng") lng: Double,
-        @Query("customername") customername: String,
+        @Query("urno") urno: Int,
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double,
+        @Query("outletname") outletname: String,
         @Query("contactname") contactname: String,
-        @Query("address") address: String,
-        @Query("phonenumber") phonenumber: String,
-        @Query("outletclass") outletclass: Int,
-        @Query("outletlanguage") outletlanguage: Int,
-        @Query("outlettype") outlettype: Int
+        @Query("outletaddress") outletaddress: String,
+        @Query("contactphone") contactphone: String,
+        @Query("outletclassid") outletclassid: Int,
+        @Query("outletlanguageid") outletlanguageid: Int,
+        @Query("outlettypeid") outlettypeid: Int
     ): Single<Response<Exchange>>
+
+    @Headers("Connection:close")
+    @POST("/api/entry_details")
+    fun getEntryDetails(
+        @Query("urno") urno: Int
+    ): Single<Response<Details>>
+
 }

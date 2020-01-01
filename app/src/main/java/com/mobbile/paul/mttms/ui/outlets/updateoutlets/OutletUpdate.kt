@@ -23,6 +23,9 @@ import com.google.android.gms.location.*
 import com.mobbile.paul.mttms.BaseActivity
 import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.EntitySpiners
+import com.mobbile.paul.mttms.models.Responses
+import com.mobbile.paul.mttms.ui.customers.Customers
+import com.mobbile.paul.mttms.util.Util.showMsgDialog
 import com.mobbile.paul.mttms.util.Util.showSomeDialog
 import com.mobbile.paul.mttms.util.Utils.Companion.isInternetAvailable
 import kotlinx.android.synthetic.main.activity_update_outlets.*
@@ -50,7 +53,6 @@ class OutletUpdate : BaseActivity() {
 
     lateinit var locationRequest: LocationRequest
 
-    var repid: Int = 0
     var tmid: Int = 0
     var outletname: String = ""
     var contactname: String = ""
@@ -59,6 +61,8 @@ class OutletUpdate : BaseActivity() {
     var outletclassid: Int = 0
     var outletlanguageid: Int = 0
     var outlettypeid: Int = 0
+    var urno: Int = 0
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +71,7 @@ class OutletUpdate : BaseActivity() {
         vmodel = ViewModelProviders.of(this, modelFactory)[OutletUpdateViewModel::class.java]
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        repid = intent.getIntExtra("repid", 0)
+
         tmid = intent.getIntExtra("tmid", 0)
         outletname = intent.getStringExtra("outletname")!!
         contactname = intent.getStringExtra("contactname")!!
@@ -76,6 +80,7 @@ class OutletUpdate : BaseActivity() {
         outletclassid = intent.getIntExtra("outletclassid", 0)
         outletlanguageid = intent.getIntExtra("outletlanguageid", 0)
         outlettypeid = intent.getIntExtra("outlettypeid", 0)
+        urno = intent.getIntExtra("urno", 0)
 
         customer_name_edit.setText(outletname)
         contact_name_edit.setText(contactname)
@@ -288,13 +293,26 @@ class OutletUpdate : BaseActivity() {
             val outletClass = customerClassAdapter.getValueId(custClass.selectedItem.toString())
             val prefLang = preferedLangAdapter.getValueId(preflang.selectedItem.toString())
             val outletTypeId = outletTypeAdapter.getValueId(outlettypeedit.selectedItem.toString())
-            val tmid = tmid
-            val repid = repid
-            vmodel.updateOutlet(repid, tmid, location.latitude, location.longitude, outletName, contactName, address, phones, outletClass, prefLang, outletTypeId)
+
+            vmodel.updateOutlet(tmid, urno, location.latitude, location.longitude, outletName, contactName, address, phones,
+                outletClass, prefLang, outletTypeId
+            ).observe(this, updateObserver)
         }
     }
 
     private fun stoplocationUpdates() {
         fusedLocationClient.removeLocationUpdates(LocationFinder)
+    }
+
+    val updateObserver = Observer<Responses> {
+
+        when(it.status) {
+            200 -> {
+                showMsgDialog(Customers(), this, "SUCCESSFUL", "Outlet Successfully updated")
+            }
+            else -> {
+                showSomeDialog(this, it.notis, "Error")
+            }
+        }
     }
 }

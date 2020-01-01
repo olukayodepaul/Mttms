@@ -9,6 +9,8 @@ import com.mobbile.paul.mttms.di.subcomponent.auth.AuthModule
 import com.mobbile.paul.mttms.di.subcomponent.auth.AuthScope
 import com.mobbile.paul.mttms.di.subcomponent.customers.CustomersModule
 import com.mobbile.paul.mttms.di.subcomponent.customers.CustomersScope
+import com.mobbile.paul.mttms.di.subcomponent.details.DetailsModule
+import com.mobbile.paul.mttms.di.subcomponent.details.DetailsScope
 import com.mobbile.paul.mttms.di.subcomponent.entries.EntriesModule
 import com.mobbile.paul.mttms.di.subcomponent.entries.EntriesScope
 import com.mobbile.paul.mttms.di.subcomponent.fragments.CustomerListFragmentModule
@@ -25,12 +27,15 @@ import com.mobbile.paul.mttms.di.subcomponent.replist.ReplistModule
 import com.mobbile.paul.mttms.di.subcomponent.replist.ReplistScope
 import com.mobbile.paul.mttms.di.subcomponent.sku.SkuModule
 import com.mobbile.paul.mttms.di.subcomponent.sku.SkuScope
+import com.mobbile.paul.mttms.ui.StockReturn.StockReturn
 import com.mobbile.paul.mttms.ui.attendant_basket.AttendantBasket
 import com.mobbile.paul.mttms.ui.auth.Userauth
 import com.mobbile.paul.mttms.ui.customerlist.CustomerListViwePager
 import com.mobbile.paul.mttms.ui.customers.Customers
 import com.mobbile.paul.mttms.ui.modules.Modules
 import com.mobbile.paul.mttms.ui.outlets.Outlets
+import com.mobbile.paul.mttms.ui.outlets.details.Details
+import com.mobbile.paul.mttms.ui.outlets.details.DetailsViewModel
 import com.mobbile.paul.mttms.ui.outlets.entries.Entries
 import com.mobbile.paul.mttms.ui.outlets.mapoutlet.AttachPhotos
 import com.mobbile.paul.mttms.ui.outlets.mapoutlet.MapOutlet
@@ -150,4 +155,24 @@ abstract class ActivityBuilderModule {
         ]
     )
     abstract fun contributeAttendantAndroidInjector(): AttendantBasket
+
+    @DetailsScope
+    @ContributesAndroidInjector(
+        modules = [
+            DetailsModule::class
+        ]
+    )
+    abstract fun contributeDetailsAndroidInjector(): Details
+
+    @AttendantScope
+    @ContributesAndroidInjector(
+        modules = [
+            AttendantModule::class
+        ]
+    )
+    abstract fun contributeStockReturnAndroidInjector(): StockReturn
+
+
+
+
 }

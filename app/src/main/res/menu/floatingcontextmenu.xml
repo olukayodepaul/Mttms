@@ -16,4 +16,7 @@
     <item android:title="Synchronisation"
         android:id="@+id/async" />
 
+    <item android:title="Details"
+        android:id="@+id/details" />
+
 </menu>
