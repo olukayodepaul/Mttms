@@ -24,9 +24,10 @@ class NodeJsNetworkModule {
     internal fun provideRetrofitInstance(application: Application): Retrofit {
 
         val okHttpClientBuilder = OkHttpClient.Builder()
-            .readTimeout(2*40, TimeUnit.SECONDS)
+            .readTimeout(2*30, TimeUnit.SECONDS)
             .connectTimeout(2*30, TimeUnit.SECONDS)
             .writeTimeout(2*30, TimeUnit.SECONDS)
+            .retryOnConnectionFailure(false)
 
         if (BuildConfig.DEBUG) {
             val logging = HttpLoggingInterceptor()

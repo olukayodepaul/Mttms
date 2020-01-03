@@ -155,6 +155,8 @@ dependencies {
     implementation 'com.github.salomonbrys.kotson:kotson:2.5.0'
 
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "63307572927",
-    "firebase_url": "https://steadfast-fold-260214.firebaseio.com",
-    "project_id": "steadfast-fold-260214",
-    "storage_bucket": "steadfast-fold-260214.appspot.com"
+    "project_number": "1071280132687",
+    "firebase_url": "https://mobiletrader-6d0d6.firebaseio.com",
+    "project_id": "mobiletrader-6d0d6",
+    "storage_bucket": "mobiletrader-6d0d6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:63307572927:android:681de43a980e65f94a480a",
+        "mobilesdk_app_id": "1:1071280132687:android:ddfbf6231721feb8cf503a",
         "android_client_info": {
           "package_name": "com.mobbile.paul.mttms"
         }
       },
       "oauth_client": [
         {
-          "client_id": "63307572927-lk77r8epig0aspj0djgclg8a9jtheq4m.apps.googleusercontent.com",
+          "client_id": "1071280132687-moojkrvu26s1d18eunao099vncc6r4av.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB3-LFTBf6Icw-g8VNsBk7QF3s9a1wywiU"
+          "current_key": "AIzaSyAm0zxt0uH2CEQoGMxMq2z8zpvh7JjueE4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "63307572927-lk77r8epig0aspj0djgclg8a9jtheq4m.apps.googleusercontent.com",
+              "client_id": "1071280132687-moojkrvu26s1d18eunao099vncc6r4av.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
