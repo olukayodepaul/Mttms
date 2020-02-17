@@ -169,7 +169,7 @@ class AttendantBasket : BaseActivity()  {
 
             if (!checkCustomerOutlet) {
                 showProgressBar(false)
-                showSomeDialog(this,"You are not at the corresponding DEPOT. Thanks!","Location Error")
+                showSomeDialog(this,"You are not at the DEPOT. Thanks!","Location Error")
             } else {
                 when(mode){
                     1->{

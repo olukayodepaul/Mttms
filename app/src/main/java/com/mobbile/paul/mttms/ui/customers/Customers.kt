@@ -76,6 +76,8 @@ class Customers : BaseActivity() {
         vmodel.selectAnyReps().observe(this, observeSelectRep)
         vmodel.closeOutletMutable().observe(this, observeCloseOutlets)
         vmodel.responds().observe(this, observeDetailsChange)
+
+
     }
 
     fun switchAdapters() {
@@ -100,9 +102,14 @@ class Customers : BaseActivity() {
     }
 
     private val observeSelectRep = Observer<repAndCustomerData> {
-        var intent = Intent(this, Customers::class.java)
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        startActivity(intent)
+        if(it.status==200){
+            val intent = Intent(this, Customers::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+        }else{
+            showProgressBar(false)
+            showSomeDialog( this,"${it.notice}","Error")
+        }
     }
 
     private val observeDetailsChange = Observer<Responses> {
@@ -158,12 +165,12 @@ class Customers : BaseActivity() {
     }
 
     fun TmSalesRepCustomer(data: List<EntityAllOutletsList>) {
-        showProgressBar(false)
-        title_name.text = data[2].rep_name
-        nAdapter = TmSalesRepOutletsAdapter(data, this,::partItemClicked)
-        nAdapter.notifyDataSetChanged()
-        _r_view_pager.setItemViewCacheSize(data.size)
-        _r_view_pager.adapter = nAdapter
+            showProgressBar(false)
+            title_name.text = data[2].rep_name
+            nAdapter = TmSalesRepOutletsAdapter(data, this,::partItemClicked)
+            nAdapter.notifyDataSetChanged()
+            _r_view_pager.setItemViewCacheSize(data.size)
+            _r_view_pager.adapter = nAdapter
     }
 
     private fun partItemClicked(partItem : EntityAllOutletsList, separator: Int) {
@@ -203,7 +210,7 @@ class Customers : BaseActivity() {
             500-> {
                 showProgressBar(true)
                 dataFromAdapter = partItem
-                OutletAsyncUpdate()
+                asynchroniseDialogWithoutIntent()
             }
             600->{
                 dataFromAdapter = partItem
@@ -212,10 +219,6 @@ class Customers : BaseActivity() {
                 startActivity(intent)
             }
         }
-    }
-
-    fun OutletAsyncUpdate() {
-        vmodel.CustometInfoAsync(dataFromAdapter.urno,dataFromAdapter.auto)
     }
 
     fun startGoogleMapIntent(ctx: Context, ads: String, mode: Char, avoid: Char): Any {
@@ -256,11 +259,14 @@ class Customers : BaseActivity() {
     }
 
     fun onLocationChanged(location: Location) {
+
         if (location.latitude.isNaN() && location.longitude.isNaN()) {
+
             showProgressBar(false)
             stoplocation()
             startLocationUpdates()
         } else {
+
             stoplocation()
 
             val checkCustomerOutlet: Boolean = insideRadius(
@@ -273,7 +279,6 @@ class Customers : BaseActivity() {
             if (!checkCustomerOutlet) {
                 showProgressBar(false)
                 showSomeDialog(this,"You are not at the corresponding outlet. Thanks!","Location Error")
-                //vmodel.ValidateSeque(1, dataFromAdapter.sequenceno, location.latitude, location.longitude).observe(this,observeVisitSequence)
             } else {
                 vmodel.ValidateSeque(1, dataFromAdapter.sequenceno, location.latitude, location.longitude).observe(this,observeVisitSequence)
             }
@@ -283,9 +288,9 @@ class Customers : BaseActivity() {
     private val observeVisitSequence = Observer<CloseAndOpenOutlet> {
         when(it.status) {
             200->{
-                //pushing to server and update local db
+
                 when(mode) {
-                    1->{
+                    1->{ //refactor here to paecelable
                         showProgressBar(false)
                         val intent = Intent(this, Entries::class.java)
                         intent.putExtra("repid", dataFromAdapter.rep_id)
@@ -481,6 +486,21 @@ class Customers : BaseActivity() {
             .setPositiveButton("Yes") { _, _ ->
                 showProgressBar(true)
                 vmodel.getAllCustomerReps(repid,preferences!!.getInt("employee_id_user_preferences", 0))
+            }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    fun asynchroniseDialogWithoutIntent() {
+        val builder = AlertDialog.Builder(this, R.style.AlertDialogDanger)
+        builder.setMessage("Are you sure you want to synchronise ${dataFromAdapter.outletname} outlet data")
+            .setTitle("Data Async")
+            .setIcon(R.drawable.icons8_google_alerts_100)
+            .setCancelable(false)
+            .setNegativeButton("Ok") { _, _ ->
+                vmodel.CustometInfoAsync(dataFromAdapter.urno,dataFromAdapter.auto)
+            }.setPositiveButton("NO"){ _, _ ->
+                showProgressBar(false)
             }
         val dialog = builder.create()
         dialog.show()

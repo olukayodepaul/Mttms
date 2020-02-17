@@ -91,8 +91,6 @@ class SkuViewmodel @Inject constructor(private var repository: Repository) : Vie
         visitsequence: String, distance: String, duration: String, urno: Int,
         id: Int, nexts: Int, self: String, auto: Int, token: String
     ) {
-
-        var mResult = MutableLiveData<String>()
         repository.pullAllSalesEntry()
             .subscribe({ data ->
                 postSalesToServer(

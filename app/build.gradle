@@ -10,6 +10,8 @@ apply plugin: 'androidx.navigation.safeargs'
 
 apply plugin: 'com.android.application'
 
+apply plugin: 'com.google.gms.google-services'
+
 //parcelable
 androidExtensions {
     experimental = true
@@ -30,8 +32,8 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
-
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -57,6 +59,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+
 
 
     //AndroidX support design (for nav drawer)
@@ -127,6 +131,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-places:$map_version"
     implementation 'com.google.maps:google-maps-services:0.9.1'
     implementation 'com.google.maps.android:android-maps-utils:0.5+'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
 
     //joda tome for gson
     def joda_version = "1.2.0"
@@ -156,7 +161,9 @@ dependencies {
 
     implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 
-    implementation 'com.google.firebase:firebase-messaging:20.1.0'
+    implementation 'com.google.firebase:firebase-auth:19.2.0'
+
+
 }
 
-apply plugin: 'com.google.gms.google-services'
+

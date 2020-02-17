@@ -12,6 +12,14 @@
     android:focusableInTouchMode="true"
     >
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/iv_user"
         android:layout_width="match_parent"
@@ -37,7 +45,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/h_s"
         >
 
         <EditText
@@ -94,5 +101,9 @@
             android:fontFamily="@font/roboto_italic"/>
 
     </RelativeLayout>
+
+    </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

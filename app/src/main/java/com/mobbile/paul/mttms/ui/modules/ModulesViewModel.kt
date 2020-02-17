@@ -11,17 +11,14 @@ import javax.inject.Inject
 class ModulesViewModel @Inject constructor(private val repository: Repository): ViewModel(){
 
     fun getAllUsersModules(): LiveData<List<EntityModules>> {
-
-        var mResult = MutableLiveData<List<EntityModules>>()
-
+        val mResult = MutableLiveData<List<EntityModules>>()
         repository.fetchModules()
             .subscribe({
                 mResult.postValue(it)
                 Log.d(TAG,"onObserve "+ it as ArrayList<EntityModules>)
             },{
-                mResult.postValue(null)
+                mResult.postValue(emptyList())
             }).isDisposed
-
         return mResult
     }
 

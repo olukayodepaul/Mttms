@@ -58,7 +58,7 @@ class TmSalesRepOutletsAdapter(
             containerView.imageView.setImageDrawable(drawable)
 
             containerView.tv_name.text = item.outletname
-            containerView.tv_titles.text = ("${item.urno}, ${item.customerno}, ${item.volumeclass}")
+            containerView.tv_titles.text = ("${item.urno}, ${item.volumeclass}")
             containerView.tv_sequence.text = "${item.sequenceno - 1}"
             containerView.timeago.text = item.entry_time
 

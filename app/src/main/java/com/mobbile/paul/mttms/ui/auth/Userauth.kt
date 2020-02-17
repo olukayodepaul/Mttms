@@ -74,8 +74,9 @@ class Userauth : BaseActivity() {
         val validateDates = preferences!!.getString("today_date_preferences", "")
 
         if (permit == PackageManager.PERMISSION_GRANTED) {
-            vmodel.userAuth("muhammad.i@mt3.com", "1417", "356750108496043", validateDates!!)
-            /*vmodel.userAuth(
+            //vmodel.userAuth("raji.j@mt3.com", "967", "359514069626064", validateDates!!)
+            vmodel.userAuth("fP6R93o", "7577", "359181097051341", validateDates!!)
+           /* vmodel.userAuth(
                 username,
                 password,
                 tel.getImei(0),

@@ -388,7 +388,6 @@ data class Exchange(
     var notis: String = ""
 )
 
-
 data class OutletAsyn(
     @SerializedName("status")
     @Expose

@@ -14,7 +14,6 @@ import com.mobbile.paul.mttms.BaseActivity
 import com.mobbile.paul.mttms.R
 import com.mobbile.paul.mttms.models.EntryCallback
 import com.mobbile.paul.mttms.models.setSalesEntry
-import com.mobbile.paul.mttms.providers.Repository
 import com.mobbile.paul.mttms.ui.outlets.sku.SkuActivity
 import com.mobbile.paul.mttms.util.Util.appTime
 import com.mobbile.paul.mttms.util.Util.showSomeDialog
@@ -49,9 +48,6 @@ class Entries : BaseActivity() {
 
     @Inject
     internal lateinit var modelFactory: ViewModelProvider.Factory
-
-    @Inject
-    lateinit var repository: Repository
 
     lateinit var vmodel: EntriesViewModel
 
@@ -170,7 +166,10 @@ class Entries : BaseActivity() {
             controltrasformPricing = "0"
         }
 
-        if (containerView.mt_inventory.text.toString().isNotEmpty()) {
+        if(containerView.mt_inventory.text.toString()==".") {
+            containerView.mt_inventory.setText("")
+            controltrasformInventory = ""
+        }else if (containerView.mt_inventory.text.toString().isNotEmpty()) {
             trasformInventory = containerView.mt_inventory.text.toString().toDouble()
             controltrasformInventory = "0"
         }

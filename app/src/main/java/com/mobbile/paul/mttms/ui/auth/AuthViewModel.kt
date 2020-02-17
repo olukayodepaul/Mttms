@@ -32,10 +32,8 @@ class AuthViewModel @Inject constructor(private val repository: Repository) : Vi
                         AuthbiData(0,responseData,0,0,0,500,"Error, App Module and TM Rep is missing from the endpoint. Please contact developer")
                     }else{
                         if(appdate != appDate()) {
-                            Log.d(TAG, "${appdate} ${appTime()} 2")
                             deleteModules()
                         }else{
-                            Log.d(TAG, "${appdate} ${appTime()} 4")
                             AuthbiData(2,responseData,data.depots_id,data.region_id,data.employee_id,data.status,data.notification)
                         }
                     }

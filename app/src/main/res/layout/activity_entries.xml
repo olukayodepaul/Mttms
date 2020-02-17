@@ -46,7 +46,8 @@ android:orientation="vertical">
                     android:text=""
                     android:fontFamily="@font/roboto_bold"
                     android:textSize="@dimen/fontSize"
-                    android:textColor="@color/white"/>
+                    android:textColor="@color/white"
+                    android:maxLines="1"/>
 
                 <TextView
                     android:id="@+id/tv_outlet_name"
@@ -57,6 +58,7 @@ android:orientation="vertical">
                     android:textColor="@color/white"
                     android:textSize="17sp"
                     android:fontFamily="@font/roboto_light"
+                    android:maxLines="1"
                     />
 
             </RelativeLayout>

@@ -172,7 +172,4 @@ abstract class ActivityBuilderModule {
     )
     abstract fun contributeStockReturnAndroidInjector(): StockReturn
 
-
-
-
 }

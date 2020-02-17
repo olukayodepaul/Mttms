@@ -20,10 +20,10 @@ class Messages : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_messages)
 
-        FirebaseMessaging.getInstance().subscribeToTopic(topic)
+       // FirebaseMessaging.getInstance().subscribeToTopic(topic)
     }
 
-    @SuppressLint("LongLogTag")
+    /*@SuppressLint("LongLogTag")
     override fun onResume() {
         super.onResume()
 
@@ -46,7 +46,7 @@ class Messages : AppCompatActivity() {
         )
 
 
-    }
+    }*/
 
     companion object{
         val TAG = "HDCKJDWNKNWDKNJWDKNDWKJNC"

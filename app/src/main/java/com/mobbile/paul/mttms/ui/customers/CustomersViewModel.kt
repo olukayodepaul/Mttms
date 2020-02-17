@@ -51,7 +51,8 @@ class CustomersViewModel @Inject constructor(private val repository: Repository)
         val mResult = MutableLiveData<SalesRepAndCustomerData>()
         repository.naviBtwcustAndRe()
             .subscribe({ localData ->
-                if (localData == 0) {//switch ou
+                if (localData == 0) {
+
                     repository.tmreplist(depotid, regionid)
                         .subscribe({ apiData ->
                             val data: SalesReps = apiData.body()!!
@@ -69,6 +70,7 @@ class CustomersViewModel @Inject constructor(private val repository: Repository)
                         }, {
                             salesRepCustdata(mResult, 400, "${it.message}", emptyrep, emptyoutlet)
                         }).isDisposed
+
                 } else {
                     repository.fetchAllCustomers()
                         .subscribe({
@@ -88,10 +90,16 @@ class CustomersViewModel @Inject constructor(private val repository: Repository)
             .subscribe(
                 {
                     initData = it.body()!!
-                    if (initData.status == 200) {
-                        inserIntoTable()
-                    } else {
-                        repCustdata(repSelection, initData.status, initData.notis)
+
+                    if(initData.alloutlets!!.size > 3){
+
+                        if (initData.status == 200) {
+                            inserIntoTable()
+                        } else {
+                            repCustdata(repSelection, initData.status, initData.notis)
+                        }
+                    }else{
+                        repCustdata(repSelection, 401, "There is no customers assign to the selected rep")
                     }
                 },
                 {
@@ -116,6 +124,7 @@ class CustomersViewModel @Inject constructor(private val repository: Repository)
             .subscribe(
                 {
                     val intArray = nexts in it.self.split(",").map { it.toInt() }
+
                     when {
                         nexts == it.nexts -> {
                             CloseAndOpenOutletBiData(nInt, 200, lat, lng, it.nexts, it.self, 1)
@@ -198,7 +207,6 @@ class CustomersViewModel @Inject constructor(private val repository: Repository)
 
 
     fun CustometInfoAsync(urno:Int,auto:Int) {
-
         repository.CustometInfoAsync(urno)
             .subscribe(
                 {
@@ -212,7 +220,7 @@ class CustomersViewModel @Inject constructor(private val repository: Repository)
             ).isDisposed
     }
 
-    fun UpdateCustomerInformation(allCustInfo:OutletAsyn, auto:Int){
+    private fun UpdateCustomerInformation(allCustInfo:OutletAsyn, auto:Int){
         repository.updateIndividualCustomer(allCustInfo.outletclassid,allCustInfo.outletlanguageid,allCustInfo.outlettypeid,
             allCustInfo.outletname,allCustInfo.outletaddress,allCustInfo.contactname,allCustInfo.contactphone,allCustInfo.latitude.toDouble(),
             allCustInfo.longitude.toDouble(), auto)

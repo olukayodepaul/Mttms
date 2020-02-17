@@ -32,20 +32,15 @@
         <activity android:name=".ui.outlets.mapoutlet.MapOutlet" android:screenOrientation="portrait"/>
         <activity android:name=".ui.outlets.mapoutlet.AttachPhotos" android:screenOrientation="portrait"/>
         <activity android:name=".ui.outlets.updateoutlets.OutletUpdate" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.outlets.Outlets" />
-        <activity
-            android:name=".ui.customers.Customers"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ui.outlets.Outlets" android:screenOrientation="portrait" />
+        <activity android:name=".ui.customers.Customers" android:screenOrientation="portrait" />
         <activity android:name=".ui.messages.Messages" android:screenOrientation="portrait"/>
         <activity android:name=".ui.customerlist.CustomerListViwePager" android:screenOrientation="portrait"/>
         <activity android:name=".ui.replist.RepList" android:screenOrientation="portrait"/>
         <activity android:name=".ui.modules.Modules" android:screenOrientation="portrait"/>
-        <activity
-            android:name=".ui.auth.Userauth"
-            android:screenOrientation="portrait">
+        <activity android:name=".ui.auth.Userauth" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -59,30 +54,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
-
-
-
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/logos" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" />
-
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="message" />
-
-        <service
-            android:name=".ui.messages.Messages"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
     </application>
 
 </manifest>
