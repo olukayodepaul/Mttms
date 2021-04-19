@@ -36,7 +36,7 @@ class NetworkModule {
         }
 
         return Retrofit.Builder()
-            .baseUrl("http://mtnodejsapi.com:9100")
+            .baseUrl("http://mtnodejsapi.com:9000")
             .client(okHttpClientBuilder.build())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())

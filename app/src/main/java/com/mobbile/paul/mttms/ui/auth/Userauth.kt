@@ -70,7 +70,7 @@ class Userauth : BaseActivity() {
         val permit = checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE)
         val username: String = et_email.text.toString()
         val password: String = et_password.text.toString()
-        val tel = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        //val tel = getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         val validateDates = preferences!!.getString("today_date_preferences", "")
 
         if (permit == PackageManager.PERMISSION_GRANTED) {
@@ -79,7 +79,7 @@ class Userauth : BaseActivity() {
            vmodel.userAuth(
                 username,
                 password,
-                tel.getImei(0),
+                "00000000000",
                 validateDates!!
             )
         } else {
