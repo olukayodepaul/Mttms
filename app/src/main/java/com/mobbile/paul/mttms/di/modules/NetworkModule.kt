@@ -36,7 +36,7 @@ class NetworkModule {
         }
 
         return Retrofit.Builder()
-            .baseUrl("http://www.mobiletraderapi.com")
+            .baseUrl("http://mtnodejsapi.com:9100")
             .client(okHttpClientBuilder.build())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create())
