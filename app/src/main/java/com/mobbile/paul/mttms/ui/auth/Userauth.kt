@@ -75,13 +75,13 @@ class Userauth : BaseActivity() {
 
         if (permit == PackageManager.PERMISSION_GRANTED) {
             //vmodel.userAuth("raji.j@mt3.com", "967", "359514069626064", validateDates!!)
-            vmodel.userAuth("fP6R93o", "7577", "359181097051341", validateDates!!)
-           /* vmodel.userAuth(
+            //vmodel.userAuth("fP6R93o", "7577", "359181097051341", validateDates!!)
+           vmodel.userAuth(
                 username,
                 password,
                 tel.getImei(0),
                 validateDates!!
-            )*/
+            )
         } else {
             makeRequest()
         }
